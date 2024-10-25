@@ -1,0 +1,77 @@
+def get_genome_for_index_building(wildcards):
+    """
+    Get genome fasta file depending on organism
+    For human we use a masked version while
+    for murine models we use the primary assembly from
+    Gencode
+    """
+    organism = config.get('organism', 'human')
+    if organism == human:
+        return "resources/ref_genome_masked_GRC_exclusions.fasta"
+    return "resources/ref_genome.fasta"
+
+def get_pull_resources_output():
+    organism = config.get('organism', 'human')
+    # Files for human and mouse
+    final_files = ['resources/ref_genome.fasta',
+                   'resources/ref_genome.fasta.fai',
+                   'resources/ref_annot.gtf',
+                   'resources/ref_transcripts.fasta',
+                   'resources/ref_annot_metadata_SwissProt.tsv',
+                   'resources/ref_annot_metadata_TrEMBL.tsv']
+    # Files specific to human
+    if organism == "human":
+        final_files.extend([
+            "resources/mappability/encode_exclusion.bed",
+            "resources/mappability/grcExclusions.bed",
+            "resources/mappability/ucsc_problematic.bed",
+            "resources/ref_annot.bed",
+            "resources/exome_definition/twist_refseq.bed",
+            "resources/exome_definition/twist_core_exome.bed",
+            "resources/exome_definition/twist_comprehensive_exome.bed",
+            "resources/exome_definition/twist_exome2.bed"
+        ])
+
+def get_build_indices_output():
+    organism = config.get('organism', 'human')
+    final_files = multiext(
+            "indices/bwa/ref_genome.fasta", 
+            ".0123", 
+            ".amb", 
+            ".ann",
+            ".bwt.2bit.64",
+            ".pac"
+        )
+    final_files.append('indices/bwa/ref_genome.fasta.fai')
+    final_files.append('resources/exome_definition/ref_exome.bed')
+    final_files.append('resources/ref_genome_repeatmasker.bed')
+    final_files.extend(multiext(
+            "indices/salmon/transcriptome_index/",
+            "complete_ref_lens.bin",
+            "ctable.bin",
+            "ctg_offsets.bin",
+            "duplicate_clusters.tsv",
+            "info.json",
+            "mphf.bin",
+            "pos.bin",
+            "pre_indexing.log",
+            "rank.bin",
+            "refAccumLengths.bin",
+            "ref_indexing.log",
+            "reflengths.bin",
+            "refseq.bin",
+            "seq.bin",
+            "versionInfo.json",))
+    final_files.append(os.path.join(
+                'indices/snpeff/data/',
+                f'{config.get("genome-build", default_build)}.{config.get("release", default_release)}',
+                'snpEffectPredictor.bin'
+            ))
+    final_files.append("indices/star/Genome")
+    final_files.append('resources/splicing/ref_annot_txdb.sqlite')
+    final_files.append('resources/splicing/ref_genome.2bit',)
+    final_files.append('resources/splicing/ref_transcripts_reliable.Rds')
+    final_files.append('resources/splicing/ref_transcript_ranges_reliable.Rds')
+    final_files.append('resources/splicing/ref_cds_reliable.Rds')
+    final_files.append('resources/tx2gene.tsv')
+    final_files.append('resources/splicing/canonical_junctions.tsv')

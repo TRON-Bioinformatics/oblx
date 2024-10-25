@@ -1,0 +1,11 @@
+organism: human
+release: "46"
+genome-build: GRCh38
+
+# this has to be true, if the indices are built for a testexample
+# the line can be removed in case of a normal sized genome
+minigenome: false
+
+# adds the defined slop to the intervals bed
+intron-slop: 20 
+star-sjdb-overhang: 100
