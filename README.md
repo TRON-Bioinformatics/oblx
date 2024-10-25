@@ -13,10 +13,6 @@ The TronMake Genome Lib Builder is a resource collection used by NGS analysis pi
 
 The following pipelines are compatible with the TRON Genome Lib:
 
-- fastq2vcf
-- NeoSerpens
-- TronMake RNA-splicing
-- TRSP
 - TronFlow pipelines
 
 

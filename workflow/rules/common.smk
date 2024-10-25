@@ -10,11 +10,10 @@ def get_genome_for_index_building(wildcards):
         return "resources/ref_genome_masked_GRC_exclusions.fasta"
     return "resources/ref_genome.fasta"
 
-def get_pull_resources_output():
+def get_pull_resources_output(wildcards):
     organism = config.get('organism', 'human')
     # Files for human and mouse
     final_files = ['resources/ref_genome.fasta',
-                   'resources/ref_genome.fasta.fai',
                    'resources/ref_annot.gtf',
                    'resources/ref_transcripts.fasta',
                    'resources/ref_annot_metadata_SwissProt.tsv',
@@ -31,6 +30,8 @@ def get_pull_resources_output():
             "resources/exome_definition/twist_comprehensive_exome.bed",
             "resources/exome_definition/twist_exome2.bed"
         ])
+    
+    return final_files
 
 def get_build_indices_output():
     organism = config.get('organism', 'human')

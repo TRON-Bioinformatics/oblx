@@ -14,15 +14,13 @@ from snakemake.utils import min_version
 
 min_version('8.5.4')
 
-GENCODE_URL = "https://ftp.ebi.ac.uk/pub/databases/gencode"
-UCSC_URL = "https://hgdownload.soe.ucsc.edu/gbdb/hg38"
-UCSC_GOLDEN_PATH_URL = "https://hgdownload.soe.ucsc.edu/goldenPath"
-GATK_URL = "https://storage.googleapis.com/genomics-public-data/resources/broad/hg38/v0"
-
 default_build = 'GRCh38'
 default_release = '46'
+default_organism = 'human'
 
 include: "rules/common.smk"
+
+configfile: "config/default.yaml"
 
 rule all:
     input:
@@ -46,40 +44,40 @@ rule download_gencode_data:
     input:
         fasta_remote = storage(
             "{}/Gencode_{}/release_{}/{}.primary_assembly.genome.fa.gz".format(
-                GENCODE_URL,
-                config.get('organism', 'human'),
+                config['GENCODE_URL'],
+                config.get('organism', default_organism),
                 config.get('release', default_release),
                 config.get('genome-build', default_build)
             )
         ),
         gtf_remote = storage(
             "{}/Gencode_{}/release_{}/gencode.v{}.basic.annotation.gtf.gz".format(
-                GENCODE_URL,
-                config.get('organism', 'human'),
+                config['GENCODE_URL'],
+                config.get('organism', default_organism),
                 config.get('release', default_release),
                 config.get('release', default_release)
             )
         ),
         transcripts_remote = storage(
             "{}/Gencode_{}/release_{}/gencode.v{}.transcripts.fa.gz".format(
-                GENCODE_URL,
-                config.get('organism', 'human'),
+                config['GENCODE_URL'],
+                config.get('organism', default_organism),
                 config.get('release', default_release),
                 config.get('release', default_release)
             )
         ),
         swissprot_remote = storage(
             "{}/Gencode_{}/release_{}/gencode.v{}.metadata.SwissProt.gz".format(
-                GENCODE_URL,
-                config.get('organism', 'human'),
+                config['GENCODE_URL'],
+                config.get('organism', default_organism),
                 config.get('release', default_release),
                 config.get('release', default_release)
             )
         ),
         trembl_remote = storage(
             "{}/Gencode_{}/release_{}/gencode.v{}.metadata.TrEMBL.gz".format(
-                GENCODE_URL,
-                config.get('organism', 'human'),
+                config['GENCODE_URL'],
+                config.get('organism', default_organism),
                 config.get('release', default_release),
                 config.get('release', default_release)
             )
@@ -88,31 +86,31 @@ rule download_gencode_data:
     output:
         fasta = temp(
             "resources/GENCODE_GRC{}{}v{}_dna.fasta.gz".format(
-                'h' if config['organism'] == 'human' else 'm',
+                'h' if config.get('organism', default_organism) == default_organism else 'm',
                 config.get('genome-build', default_build),
                 config.get('release', default_release)
         )),
         gtf = temp(
             "resources/GENCODE_GRC{}{}v{}_annot.gtf.gz".format(
-                'h' if config['organism'] == 'human' else 'm',
+                'h' if config.get('organism', default_organism) == default_organism else 'm',
                 config.get('genome-build', default_build),
                 config.get('release', default_release)
         )),
         transcripts = temp(
             "resources/GENCODE_GRC{}{}v{}_transcripts.fasta.gz".format(
-                'h' if config['organism'] == 'human' else 'm',
+                'h' if config.get('organism', default_organism) == default_organism else 'm',
                 config.get('genome-build', default_build),
                 config.get('release', default_release)
         )),
         swissprot = temp(
             "resources/GENCODE_GRC{}{}v{}_metadata.SwissProt.gz".format(
-                'h' if config['organism'] == 'human' else 'm',
+                'h' if config.get('organism', default_organism) == default_organism else 'm',
                 config.get('genome-build', default_build),
                 config.get('release', default_release)
         )),
         trembl = temp(
             "resources/GENCODE_GRC{}{}v{}_metadata.TrEMBL.gz".format(
-                'h' if config['organism'] == 'human' else 'm',
+                'h' if config.get('organism', default_organism) == default_organism else 'm',
                 config.get('genome-build', default_build),
                 config.get('release', default_release)
         )),
@@ -169,19 +167,19 @@ rule download_ucsc_data:
     input:
         # https://hgdownload.soe.ucsc.edu/gbdb/hg38/problematic/encBlacklist.bb
         encode_exclusion_remote = storage(
-            "{}/problematic/encBlacklist.bb".format(UCSC_URL)),
+            "{}/problematic/encBlacklist.bb".format(config['UCSC_URL'])),
         # https://hgdownload.soe.ucsc.edu/gbdb/hg38/problematic/grcExclusions.bb
         grc_exclusion_remote = storage(
-            "{}/problematic/grcExclusions.bb".format(UCSC_URL)),
+            "{}/problematic/grcExclusions.bb".format(config['UCSC_URL'])),
         # https://hgdownload.soe.ucsc.edu/gbdb/hg38/problematic/comments.bb
         ucsc_problematic_remote = storage(
-            "{}/problematic/comments.bb".format(UCSC_URL)),
+            "{}/problematic/comments.bb".format(config['UCSC_URL'])),
         # https://hgdownload.soe.ucsc.edu/gbdb/hg38/gencode/gencodeV46.bb
         gencode_bed12_remote = storage(
-            "{}/gencode/gencodeV46.bb".format(UCSC_URL)),
+            "{}/gencode/gencodeV46.bb".format(config['UCSC_URL'])),
         # https://hgdownload.soe.ucsc.edu/goldenPath/hg38/database/rmsk.txt.gz
         rmsk_remote = storage(
-            "{}/hg38/database/rmsk.txt.gz".format(UCSC_GOLDEN_PATH_URL)),
+            "{}/hg38/database/rmsk.txt.gz".format(config['UCSC_GOLDEN_PATH_URL'])),
     output:
         encode_exclusion = temp("resources/mappability/encode_exclusion.bb"),
         grc_exclusion = temp("resources/mappability/grcExclusions.bb"),
@@ -205,13 +203,13 @@ rule download_exome_probesets:
     input:
         # https://hgdownload.soe.ucsc.edu/gbdb/hg38/problematic/encBlacklist.bb
         twist_refseq_remote = storage(
-            "exomeProbesets/Twist_Exome_RefSeq_targets_hg38.bb".format(UCSC_URL)),
+            "{}/exomeProbesets/Twist_Exome_RefSeq_targets_hg38.bb".format(config['UCSC_URL'])),
         twist_core_exome_remote = storage(
-            "exomeProbesets/Twist_Exome_Target_hg38.bb".format(UCSC_URL)),
+            "{}/exomeProbesets/Twist_Exome_Target_hg38.bb".format(config['UCSC_URL'])),
         twist_comprehensive_exome_remote = storage(
-            "exomeProbesets/Twist_ComprehensiveExome_targets_hg38.bb".format(UCSC_URL)),
+            "{}/exomeProbesets/Twist_ComprehensiveExome_targets_hg38.bb".format(config['UCSC_URL'])),
         twist_exome2_remote = storage(
-            "exomeProbesets/TwistExome21.bb".format(UCSC_URL)),
+            "{}/exomeProbesets/TwistExome21.bb".format(config['UCSC_URL'])),
     output:
         twist_refseq = temp("resources/exome_definition/twist_refseq.bb"),
         twist_core_exome = temp("resources/exome_definition/twist_core_exome.bb"),
@@ -247,6 +245,8 @@ rule bb_to_bed:
         twist_core_exome = "resources/exome_definition/twist_core_exome.bed",
         twist_comprehensive_exome = "resources/exome_definition/twist_comprehensive_exome.bed",
         twist_exome2 = "resources/exome_definition/twist_exome2.bed"
+    conda:
+        'envs/bigbedtobed.yaml'
     shell:
         '''
         bigBedToBed {input.encode_exclusion} {output.encode_exclusion}
@@ -263,12 +263,12 @@ rule download_gatk_bundle:
     input:
         # Mills and 1000G gold standard
         mills_remote = storage(
-            "{}/Mills_and_1000G_gold_standard.indels.hg38.vcf.gz".format(GATK_URL)),
+            "{}/Mills_and_1000G_gold_standard.indels.hg38.vcf.gz".format(config['GATK_URL'])),
         # HG38 known indels Homo_sapiens_assembly38.known_indels.vcf.gz
         known_indels_remote = storage(
-            "{}/Homo_sapiens_assembly38.known_indels.vcf.gz".format(GATK_URL)),
+            "{}/Homo_sapiens_assembly38.known_indels.vcf.gz".format(config['GATK_URL'])),
         dbsnp_remote = storage(
-            "{}/Homo_sapiens_assembly38.dbsnp138.vcf".format(GATK_URL)),
+            "{}/Homo_sapiens_assembly38.dbsnp138.vcf".format(config['GATK_URL'])),
             
     output:
         
