@@ -288,6 +288,8 @@ rule download_tcga_virus:
         output_prefix = lambda wildcards, output: os.path.dirname(output.tcga_virus)
     output:
         tcga_virus = "resources/viruses/tcga_virus_decoy.fasta"
+    conda:
+        'envs/efetch.yaml'
     shell:
         """
         while IFS=$'\\t' read -r name abbv genbank
