@@ -20,7 +20,7 @@ rule bwa_mem2_index:
         genomeFile (string): Path to STAR index genome file
     """
     input:
-        fasta = rules.link_fasta.output.fasta_link
+        fasta = rules.link_bwa_fasta.output.fasta_link
     output:
         multiext(
             "indices/bwa/ref_genome.fasta", 

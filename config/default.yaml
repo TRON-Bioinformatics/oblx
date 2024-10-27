@@ -6,8 +6,10 @@ genome-build: GRCh38
 # the line can be removed in case of a normal sized genome
 minigenome: false
 
-# adds the defined slop to the intervals bed
+# adds the defined slop to the generic exome definition
 intron-slop: 20 
+
+# Paramter for STAR index creation. Adapt to the read size f necessary
 star-sjdb-overhang: 100
 
 GENCODE_URL: "https://ftp.ebi.ac.uk/pub/databases/gencode"

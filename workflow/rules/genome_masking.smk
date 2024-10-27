@@ -6,7 +6,7 @@
 rule mask_GRC_assembly_errors:
     input:
         genome = config.get(
-            'genome-fasta', 'resources/ref_genome.fasta'),
+            'genome-fasta', 'resources/ref_genome_primary.fasta'),
         grc_exclusion_bed = "resources/mappability/grcExclusions.bed"  
     output:
         masked_genome = "resources/ref_genome_masked_GRC_exclusions.fasta"

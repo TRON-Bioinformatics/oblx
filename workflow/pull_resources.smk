@@ -149,7 +149,7 @@ rule gunzip_annotation_data:
         swissprot_gzipped = rules.download_gencode_data.output.swissprot,
         trembl_gzipped = rules.download_gencode_data.output.trembl
     output:
-        fasta = 'resources/ref_genome.fasta',
+        fasta = 'resources/ref_genome_primary.fasta',
         gtf = 'resources/ref_annot.gtf',
         transcripts = 'resources/ref_transcripts.fasta',
         swissprot = 'resources/ref_annot_metadata_SwissProt.tsv',
@@ -274,3 +274,28 @@ rule download_gatk_bundle:
         
     shell:
         "..."
+
+rule download_gnomad_exome:
+    input:
+    output:
+    shell:
+        ""
+
+rule download_tcga_virus:
+    input:
+        tcga_virus = workflow.source_path('../addtional_resources/tcga_viruses.tsv')
+    params:
+        output_prefix = lambda wildcards, output: os.path.dirname(output.tcga_virus)
+    output:
+        tcga_virus = "resources/viruses/tcga_virus_decoy.fasta"
+    shell:
+        """
+        while IFS=$'\\t' read -r name abbv genbank
+        do
+            echo $genbank
+            efetch -db nuccore -format fasta -id "${{genbank}}" > {params.output_prefix}/"${{genbank}}".fasta
+        
+        done < <(grep -v GenBank {input.tcga_virus})
+        
+        cat {params.output_prefix}/*.fasta > {params.output_prefix}/tcga_virus_decoy.fasta
+        """
