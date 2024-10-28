@@ -1,0 +1,9 @@
+- name: pull_resources_dryrun
+  tags:
+    - unittest
+  command: >
+    snakemake 
+      -s workflow/pull_resources.smk
+      --configfile config/default.yaml
+      --software-deployment-method conda 
+      -n
