@@ -14,7 +14,7 @@ rule star_index:
         genomeFile (string): Path to STAR index genome file
     """
     input:
-        fasta = get_genome_for_index_building
+        fasta = 'resources/ref_genome.fasta',
         gtf = config.get(
             'genome-gtf', 'resources/ref_annot.gtf'
         )

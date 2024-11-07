@@ -1,6 +1,6 @@
 rule link_bwa_fasta:
     input:
-        fasta = get_genome_for_index_building
+        fasta = 'resources/ref_genome.fasta'
     output:
         fasta_link = 'indices/bwa/ref_genome.fasta'
     shell:

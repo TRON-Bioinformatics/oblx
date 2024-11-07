@@ -7,7 +7,7 @@ def get_genome_for_index_building(wildcards):
     """
     organism = config.get('organism', 'human')
     if organism == human:
-        return "resources/ref_genome.fasta"
+        return "resources/ref_genome_grc_masked.fasta"
     return "resources/ref_genome_primary.fasta"
 
 def get_pull_resources_output(wildcards):
@@ -17,7 +17,8 @@ def get_pull_resources_output(wildcards):
                    'resources/ref_annot.gtf',
                    'resources/ref_transcripts.fasta',
                    'resources/ref_annot_metadata_SwissProt.tsv',
-                   'resources/ref_annot_metadata_TrEMBL.tsv']
+                   'resources/ref_annot_metadata_TrEMBL.tsv',
+                   'resources/ucsc_repeatmasker_dump.txt.gz']
     # Files specific to human
     if organism == "human":
         final_files.extend([
@@ -29,7 +30,8 @@ def get_pull_resources_output(wildcards):
             "resources/exome_definition/twist_core_exome.bed",
             "resources/exome_definition/twist_comprehensive_exome.bed",
             "resources/exome_definition/twist_exome2.bed",
-            "resources/viruses/tcga_virus_decoy.fasta"
+            "resources/viruses/tcga_virus_decoy.fasta",
+            "resources/germline_variants/af_only_gnomad_hg38.vcf.gz",
         ])
     
     return final_files

@@ -9,14 +9,14 @@
 <!-- badges: end -->
 
 
-The TronMake Genome Lib is a resource collection used by NGS analysis pipelines developed by the computational medicine group at [TRON](https://github.com/TRON-Bioinformatics). The TronMake Genome Lib Builder system is leveraged for preparing a reference genome and annotation set for use with SnakeMake and NextFlow based pipelines, including cancer-specific alternative splicing and somatic mutation discovery. The genome resource building process creates a unified 'Genome library' based on GENCODE reference annotation and the GATK resource bundle (hg38). The workflow is implemented in SnakeMake (Mölder et al., 2021) to enable reproducible downloading and building of genome resource data. 
+The TronMake Genome Lib is a resource collection used by NGS analysis pipelines developed by the computational medicine group at [TRON](https://github.com/TRON-Bioinformatics). The TronMake Genome Lib Builder system is leveraged for preparing a reference genome and annotation set for use with SnakeMake and NextFlow based pipelines, including cancer-specific alternative splicing and somatic mutation discovery. The genome resource building process creates a unified 'TRON Genome library' based on GENCODE reference annotation and the GATK resource bundle (hg38). The workflow is implemented in SnakeMake (Mölder et al., 2021) for reproducible downloading and building of genome resource data. 
 
 The following pipelines are compatible with the TRON Genome Lib:
 
 - TronFlow pipelines
 - splice2neo
 
-Prebuilt TRON Genome Libraries will be available for download for you to use and cite.
+Pre-built TRON Genome Libraries will be available for download for you to use and cite.
 
 ## Installation
 
@@ -46,8 +46,6 @@ Both stages can be executed independently from each other. We recommend to build
 
 
 
-
-
 ## Authors & Acknowledgements 
 
 The TronMake Genome Lib Builder was originally developed by Luis Kress and Johannes Hausmann at [TRON - Translational Oncology at the Medical Center of the Johannes Gutenberg University Mainz gGmbH (non-profit)](https://tron-mainz.de/).
@@ -61,7 +59,7 @@ Main developers:
 
 Contributers:
 
-- None / NA
+- None / NA / NULL
 
 
 ## References

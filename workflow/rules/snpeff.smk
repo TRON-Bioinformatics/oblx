@@ -3,7 +3,7 @@ rule link_snpeff:
     Create symlinks to the reference and GTF for snpEff index build.
     """
     input:
-        fasta = get_genome_for_index_building
+        fasta = 'resources/ref_genome.fasta',
         gtf = os.path.abspath(
             config.get('genome-gtf', 'resources/ref_annot.gtf')
         )
