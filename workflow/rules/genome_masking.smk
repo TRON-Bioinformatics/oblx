@@ -9,7 +9,7 @@ rule mask_GRC_assembly_errors:
             'genome-fasta', 'resources/ref_genome_primary.fasta'),
         grc_exclusion_bed = "resources/mappability/grcExclusions.bed"  
     output:
-        masked_genome = "resources/ref_genome_masked_GRC_exclusions.fasta"
+        masked_genome = "resources/ref_genome_grc_masked.fasta"
     shell:
         'bedtools '
         'maskFastaFromBed '

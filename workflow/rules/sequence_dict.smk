@@ -1,6 +1,6 @@
 rule create_sequence_dict:
     input:
-        genome_fasta = get_genome_for_index_building
+        genome_fasta = 'resources/ref_genome.fasta'
     output:
         # replacing the fasta extension by .dict extension
         genome_dict = lambda wildcards, input:

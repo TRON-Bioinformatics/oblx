@@ -51,7 +51,7 @@ rule download_gencode_data:
             )
         ),
         gtf_remote = storage(
-            "{}/Gencode_{}/release_{}/gencode.v{}.basic.annotation.gtf.gz".format(
+            "{}/Gencode_{}/release_{}/gencode.v{}.primary_assembly.annotation.gtf.gz".format(
                 config['GENCODE_URL'],
                 config.get('organism', default_organism),
                 config.get('release', default_release),
@@ -164,6 +164,12 @@ rule gunzip_annotation_data:
         '''
 
 rule download_ucsc_data:
+    """
+    Download UCSC annotation data for hg38. This
+    includes problematic regions as defined by ENCODE and UCSC.
+    Morerover we obtain the GRC exclusion regions that should be masked
+    by default and a BED12 file of the reference transcripts.
+    """
     input:
         # https://hgdownload.soe.ucsc.edu/gbdb/hg38/problematic/encBlacklist.bb
         encode_exclusion_remote = storage(
@@ -176,24 +182,37 @@ rule download_ucsc_data:
             "{}/problematic/comments.bb".format(config['UCSC_URL'])),
         # https://hgdownload.soe.ucsc.edu/gbdb/hg38/gencode/gencodeV46.bb
         gencode_bed12_remote = storage(
-            "{}/gencode/gencodeV46.bb".format(config['UCSC_URL'])),
-        # https://hgdownload.soe.ucsc.edu/goldenPath/hg38/database/rmsk.txt.gz
-        rmsk_remote = storage(
-            "{}/hg38/database/rmsk.txt.gz".format(config['UCSC_GOLDEN_PATH_URL'])),
+            "{}/gencode/gencodeV{}.bb".format(config['UCSC_URL'], config.get('release', default_release)))
     output:
         encode_exclusion = temp("resources/mappability/encode_exclusion.bb"),
         grc_exclusion = temp("resources/mappability/grcExclusions.bb"),
         ucsc_problematic = temp("resources/mappability/ucsc_problematic.bb"),
         gencode_bed = temp("resources/ref_annot.bb"),
-        rmsk_annot = temp("resources/ucsc_repeatmasker_dump.txt.gz")
     shell:
         '''
         cp {input.encode_exclusion_remote} {output.encode_exclusion}
         cp {input.grc_exclusion_remote} {output.grc_exclusion}
         cp {input.ucsc_problematic_remote} {output.ucsc_problematic}
         cp {input.gencode_bed12_remote} {output.gencode_bed}
-        cp {input.rmsk_remote} {output.rmsk_annot}
         '''
+
+rule download_repeat_masker:
+    """
+    Download RepeatMasker annotation from UCSC for selected
+    organism.
+    """
+    input:
+        rmsk_remote = storage(
+            "{}/{}/database/rmsk.txt.gz".format(
+                config['UCSC_GOLDEN_PATH_URL'],
+                'hg38' if config.get('organism', default_organism) == "human" else 'mm39'
+            )
+        )
+    output:
+        rmsk_annot = "resources/ucsc_repeatmasker_dump.txt.gz"
+    shell:
+        'cp {input.rmsk_remote} {output.rmsk_annot}'
+
 
 rule download_exome_probesets:
     """
@@ -268,22 +287,108 @@ rule download_gatk_bundle:
         known_indels_remote = storage(
             "{}/Homo_sapiens_assembly38.known_indels.vcf.gz".format(config['GATK_URL'])),
         dbsnp_remote = storage(
-            "{}/Homo_sapiens_assembly38.dbsnp138.vcf".format(config['GATK_URL'])),
-            
+            "{}/Homo_sapiens_assembly38.dbsnp138.vcf".format(config['GATK_URL'])),        
     output:
-        
+        mills_vcf = "resources/gatk_bundle/Mills_and_1000G_gold_standard.indels.hg38.vcf.gz"
+        known_indels_vcf = "resources/gatk_bundle/Homo_sapiens_assembly38.known_indels.vcf.gz"
+        gatk_dbsnp = "resources/gatk_bundle/Homo_sapiens_assembly38.dbsnp138.vcf"
     shell:
-        "..."
+        '''
+        cp {input.mills_remote} {output.mills_vcf}
+        tabix -p vcf {output.mills_vcf}
+
+        cp {input.known_indels_remote} {output.known_indels_vcf}
+        tabix -p vcf {output.known_indels_vcf}
+
+        cp {input.dbsnp_remote} {output.gatk_dbsnp}
+        tabix -p vcf {output.gatk_dbsnp}
+        '''
+
+rule download_dbsnp_human:
+    input:
+        dbsnp_remote = storage(
+            "https://ftp.ncbi.nih.gov/snp/organisms/human_9606_b151_GRCh38p7/VCF/00-common_all.vcf.gz"
+        )
+    output:
+        dbsnp_vcf = temp("resources/germline_variants/00-common_all.vcf.gz")
+    shell:
+        '''
+        cp {input.dbsnp_remote} {output.dbsnp_vcf}
+        tabix -p vcf {output.dbsnp_vcf}
+        '''
+
+rule prepare_dbsnp:
+    input:
+        chrom_mapping = workflow.source_path('../additional_resources/GRCh38_ensembl2gencode.txt'),
+        vcf = rules.download_dbsnp_human.output.dbsnp_vcf
+    params:
+        outdir = lambda wildcards, output: os.path.dirname(output.dbsnp_vcf)
+    output:
+        dbsnp_vcf = "resources/germline_variants/dbSNP_151.vcf.gz"
+    script:
+        'scripts/prepare_dbsnp.sh'
 
 rule download_gnomad_exome:
+    """
+    Download gnomad exome data from Google cloud storage.
+    """
     input:
+        gnomad_remote = storage(
+            "{}/{}/vcf/exomes/gnomad.exomes.v{}.sites.{{chromosome}}.vcf.bgz".format(
+                config['GNOMAD_URL'],
+                config['gnomad-release'],
+                config['gnomad-release']
+            )
+        )
     output:
+        vcf_file = temp("resources/germline_variants/gnomad_{chromosome}.vcf.tmp.bgz")
     shell:
-        ""
+        """
+        cp {input.gnomad_remote} {output.vcf_file}
+        """
+
+rule af_only_gnomad:
+    """
+    Create allele frequency only VCF file required by MuTect2. This
+    file inlcudes only germline variants and their overall population
+    allele frequency.
+    """
+    input:
+        gnomad = "resources/germline_variants/gnomad_{chromosome}.vcf.tmp.bgz",
+        minimal_gnomad_header = workflow.source_path('../additional_resources/minimal_gnomad_header.txt')
+    params:
+        minimum_allele_frequency = config.get('minimum_allele_frequency', 0),
+        tmp_vcf = "resources/germline_variants/gnomad_{chromosome}.vcf.tmp"
+    output:
+        vcf_file = "resources/germline_variants/gnomad_{chromosome}.vcf.gz",
+        vcf_file_index = "resources/germline_variants/gnomad_{chromosome}.vcf.gz.tbi"
+    conda:
+        'envs/bcftools.yaml'
+    script:
+        "scripts/make_AF_only_gnomad_vcf.sh"
+
+rule bcftools_concat:
+    """
+    Concatenate chromosome level gnomad VCF into unified af-only VCF
+    """
+    input:
+        calls=[f"resources/germline_variants/gnomad_{x}.vcf.gz" for x in config['chrom-filter']],
+    output:
+        "resources/germline_variants/af_only_gnomad_hg38.vcf.gz",
+    log:
+        "logs/all.log",
+    params:
+        uncompressed_bcf=False,
+        extra="",  # optional parameters for bcftools concat (except -o)
+    threads: 4
+    resources:
+        mem_mb=1024,
+    wrapper:
+        "v4.7.8/bio/bcftools/concat"
 
 rule download_tcga_virus:
     input:
-        tcga_virus = workflow.source_path('../addtional_resources/tcga_viruses.tsv')
+        tcga_virus = workflow.source_path('../additional_resources/tcga_viruses.tsv')
     params:
         output_prefix = lambda wildcards, output: os.path.dirname(output.tcga_virus)
     output:
@@ -295,9 +400,7 @@ rule download_tcga_virus:
         while IFS=$'\\t' read -r name abbv genbank
         do
             echo $genbank
-            efetch -db nuccore -format fasta -id "${{genbank}}" > {params.output_prefix}/"${{genbank}}".fasta
+            efetch -db nuccore -format fasta -id "${{genbank}}" >> {params.output_prefix}/tcga_virus_decoy.fasta
         
-        done < <(grep -v GenBank {input.tcga_virus})
-        
-        cat {params.output_prefix}/*.fasta > {params.output_prefix}/tcga_virus_decoy.fasta
+        done < <(grep -v GenBank {input.tcga_virus}) 
         """

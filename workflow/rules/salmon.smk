@@ -3,7 +3,7 @@ rule salmon_decoy:
         transcriptome = config.get(
             'transcriptome-fasta', 'resources/ref_transcripts.fasta'
         ),
-        genome = get_genome_for_index_building
+        genome = 'resources/ref_genome.fasta'
     output:
         gentrome = 'indices/salmon/gentrome.fasta.gz',
         decoys = 'indices/salmon/decoys.txt',
