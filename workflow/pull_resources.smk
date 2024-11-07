@@ -291,7 +291,12 @@ rule download_gatk_bundle:
     output:
         mills_vcf = "resources/gatk_bundle/Mills_and_1000G_gold_standard.indels.hg38.vcf.gz",
         known_indels_vcf = "resources/gatk_bundle/Homo_sapiens_assembly38.known_indels.vcf.gz",
-        gatk_dbsnp = "resources/gatk_bundle/Homo_sapiens_assembly38.dbsnp138.vcf"
+        gatk_dbsnp_gz = "resources/gatk_bundle/Homo_sapiens_assembly38.dbsnp138.vcf.gz"
+    params:
+        gatk_dbsnp = lambda wildcards, output:
+            os.path.splitext(output.gatk_dbsnp_gz)[0]
+    conda:
+        'envs/bcftools.yaml'
     shell:
         '''
         cp {input.mills_remote} {output.mills_vcf}
@@ -300,8 +305,9 @@ rule download_gatk_bundle:
         cp {input.known_indels_remote} {output.known_indels_vcf}
         tabix -p vcf {output.known_indels_vcf}
 
-        cp {input.dbsnp_remote} {output.gatk_dbsnp}
-        tabix -p vcf {output.gatk_dbsnp}
+        cp {input.dbsnp_remote} {params.gatk_dbsnp}
+        bgzip {params.gatk_dbsnp}
+        tabix -p vcf {output.gatk_dbsnp_gz}
         '''
 
 rule download_dbsnp_human:
@@ -311,6 +317,8 @@ rule download_dbsnp_human:
         )
     output:
         dbsnp_vcf = temp("resources/germline_variants/00-common_all.vcf.gz")
+    conda:
+        'envs/bcftools.yaml'
     shell:
         '''
         cp {input.dbsnp_remote} {output.dbsnp_vcf}
@@ -325,6 +333,8 @@ rule prepare_dbsnp:
         outdir = lambda wildcards, output: os.path.dirname(output.dbsnp_vcf)
     output:
         dbsnp_vcf = "resources/germline_variants/dbSNP_151.vcf.gz"
+    conda:
+        'envs/bcftools.yaml'
     script:
         'scripts/prepare_dbsnp.sh'
 
