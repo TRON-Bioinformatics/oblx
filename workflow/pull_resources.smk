@@ -20,7 +20,7 @@ default_organism = 'human'
 
 include: "rules/common.smk"
 
-configfile: "config/default.yaml"
+configfile: workflow.source_path("../config/default.yaml")
 
 rule all:
     input:
@@ -289,8 +289,8 @@ rule download_gatk_bundle:
         dbsnp_remote = storage(
             "{}/Homo_sapiens_assembly38.dbsnp138.vcf".format(config['GATK_URL'])),        
     output:
-        mills_vcf = "resources/gatk_bundle/Mills_and_1000G_gold_standard.indels.hg38.vcf.gz"
-        known_indels_vcf = "resources/gatk_bundle/Homo_sapiens_assembly38.known_indels.vcf.gz"
+        mills_vcf = "resources/gatk_bundle/Mills_and_1000G_gold_standard.indels.hg38.vcf.gz",
+        known_indels_vcf = "resources/gatk_bundle/Homo_sapiens_assembly38.known_indels.vcf.gz",
         gatk_dbsnp = "resources/gatk_bundle/Homo_sapiens_assembly38.dbsnp138.vcf"
     shell:
         '''
@@ -360,8 +360,8 @@ rule af_only_gnomad:
         minimum_allele_frequency = config.get('minimum_allele_frequency', 0),
         tmp_vcf = "resources/germline_variants/gnomad_{chromosome}.vcf.tmp"
     output:
-        vcf_file = "resources/germline_variants/gnomad_{chromosome}.vcf.gz",
-        vcf_file_index = "resources/germline_variants/gnomad_{chromosome}.vcf.gz.tbi"
+        vcf_file = temp("resources/germline_variants/gnomad_{chromosome}.vcf.gz"),
+        vcf_file_index = temp("resources/germline_variants/gnomad_{chromosome}.vcf.gz.tbi")
     conda:
         'envs/bcftools.yaml'
     script:
