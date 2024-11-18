@@ -316,7 +316,8 @@ rule download_dbsnp_human:
             "https://ftp.ncbi.nih.gov/snp/organisms/human_9606_b151_GRCh38p7/VCF/00-common_all.vcf.gz"
         )
     output:
-        dbsnp_vcf = temp("resources/germline_variants/00-common_all.vcf.gz")
+        dbsnp_vcf = temp("resources/germline_variants/00-common_all.vcf.gz"),
+        dbsnp_tbi = temp("resources/germline_variants/00-common_all.vcf.gz.tbi")
     conda:
         'envs/bcftools.yaml'
     shell:
@@ -384,7 +385,7 @@ rule bcftools_concat:
     input:
         calls=[f"resources/germline_variants/gnomad_{x}.vcf.gz" for x in config['chrom-filter']],
     output:
-        "resources/germline_variants/af_only_gnomad_hg38.vcf.gz",
+        af_only_gnomad = "resources/germline_variants/af_only_gnomad_hg38.vcf.gz",
     log:
         "logs/all.log",
     params:
@@ -395,6 +396,47 @@ rule bcftools_concat:
         mem_mb=1024,
     wrapper:
         "v4.7.8/bio/bcftools/concat"
+
+rule tabix_af_only_gnomad:
+    input:
+        rules.bcftools_concat.output.af_only_gnomad,
+    output:
+        af_only_gnomad_tbi = "resources/germline_variants/af_only_gnomad_hg38.vcf.gz.tbi",
+    log:
+        "logs/tabix/af_only_gnomad_tbi.log",
+    params:
+        "-p vcf",
+    wrapper:
+        "v5.0.1/bio/tabix/index"
+
+rule prepare_variants_for_contamination:
+    """Create VCF file for GAKT PileupSummaries calculation.
+
+    As starting point, the previously generated gnomad AF only
+    file is used and filtered.
+    The resulting VCF file contains variants that match the 
+    following criteria:
+    * VAF > 0.05
+    * Biallelic
+    * Filter: PASS
+    * On chromosome 1
+    These criteria were taken from the Mutect2 best practices
+    workflow where 'variants_for_contamination' is described.
+    https://github.com/broadinstitute/gatk/tree/master/scripts/mutect2_wdl
+    """
+    input:
+        vcf_chr1 = "resources/germline_variants/gnomad_chr1.vcf.gz",
+        vcf_chr1_tbi = "resources/germline_variants/gnomad_chr1.vcf.gz.tbi",
+        minimal_gnomad_header = workflow.source_path('../additional_resources/minimal_gnomad_header.txt')
+    output:
+        prep_vcf = "resources/germline_variants/common_biallelic_chr1.vcf.gz",
+        prep_vcf_tbi = "resources/germline_variants/common_biallelic_chr1.vcf.gz.tbi",
+    params:
+        tmp_vcf = "resources/germline_variants/common_biallelic_chr1.vcf",
+    conda:
+        'envs/bcftools.yaml'
+    script:
+        "scripts/prepare_variants_for_contamination.sh"
 
 rule download_tcga_virus:
     input:

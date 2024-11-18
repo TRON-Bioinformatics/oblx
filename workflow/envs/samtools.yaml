@@ -1,0 +1,5 @@
+name: samtools
+dependencies:
+  - bioconda::samtools=1.12
+  - bioconda::snakemake-wrapper-utils
+

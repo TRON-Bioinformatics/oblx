@@ -15,6 +15,10 @@ from snakemake.utils import min_version
 
 min_version('8.5.4')
 
+default_build = 'GRCh38'
+default_release = '46'
+default_organism = 'human'
+
 include: 'rules/common.smk'
 include: 'rules/bwa-mem2.smk'
 include: 'rules/star.smk'
@@ -29,7 +33,7 @@ include: 'rules/transcript_annotation.smk'
 
 rule all:
     input:
-        #TODO
+        get_build_indices_output
 
 
 

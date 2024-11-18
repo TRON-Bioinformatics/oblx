@@ -22,17 +22,17 @@ rule star_index:
         genome_dir = lambda wildcards, output: os.path.dirname(output.genome_file),
         ram_byte = 48 * 1000000000,
         # if the index is built for a minimal genome
-        genomesaindexnbases = '9' if config['minigenome'] else '14',
+        genomesaindexnbases = '14', #'9' if config['minigenome'] else
         sjdb_overhang = config.get('star-sjdb-overhang', 100)
     output:
         genome_file = "indices/star/Genome"
-    threads: 18
+    threads: 16
     resources:
         mem_mb = 48 * 1000
     conda:
-        'envs/star.yaml'
+        '../envs/star.yaml'
     log:
-        'indices/star/star-index.log'
+        'logs/star/star-index.log'
     shell:
         'STAR '
         '--runMode genomeGenerate '

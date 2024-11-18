@@ -1,0 +1,6 @@
+name: bwa_mem2
+dependencies:
+  - bioconda::bwa-mem2=2.2.1
+  - bioconda::samtools=1.21
+  - bioconda::picard-slim=3.2.0
+  - bioconda::snakemake-wrapper-utils=0.6.2

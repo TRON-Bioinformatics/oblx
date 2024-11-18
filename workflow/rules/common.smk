@@ -6,7 +6,7 @@ def get_genome_for_index_building(wildcards):
     Gencode
     """
     organism = config.get('organism', 'human')
-    if organism == human:
+    if organism == 'human':
         return "resources/ref_genome_grc_masked.fasta"
     return "resources/ref_genome_primary.fasta"
 
@@ -32,6 +32,9 @@ def get_pull_resources_output(wildcards):
             "resources/exome_definition/twist_exome2.bed",
             "resources/viruses/tcga_virus_decoy.fasta",
             "resources/germline_variants/af_only_gnomad_hg38.vcf.gz",
+            "resources/germline_variants/af_only_gnomad_hg38.vcf.gz.tbi",
+            "resources/germline_variants/common_biallelic_chr1.vcf.gz",
+            "resources/germline_variants/common_biallelic_chr1.vcf.gz.tbi",
             "resources/gatk_bundle/Mills_and_1000G_gold_standard.indels.hg38.vcf.gz",
             "resources/gatk_bundle/Homo_sapiens_assembly38.known_indels.vcf.gz",
             "resources/gatk_bundle/Homo_sapiens_assembly38.dbsnp138.vcf.gz",
@@ -40,7 +43,7 @@ def get_pull_resources_output(wildcards):
     
     return final_files
 
-def get_build_indices_output():
+def get_build_indices_output(wildcards):
     organism = config.get('organism', 'human')
     final_files = multiext(
             "indices/bwa/ref_genome.fasta", 
@@ -70,16 +73,18 @@ def get_build_indices_output():
             "refseq.bin",
             "seq.bin",
             "versionInfo.json",))
-    final_files.append(os.path.join(
-                'indices/snpeff/data/',
-                f'{config.get("genome-build", default_build)}.{config.get("release", default_release)}',
-                'snpEffectPredictor.bin'
-            ))
+    final_files.append(os.path.abspath(os.path.join(
+            'indices/snpeff/data/',
+            f'{config.get("genome-build", default_build)}.{config.get("release", default_release)}',
+            'snpEffectPredictor.bin'
+        )))
     final_files.append("indices/star/Genome")
-    final_files.append('resources/splicing/ref_annot_txdb.sqlite')
-    final_files.append('resources/splicing/ref_genome.2bit',)
-    final_files.append('resources/splicing/ref_transcripts_reliable.Rds')
-    final_files.append('resources/splicing/ref_transcript_ranges_reliable.Rds')
-    final_files.append('resources/splicing/ref_cds_reliable.Rds')
-    final_files.append('resources/tx2gene.tsv')
-    final_files.append('resources/splicing/canonical_junctions.tsv')
+    final_files.append('resources/R/ref_annot_txdb.sqlite')
+    final_files.append('resources/R/ref_genome.2bit',)
+    final_files.append('resources/R/ref_transcripts.Rds')
+    final_files.append('resources/R/ref_transcript_ranges.Rds')
+    final_files.append('resources/R/ref_cds.Rds')
+    final_files.append('resources/ref_annot_transcript2gene.tsv')
+    final_files.append('resources/splicing/ref_annot_splice_sites.tsv')
+
+    return final_files

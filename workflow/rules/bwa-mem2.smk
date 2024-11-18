@@ -1,10 +1,10 @@
 rule link_bwa_fasta:
     input:
-        fasta = 'resources/ref_genome.fasta'
+        fasta = get_genome_for_index_building
     output:
         fasta_link = 'indices/bwa/ref_genome.fasta'
     shell:
-        'ln -s {input.fasta} {output.fasta_link}'
+        'ln -sr {input.fasta} {output.fasta_link}'
 
 rule bwa_mem2_index:
     """bwa-mem2 index
@@ -30,14 +30,18 @@ rule bwa_mem2_index:
             ".bwt.2bit.64",
             ".pac"
         )
-    conda: 'envs/bwa.yaml'
+    conda: '../envs/bwa_mem2.yaml'
+    resources:
+        mem_mb = 100000
+    threads:
+        16
     log:
-        'indices/bwa/bwa-mem2-index.log'
-    wrapper:
-        "v3.10.2/bio/bwa-mem2/index"
+        'logs/indices/bwa/bwa-mem2-index.log'
+    shell:
+        'bwa-mem2 index -p {input.fasta} {input.fasta} &> {log}'
 
 
-rule samtools_faidx:
+rule samtools_faidx_bwa:
     """
     Generate FASTA index of reference genome in bwa index dir
     """
@@ -46,7 +50,7 @@ rule samtools_faidx:
     output:
        fai = 'indices/bwa/ref_genome.fasta.fai'
     conda:
-        'envs/samtools.yaml'
+        '../envs/samtools.yaml'
     shell:
         '''
 	    samtools faidx {input.fasta}

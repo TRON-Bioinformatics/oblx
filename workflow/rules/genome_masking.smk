@@ -10,8 +10,9 @@ rule mask_GRC_assembly_errors:
         grc_exclusion_bed = "resources/mappability/grcExclusions.bed"  
     output:
         masked_genome = "resources/ref_genome_grc_masked.fasta"
+    conda:
+        '../envs/bedtools.yaml'
     shell:
-        'bedtools '
         'maskFastaFromBed '
         '-fi {input.genome} '
         '-bed {input.grc_exclusion_bed} '

@@ -1,0 +1,8 @@
+site_name: TronMake Genome Lib Builder
+nav:
+  - Home: index.md
+  - Pull Resources: pull_resources.md
+  - Build Indices: build_indices.md
+  - About: about.md
+theme: 
+  name: material
