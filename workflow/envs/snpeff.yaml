@@ -1,0 +1,3 @@
+name: snpeff
+dependencies:
+  - bioconda::snpeff=5.2

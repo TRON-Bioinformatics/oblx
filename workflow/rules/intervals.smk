@@ -20,8 +20,8 @@ rule gencode_exome_bed:
     output:
         exome_interval = 'resources/exome_definition/ref_exome.bed'
     conda:
-        'envs/bedtools.yaml'
+        '../envs/bedtools.yaml'
     log:
         'logs/exome_creation.log'
     script:
-        'scripts/make_exome_bed.sh'
+        '../scripts/make_exome_bed.sh'

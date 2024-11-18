@@ -3,7 +3,7 @@ rule link_snpeff:
     Create symlinks to the reference and GTF for snpEff index build.
     """
     input:
-        fasta = 'resources/ref_genome.fasta',
+        fasta = get_genome_for_index_building,
         gtf = os.path.abspath(
             config.get('genome-gtf', 'resources/ref_annot.gtf')
         )
@@ -20,8 +20,8 @@ rule link_snpeff:
         )
     shell:
         '''
-        ln -s {input.fasta} {output.fasta_link}
-        ln -s {input.gtf} {output.gtf_link}
+        ln -sr {input.fasta} {output.fasta_link}
+        ln -sr {input.gtf} {output.gtf_link}
         '''
 
 
@@ -63,26 +63,26 @@ rule build_snpEff_index:
         gtf_link = rules.link_snpeff.output.gtf_link,
         config_file = rules.prepare_snpEff_config.output.config_file
     output:
-        os.path.abspath(
-            os.path.join(
-                'indices/snpeff/data/',
-                f'{config.get("genome-build", default_build)}.{config.get("release", default_release)}',
-                'snpEffectPredictor.bin'
-            )
-        )
+        os.path.abspath(os.path.join(
+            'indices/snpeff/data/',
+            f'{config.get("genome-build", default_build)}.{config.get("release", default_release)}',
+            'snpEffectPredictor.bin'
+        ))
     params:
         data_dir = os.path.abspath(Path(rules.link_snpeff.output.fasta_link).parents[1]),
     resources:
         mem_mb = 8000
     conda:
-        'envs/snpeff.yaml'
+        '../envs/snpeff.yaml'
     log:
-        'indices/snpeff/snpeff-build-db.log'
+        'logs/snpeff/snpeff-build-db.log'
     shell:
         'snpEff -Xmx{resources.mem_mb}m build '
         '-gtf22 '
         '-verbose '
         '-dataDir {params.data_dir} '
         '-config {input.config_file} '
+        '-noCheckCds '
+        '-noCheckProtein '
         f'-v {config.get("genome-build", default_build)}.{config.get("release", default_release)} '
         '> {log}'

@@ -4,9 +4,9 @@ rule set_genome:
     output:
         genome = 'resources/ref_genome.fasta'
     shell:
-        'ln -s {input.fasta} {output.genome}'
+        'ln -sr {input.fasta} {output.genome}'
 
-rule samtools_faidx:
+rule samtools_faidx_ref_genome:
     """
     Generate FASTA index of reference genome in bwa index dir
     """
@@ -15,7 +15,7 @@ rule samtools_faidx:
     output:
        fai = 'resources/ref_genome.fasta.fai'
     conda:
-        'envs/samtools.yaml'
+        '../envs/samtools.yaml'
     shell:
         '''
 	    samtools faidx {input.fasta}

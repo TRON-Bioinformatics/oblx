@@ -1,0 +1,11 @@
+# Resource requirement definitions
+#
+# In the first part the resources like maximum memory are defined.
+# Afterwards, the maximum number of threads per rule are specified.
+
+
+
+# If the memory is not specified in the following section, 500Mb are
+# allocated by default.
+default-resources:
+  mem_mb: 4000

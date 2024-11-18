@@ -1,0 +1,11 @@
+name: R
+dependencies:
+  - conda-forge::r-base=4.3.3
+  - conda-forge::cmake
+  - conda-forge::r-xml
+  - conda-forge::freetype
+  - conda-forge::pkg-config
+  - conda-forge::fontconfig
+  - conda-forge::libtiff
+  - conda-forge::libdeflate
+  - conda-forge::r-systemfonts

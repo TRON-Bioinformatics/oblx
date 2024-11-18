@@ -20,36 +20,41 @@ rule annotation_R:
         txdb =
             'resources/R/ref_annot_txdb.sqlite',
         twobit_genome =
-            'resources/ref_genome.2bit',
+            'resources/R/ref_genome.2bit',
         serialized_transcripts =
             'resources/R/ref_transcripts.Rds',
         serialized_transcript_ranges =
-            'resources/R/ref_transcript_ranges_reliable.Rds',
+            'resources/R/ref_transcript_ranges.Rds',
         serialized_cds =
-            'resources/R/ref_cds_reliable.Rds'
+            'resources/R/ref_cds.Rds'
     conda:
-        'envs/splice2neo.yaml'
+        '../envs/renv.yaml'
+    resources:
+        mem_mb = 32000
+    benchmark:
+        'benchmarks/annotation_R.txt'
     shell:
         '''
         R --no-save <<__EOF__
-        library(GenomicFeatures)
-        library(rtracklayer)
+library(GenomicFeatures)
+library(rtracklayer)
 
-        db <- makeTxDbFromGFF("{input.gtf}", format="gtf", dataSource=as.character("{input.gtf}"))
-        saveDb(db, file="{output.txdb}")
+db <- makeTxDbFromGFF("{input.gtf}", format="gtf", dataSource=as.character("{input.gtf}"))
+saveDb(db, file="{output.txdb}")
 
-        hg38 <- Biostrings::readDNAStringSet("{input.fasta}")  
-        rtracklayer::export.2bit(hg38, "{output.twobit_genome}")  
+hg38 <- Biostrings::readDNAStringSet("{input.fasta}")  
+rtracklayer::export.2bit(hg38, "{output.twobit_genome}") 
 
-        transcripts <- GenomicFeatures::exonsBy(db, by = c("tx"), use.names = TRUE)
-        base::saveRDS(transcripts, file="{output.serialized_transcripts}")
+transcripts <- GenomicFeatures::exonsBy(db, by = c("tx"), use.names = TRUE)
+base::saveRDS(transcripts, file="{output.serialized_transcripts}")
 
-        transcripts_gr <- GenomicFeatures::transcripts(db, columns = c("gene_id", "tx_id", "tx_name"))
-        base::saveRDS(transcripts_gr, file="{output.serialized_transcript_ranges}")
+transcripts_gr <- GenomicFeatures::transcripts(db, columns = c("gene_id", "tx_id", "tx_name"))
+base::saveRDS(transcripts_gr, file="{output.serialized_transcript_ranges}")
 
-        cds <- GenomicFeatures::cdsBy(db, by = c("tx"), use.name = TRUE)
-        base::saveRDS(cds, file="{output.serialized_cds}")
-        '''
+cds <- GenomicFeatures::cdsBy(db, by = c("tx"), use.name = TRUE)
+base::saveRDS(cds, file="{output.serialized_cds}")
+__EOF__
+'''
 
 rule transcript_to_gene_mapping:
     input:
@@ -57,18 +62,18 @@ rule transcript_to_gene_mapping:
     output:
         tx2gene = 'resources/ref_annot_transcript2gene.tsv'
     conda:
-        'envs/splice2neo.yaml'
+        '../envs/renv.yaml'
     shell:
         '''
         R --no-save <<__EOF__
-        library(GenomicFeatures)
-        library(tidyverse)
-        txdb <- makeTxDbFromGFF("{input.gtf}")
-        k <- keys(txdb, keytype = "TXNAME")
-        tx2gene <- AnnotationDbi::select(txdb, k, "GENEID", "TXNAME")
-        tx2gene %>% readr::write_tsv("{output.tx2gene}")
-        __EOF__
-        '''
+library(GenomicFeatures)
+library(tidyverse)
+txdb <- makeTxDbFromGFF("{input.gtf}")
+k <- keys(txdb, keytype = "TXNAME")
+tx2gene <- AnnotationDbi::select(txdb, k, "GENEID", "TXNAME")
+tx2gene %>% readr::write_tsv("{output.tx2gene}")
+__EOF__
+'''
 
 rule gene_to_hgnc_mapping:
     input:
@@ -76,26 +81,26 @@ rule gene_to_hgnc_mapping:
     output:
         mapping_table = 'resources/ref_annot_gene2hgnc.tsv'
     conda:
-        'envs/python.yaml'
+        '../envs/python.yaml'
     script:
-        'scripts/get_annotation_data.py'
+        '../scripts/get_annotation_data.py'
 
 rule canonical_junction_list:
     input:
         gtf = 'resources/ref_annot.gtf'
     output:
-        canonical_juncs = 'resources/ref_annot_splice_sites.tsv'
+        canonical_juncs = 'resources/splicing/ref_annot_splice_sites.tsv'
     conda:
-        'envs/splice2neo.yaml'
+        '../envs/renv.yaml'
     shell:
-        '''
-        R --no-save <<__EOF__
-        library(GenomicFeatures)
-        library(tidyverse)
-        library(splice2neo)
-        canonical_juncs <- splice2neo::canonical_junctions(splice2neo::parse_gtf("{input.gtf})")
-        canonical_juncs <- tibble(junc_id=canonical_juncs)
-        canonical_juncs %>% readr::write_tsv("{output.canonical_juncs}")
-        __EOF__
-        '''
+        r"""
+R --vanilla <<-EOF
+library(GenomicFeatures)
+library(tidyverse)
+library(splice2neo)
+canonical_juncs <- splice2neo::canonical_junctions(splice2neo::parse_gtf("{input.gtf}"))
+canonical_juncs <- tibble(junc_id=canonical_juncs)
+canonical_juncs %>% readr::write_tsv("{output.canonical_juncs}")
+EOF
+"""
 

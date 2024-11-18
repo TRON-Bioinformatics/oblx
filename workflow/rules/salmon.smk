@@ -5,7 +5,7 @@ rule salmon_decoy:
         ),
         genome = 'resources/ref_genome.fasta'
     output:
-        gentrome = 'indices/salmon/gentrome.fasta.gz',
+        gentrome = 'indices/salmon/gentrome.fasta',
         decoys = 'indices/salmon/decoys.txt',
     threads: 2
     log:
@@ -15,7 +15,7 @@ rule salmon_decoy:
 
 rule salmon_index_gentrome:
     input:
-        sequences = 'indices/salmon/gentrome.fasta.gz',
+        sequences = 'indices/salmon/gentrome.fasta',
         decoys = 'indices/salmon/decoys.txt',
     output:
         multiext(
@@ -40,6 +40,8 @@ rule salmon_index_gentrome:
     log:
         "logs/salmon/transcriptome_index.log",
     threads: 2
+    resources:
+        mem_mb = 32000
     params:
         # optional parameters
         extra="--gencode",

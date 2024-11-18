@@ -1,3 +1,5 @@
 resources
 .snakemake
 logs
+
+docs/tronmake-genome-lib-builder/site
