@@ -16,5 +16,6 @@ rule mask_GRC_assembly_errors:
         'maskFastaFromBed '
         '-fi {input.genome} '
         '-bed {input.grc_exclusion_bed} '
-        '-fo {output.masked_genome} ' 
+        '-fo {output.masked_genome} '
+
         

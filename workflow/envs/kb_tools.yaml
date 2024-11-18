@@ -1,0 +1,9 @@
+channels:
+  - conda-forge
+  - bioconda
+  - nodefaults
+dependencies:
+  - conda-forge::python =3.9
+  - conda-forge::pip
+  - pip:
+    - kb-python==0.27.3
