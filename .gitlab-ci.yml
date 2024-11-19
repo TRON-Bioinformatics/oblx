@@ -18,6 +18,7 @@ test_syntaxcheck:
   script:
     - mamba create -n mkdocs conda-forge::mkdocs conda-forge::mkdocs-material
     - source /opt/conda/bin/activate mkdocs
+    - pip install mkdocs-table-reader-plugin mkdocs-include-markdown-plugin markdown
     - mkdocs build -f docs/tronmake-genome-lib-builder/mkdocs.yml -d ../../public
   artifacts:
     paths:
