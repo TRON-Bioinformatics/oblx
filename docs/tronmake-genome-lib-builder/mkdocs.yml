@@ -6,3 +6,30 @@ nav:
   - About: about.md
 theme: 
   name: material
+  features:
+    - navigation.sections
+    - navigation.tabs
+    - toc.integrate
+  palette:
+    # Palette toggle for light mode 
+    - scheme: default
+      primary: pink
+      accent: pink
+      toggle:
+        icon: material/lightbulb-on
+        name: Switch to dark mode
+    # Palette toggle for dark mode
+    - scheme: slate
+      primary: pink
+      accent: pink
+      toggle:
+        icon: material/weather-night
+        name: Switch to light mode
+copyright: © TRON gGmbH, 2024. This work is licensed under MIT.
+repo_url: https://gitlab.rlp.net/tron/tronmake-genome-lib-builder
+plugins:
+  - search
+  - table-reader
+  - include-markdown
+markdown_extensions:
+  - attr_list

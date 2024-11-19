@@ -88,3 +88,20 @@ def get_build_indices_output(wildcards):
     final_files.append('resources/splicing/ref_annot_splice_sites.tsv')
 
     return final_files
+
+rule docstring_export:
+    output:
+        doctrings_markdown = "docs/tronmake-genome-lib-builder/docs/assets/docstring.md",
+        dependencies = "docs/tronmake-genome-lib-builder/docs/assets/software.tsv"
+    run:
+        with open(output.doctrings_markdown, 'w') as file_handle, open(output.dependencies, "w") as sof_handle:
+            sof_handle.write('Rule\tConda environment\tDocker container\n')
+            for rule in workflow.rules:
+                if not rule.name in ['all', 'docstring_export']:
+                    # Document conda environment and docker image URLs
+                    conda_env = rule.conda_env.replace('..', 'workflow') if not rule.conda_env is None else None
+                    container = rule.container_img.removeprefix("docker://") if not rule.container_img is None else None
+                    sof_handle.write(f'{rule.name}\t{conda_env}\t{container}\n')
+                    # Get docstrings and dump to yaml
+                    file_handle.write(f'### Rule `{rule.name}`\n')
+                    file_handle.write(f'```\n{rule.docstring}\n```\n')
