@@ -18,7 +18,9 @@ def get_pull_resources_output(wildcards):
                    'resources/ref_transcripts.fasta',
                    'resources/ref_annot_metadata_SwissProt.tsv',
                    'resources/ref_annot_metadata_TrEMBL.tsv',
-                   'resources/ucsc_repeatmasker_dump.txt.gz']
+                   'resources/ucsc_repeatmasker_dump.txt.gz',
+                   'resources/ref_genome.dict',
+                   "resources/ref_genome.fasta.fai"]
     # Files specific to human
     if organism == "human":
         final_files.extend([
@@ -38,7 +40,9 @@ def get_pull_resources_output(wildcards):
             "resources/gatk_bundle/Mills_and_1000G_gold_standard.indels.hg38.vcf.gz",
             "resources/gatk_bundle/Homo_sapiens_assembly38.known_indels.vcf.gz",
             "resources/gatk_bundle/Homo_sapiens_assembly38.dbsnp138.vcf.gz",
-            "resources/germline_variants/dbSNP_151.vcf.gz"
+            "resources/germline_variants/dbSNP_151.vcf.gz",
+            "resources/ref_genome.dict",
+            "resources/ref_genome.fasta.fai"
         ])
     
     return final_files

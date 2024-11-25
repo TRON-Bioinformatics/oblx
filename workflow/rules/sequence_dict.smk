@@ -7,5 +7,5 @@ rule create_sequence_dict:
         '../envs/gatk4.yaml'
     shell:
         '''
-        gatk CreateSequenceDictionary --REFERENCE {input.genome_fasta}
+        gatk CreateSequenceDictionary --REFERENCE {input.genome_fasta} --OUTPUT {output.genome_dict}
         '''

@@ -18,6 +18,8 @@ default_build = 'GRCh38'
 default_release = '46'
 default_organism = 'human'
 
+include: "rules/faidx.smk"
+include: "rules/sequence_dict.smk"
 include: "rules/common.smk"
 
 configfile: workflow.source_path("../config/default.yaml")
