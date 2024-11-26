@@ -29,7 +29,7 @@ bcftools view \
     $input_vcf |\
     bcftools query \
     -i "AF > 0.05 & FILTER == 'PASS'" \
-    -f '%CHROM\t%POS\t%REF\t%ALT\t%FILTER\t%INFO/AF\n' \
+    -f '%CHROM\t%POS\t%ID\t%REF\t%ALT\t%QUAL\t%FILTER\tAF=%INFO/AF\n' \
     --output $tmp_vcf -
 
 cat $vcf_header $tmp_vcf | bgzip -c > $out_vcf
