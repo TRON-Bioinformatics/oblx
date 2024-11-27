@@ -19,6 +19,7 @@ default_release = '46'
 default_organism = 'human'
 
 include: "rules/common.smk"
+include: "rules/genome_masking.smk"
 include: "rules/faidx.smk"
 include: "rules/sequence_dict.smk"
 
