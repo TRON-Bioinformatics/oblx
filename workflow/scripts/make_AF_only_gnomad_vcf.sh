@@ -17,7 +17,7 @@ tmp_vcf="${snakemake_params[tmp_vcf]}"
 out_vcf="${snakemake_output[vcf_file]}"
 
 bcftools query \
-    -i 'AF>'$min_af \
+    -i "AF>${min_af} & FILTER == 'PASS'" \
     -f '%CHROM\t%POS\t%ID\t%REF\t%ALT\t%QUAL\t%FILTER\tAF=%INFO/AF\n' \
     --output $tmp_vcf $gnomad_vcf
 
