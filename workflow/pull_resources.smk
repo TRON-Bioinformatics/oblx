@@ -299,7 +299,7 @@ rule download_gatk_bundle:
         1000g_omni_remote = storage(
             "{}/1000G_omni2.5.hg38.vcf.gz".format(config['GATK_URL'])),
         # HapMap germline SNPs 
-       hapmap_remote = storage(
+        hapmap_remote = storage(
             "{}/hapmap_3.3.hg38.vcf.gz".format(config['GATK_URL'])),
     output:
         mills_vcf = "resources/gatk_bundle/Mills_and_1000G_gold_standard.indels.hg38.vcf.gz",
