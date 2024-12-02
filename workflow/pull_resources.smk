@@ -295,7 +295,7 @@ rule download_gatk_bundle:
         # 1000G high confidence SNPs
         1000g_hc_remote = storage(
             "{}/1000G_phase1.snps.high_confidence.hg38.vcf.gz".format(config['GATK_URL'])),
-        # 1000G Omni SNPs,
+        # 1000G Omni SNPs
         1000g_omni_remote = storage(
             "{}/1000G_omni2.5.hg38.vcf.gz".format(config['GATK_URL'])),
         # HapMap germline SNPs 
