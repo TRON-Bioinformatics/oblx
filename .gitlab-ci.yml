@@ -1,6 +1,17 @@
 stages:
+  - precheck
   - test
   - deploy
+
+test_linting:
+  image: condaforge/miniforge3:24.9.2-0
+  stage: precheck
+  variables:
+    GIT_SUBMODULE_STRATEGY: recursive
+  script:
+    - mamba env create -f environment.yaml
+    - source /opt/conda/bin/activate tronmake_genome_lib_builder
+    - snakemake --lint
 
 test_syntaxcheck:
   image: condaforge/miniforge3:24.7.1-2

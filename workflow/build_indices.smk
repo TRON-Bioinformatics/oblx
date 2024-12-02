@@ -13,7 +13,7 @@ Make sure to specify a yaml config via --configfile containing the following key
 import os
 from snakemake.utils import min_version
 
-min_version('8.5.4')
+min_version('8.24.1')
 
 default_build = 'GRCh38'
 default_release = '46'
@@ -36,4 +36,40 @@ rule all:
         get_build_indices_output
 
 
+rule doc_all:
+    input:
+        "docs/tronmake-genome-lib-builder/docs/assets/docstring.md",
+        "docs/tronmake-genome-lib-builder/docs/assets/software.tsv",
 
+rule docstring_export:
+    """
+    Export docstrings of snakemake rules into markdown format
+    """
+    output:
+        doctrings_markdown = "docs/tronmake-genome-lib-builder/docs/assets/docstring.md",
+    log:
+        "docs/tronmake-genome-lib-builder/docs/assets/export_log.txt"
+    params:
+        rule_collection = {str(rule.name): str(rule.docstring) for rule in workflow.rules}
+    conda: 'envs/python.yaml'
+    container:
+        'docker://tronbioinformatics/tron_data_utils:0.0.1'
+    script:
+        'scripts/export_doc.py'
+
+rule software_export:
+    """
+    Export docstrings of snakemake rules into markdown format
+    """
+    output:
+        software_table = "docs/tronmake-genome-lib-builder/docs/assets/software.tsv",
+    log:
+        "docs/tronmake-genome-lib-builder/docs/assets/export_software_log.txt"
+    params:
+        software_collection = {str(rule.name): 
+            {'conda': str(rule.conda_env), 'container': str(rule.container_img) } for rule in workflow.rules}
+    conda: 'envs/python.yaml'
+    container:
+        'docker://tronbioinformatics/tron_data_utils:0.0.1'
+    script:
+        'scripts/export_software.py'

@@ -27,7 +27,7 @@ TODO: describe parameters
 The pull resources step gathers all files that are required for index generation
 or that are directly used by downstream tools.
 
-The workflow generates the following directory structure:
+The workflow generates the following directory structure for human:
 
 ```
 </path/to/output/dir>/resources
@@ -65,4 +65,18 @@ The workflow generates the following directory structure:
     └── tcga_virus_decoy.fasta
 ```
 
-TODO: describe files
+**Organism-wide files:**
+
+* `ref_annot.bed`: Reference gene model in BED12 format. One transcript per line.
+* `ref_annot.gtf`: Reference gene model in GTF format. Unmodified from Gencode.
+* `ref_annot_metadata_SwissProt.tsv`: Mapping from Gencode transcripts to SwissProt IDs. Unmodified from Gencode.
+* `ref_annot_metadata_TrEMBL.tsv`: Mapping from Gencode transcripts to TrEMBL IDs. Unmodified from Gencode.
+* `ref_genome_primary.fasta`: Primary genome assembly of reference chromosomes and unplaced scaffolds. Unmodified from Gencode.
+* `ref_transcripts.fasta`: Reference transcript sequences. Unmodified from Gencode.
+* `ucsc_repeatmasker_dump.txt.gz`: RepeatMasker annotation on chromosomes. Unmodified from UCSC.
+
+**Human-specific files:**
+
+* `germline_variants/af_only_gnomad_hg38.vcf.gz`:
+* `germline_variants/af_only_gnomad_hg38.vcf.gz`:
+* `germline_variants/af_only_gnomad_hg38.vcf.gz`:
