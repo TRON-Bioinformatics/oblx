@@ -13,6 +13,8 @@ rule kallisto_index:
     threads: 2
     conda:
         '../envs/kb_tools.yaml'
+    container:
+        'docker://quay.io/biocontainers/kb-python:0.27.3--pyhdfd78af_1'
     shell:
         'kb ref --workflow=standard '
         '-i {output.index} -g {output.tx2gene} -f1 {output.cdna} '
