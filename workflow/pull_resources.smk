@@ -293,10 +293,10 @@ rule download_gatk_bundle:
         dbsnp_remote = storage(
             "{}/Homo_sapiens_assembly38.dbsnp138.vcf".format(config['GATK_URL'])),
         # 1000G high confidence SNPs
-        1000g_hc_remote = storage(
+        thousand_genome_hc_remote = storage(
             "{}/1000G_phase1.snps.high_confidence.hg38.vcf.gz".format(config['GATK_URL'])),
         # 1000G Omni SNPs
-        1000g_omni_remote = storage(
+        thousand_genome_omni_remote = storage(
             "{}/1000G_omni2.5.hg38.vcf.gz".format(config['GATK_URL'])),
         # HapMap germline SNPs 
         hapmap_remote = storage(
@@ -305,8 +305,8 @@ rule download_gatk_bundle:
         mills_vcf = "resources/gatk_bundle/Mills_and_1000G_gold_standard.indels.hg38.vcf.gz",
         known_indels_vcf = "resources/gatk_bundle/Homo_sapiens_assembly38.known_indels.vcf.gz",
         gatk_dbsnp_gz = "resources/gatk_bundle/Homo_sapiens_assembly38.dbsnp138.vcf.gz",
-        1000g_hc_vcf = "resources/gatk_bundle/1000G_phase1.snps.high_confidence.hg38.vcf.gz",
-        1000g_omni_vcf = "resources/gatk_bundle/1000G_omni2.5.hg38.vcf.gz",
+        thousand_genome_hc_vcf = "resources/gatk_bundle/1000G_phase1.snps.high_confidence.hg38.vcf.gz",
+        thousand_genome_omni_vcf = "resources/gatk_bundle/1000G_omni2.5.hg38.vcf.gz",
         hapmap_vcf = "resources/gatk_bundle/hapmap_3.3.hg38.vcf.gz"
     params:
         gatk_dbsnp = lambda wildcards, output:
@@ -325,11 +325,11 @@ rule download_gatk_bundle:
         bgzip {params.gatk_dbsnp}
         tabix -p vcf {output.gatk_dbsnp_gz}
 
-        cp {input.1000g_hc_remote} {output.1000g_hc_vcf}
-        tabix -p vcf {output.1000g_hc_vcf}
+        cp {input.thousand_genome_hc_remote} {output.thousand_genome_hc_vcf}
+        tabix -p vcf {output.thousand_genome_hc_vcf}
 
-        cp {input.1000g_omni_remote} {output.1000g_omni_vcf}
-        tabix -p vcf {output.1000g_omni_vcf}
+        cp {input.thousand_genome_omni_remote} {output.thousand_genome_omni_vcf}
+        tabix -p vcf {output.thousand_genome_omni_vcf}
 
         cp {input.hapmap_remote} {output.hapmap_vcf}
         tabix -p vcf {output.hapmap_vcf}
