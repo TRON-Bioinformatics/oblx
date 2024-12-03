@@ -40,6 +40,9 @@ def get_pull_resources_output(wildcards):
             "resources/gatk_bundle/Mills_and_1000G_gold_standard.indels.hg38.vcf.gz",
             "resources/gatk_bundle/Homo_sapiens_assembly38.known_indels.vcf.gz",
             "resources/gatk_bundle/Homo_sapiens_assembly38.dbsnp138.vcf.gz",
+            "resources/gatk_bundle/1000G_phase1.snps.high_confidence.hg38.vcf.gz",
+            "resources/gatk_bundle/1000G_omni2.5.hg38.vcf.gz",
+            "resources/gatk_bundle/hapmap_3.3.hg38.vcf.gz",
             "resources/germline_variants/dbSNP_151.vcf.gz",
             "resources/ref_genome.dict",
             "resources/ref_genome.fasta.fai"
