@@ -15,7 +15,7 @@ trap 'rm -rf -- "$TMPDIR"' EXIT
 
 exec 2> "${snakemake_log[0]}"
 
-awk '{if ($3 == "exon") print $0}' "${snakemake_input[gtf]}" |
+awk '{if ($3 == "exon") print $0}' "${snakemake_input[gtf]}" | \
     grep 'tag "basic"' | \
         bedtools sort | \
             bedtools merge > "${TMPDIR}"/tmp.bed
