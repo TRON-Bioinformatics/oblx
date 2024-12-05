@@ -1,6 +1,6 @@
 rule chrom_sizes:
     input:
-        fasta_index = 'resources/ref_genome.fasta'
+        fasta_index = 'resources/ref_genome.fasta.fai'
     output:
         'resources/chromosome_sizes.txt'
     shell:
