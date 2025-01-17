@@ -351,6 +351,38 @@ rule download_dbsnp_human:
         tabix -p vcf {output.dbsnp_vcf}
         '''
 
+
+rule download_dbsnp_mouse:
+    """ Download dbSNP 150 from ensembl and convert chromosome names to gencode.
+    """
+    input:
+        dbsnp_remote = storage(
+            "https://ftp.ensembl.org/pub/release-113/variation/vcf/mus_musculus/mus_musculus.vcf.gz"
+        ),
+        chromosome_mapping_remote = storage(
+            "https://raw.githubusercontent.com/dpryan79/ChromosomeMappings/refs/heads/master/GRCm39_ensembl2UCSC.txt"
+        )
+    output:
+        dbsnp_vcf = "resources/germline_variants/dbSNP_150.vcf.gz",
+        chromosome_mapping = temp("resources/germline_variants/GRCm39_ensembl2UCSC.txt"),
+        dbsnp_tbi = "resources/germline_variants/dbSNP_150.vcf.gz.tbi"
+    params:
+        dbsnp_tmp = temp("resources/germline_variants/mus_musculus.vcf.gz"),
+    conda:
+        'envs/bcftools.yaml'
+    shell:
+        """
+        cp {input.dbsnp_remote} {params.dbsnp_tmp}
+        cp {input.chromosome_mapping_remote} {output.chromosome_mapping}
+        tabix -p vcf {params.dbsnp_tmp}
+        bcftools annotate --rename-chrs {output.chromosome_mapping} {params.dbsnp_tmp} -o {output.dbsnp_vcf}
+        tabix -p vcf {output.dbsnp_vcf}
+        rm {params.dbsnp_tmp}
+        rm {params.dbsnp_tmp}.tbi
+        """
+
+
+
 rule prepare_dbsnp:
     input:
         chrom_mapping = workflow.source_path('../additional_resources/GRCh38_ensembl2gencode.txt'),

@@ -47,6 +47,12 @@ def get_pull_resources_output(wildcards):
             "resources/ref_genome.dict",
             "resources/ref_genome.fasta.fai"
         ])
+
+    if organism == "mouse":
+        final_files.extend([
+            "resources/germline_variants/dbSNP_150.vcf.gz",
+            "resources/germline_variants/dbSNP_150.vcf.gz.tbi"
+        ])
     
     return final_files
 
