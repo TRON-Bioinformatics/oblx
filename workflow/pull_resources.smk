@@ -10,6 +10,7 @@ Make sure to specify a yaml config via --configfile containing the following key
 @version: 20240522
 """
 import os
+import sys
 from snakemake.utils import min_version
 
 min_version('8.5.4')
@@ -24,6 +25,9 @@ include: "rules/faidx.smk"
 include: "rules/sequence_dict.smk"
 
 configfile: workflow.source_path("../config/default.yaml")
+
+if config.get('genome-build', default_build) not in ['GRCh38', 'GRCm38', 'GRCm39']:
+    sys.exit(f'Genome build {config.get('genome-build', default_build)} not supported.')
 
 rule all:
     input:
@@ -351,21 +355,22 @@ rule download_dbsnp_human:
         tabix -p vcf {output.dbsnp_vcf}
         '''
 
+gencode_or_ucsc = 'gencode' if config['genome-build'] == 'GRCm38' else 'UCSC' 
 
 rule download_dbsnp_mouse:
-    """ Download dbSNP 150 from ensembl and convert chromosome names to gencode.
+    """ Download dbSNP from ensembl and convert chromosome names to gencode.
     """
     input:
         dbsnp_remote = storage(
-            "https://ftp.ensembl.org/pub/release-113/variation/vcf/mus_musculus/mus_musculus.vcf.gz"
+            f"https://ftp.ensembl.org/pub/release-{config['ensembl_version']}/variation/vcf/mus_musculus/mus_musculus.vcf.gz"
         ),
         chromosome_mapping_remote = storage(
-            "https://raw.githubusercontent.com/dpryan79/ChromosomeMappings/refs/heads/master/GRCm39_ensembl2UCSC.txt"
+            f"https://raw.githubusercontent.com/dpryan79/ChromosomeMappings/refs/heads/master/{config['genome-build']}_ensembl2{gencode_or_ucsc}.txt"
         )
     output:
-        dbsnp_vcf = "resources/germline_variants/dbSNP_150.vcf.gz",
-        chromosome_mapping = temp("resources/germline_variants/GRCm39_ensembl2UCSC.txt"),
-        dbsnp_tbi = "resources/germline_variants/dbSNP_150.vcf.gz.tbi"
+        dbsnp_vcf = "resources/germline_variants/dbSNP_mouse.vcf.gz",
+        chromosome_mapping = temp("resources/germline_variants/chromosome_mapping.txt"),
+        dbsnp_tbi = "resources/germline_variants/dbSNP_mouse.vcf.gz.tbi"
     params:
         dbsnp_tmp = temp("resources/germline_variants/mus_musculus.vcf.gz"),
     conda:
@@ -380,7 +385,6 @@ rule download_dbsnp_mouse:
         rm {params.dbsnp_tmp}
         rm {params.dbsnp_tmp}.tbi
         """
-
 
 
 rule prepare_dbsnp:
