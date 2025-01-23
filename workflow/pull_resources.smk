@@ -18,6 +18,7 @@ min_version('8.5.4')
 default_build = 'GRCh38'
 default_release = '46'
 default_organism = 'human'
+default_ensembl_version = '112'
 
 include: "rules/common.smk"
 include: "rules/genome_masking.smk"
@@ -362,7 +363,7 @@ rule download_dbsnp_mouse:
     """
     input:
         dbsnp_remote = storage(
-            f"https://ftp.ensembl.org/pub/release-{config['ensembl_version']}/variation/vcf/mus_musculus/mus_musculus.vcf.gz"
+            f"https://ftp.ensembl.org/pub/release-{config.get('ensembl_version', default_ensembl_version)}/variation/vcf/mus_musculus/mus_musculus.vcf.gz"
         ),
         chromosome_mapping_remote = storage(
             f"https://raw.githubusercontent.com/dpryan79/ChromosomeMappings/refs/heads/master/{config['genome-build']}_ensembl2{gencode_or_ucsc}.txt"
