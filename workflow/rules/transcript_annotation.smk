@@ -33,28 +33,8 @@ rule annotation_R:
         mem_mb = 32000
     benchmark:
         'benchmarks/annotation_R.txt'
-    shell:
-        '''
-        R --no-save <<__EOF__
-library(GenomicFeatures)
-library(rtracklayer)
-
-db <- makeTxDbFromGFF("{input.gtf}", format="gtf", dataSource=as.character("{input.gtf}"))
-saveDb(db, file="{output.txdb}")
-
-hg38 <- Biostrings::readDNAStringSet("{input.fasta}")  
-rtracklayer::export.2bit(hg38, "{output.twobit_genome}") 
-
-transcripts <- GenomicFeatures::exonsBy(db, by = c("tx"), use.names = TRUE)
-base::saveRDS(transcripts, file="{output.serialized_transcripts}")
-
-transcripts_gr <- GenomicFeatures::transcripts(db, columns = c("gene_id", "tx_id", "tx_name"))
-base::saveRDS(transcripts_gr, file="{output.serialized_transcript_ranges}")
-
-cds <- GenomicFeatures::cdsBy(db, by = c("tx"), use.name = TRUE)
-base::saveRDS(cds, file="{output.serialized_cds}")
-__EOF__
-'''
+    script:
+        '../scripts/annotation2rds.R'
 
 rule transcript_to_gene_mapping:
     input:
@@ -63,17 +43,8 @@ rule transcript_to_gene_mapping:
         tx2gene = 'resources/ref_annot_transcript2gene.tsv'
     conda:
         '../envs/renv.yaml'
-    shell:
-        '''
-        R --no-save <<__EOF__
-library(GenomicFeatures)
-library(tidyverse)
-txdb <- makeTxDbFromGFF("{input.gtf}")
-k <- keys(txdb, keytype = "TXNAME")
-tx2gene <- AnnotationDbi::select(txdb, k, "GENEID", "TXNAME")
-tx2gene %>% readr::write_tsv("{output.tx2gene}")
-__EOF__
-'''
+    script:
+        '../scripts/tx2gene.R'
 
 rule gene_to_hgnc_mapping:
     input:
@@ -92,15 +63,6 @@ rule canonical_junction_list:
         canonical_juncs = 'resources/splicing/ref_annot_splice_sites.tsv'
     conda:
         '../envs/renv.yaml'
-    shell:
-        r"""
-R --vanilla <<-EOF
-library(GenomicFeatures)
-library(tidyverse)
-library(splice2neo)
-canonical_juncs <- splice2neo::canonical_junctions(splice2neo::parse_gtf("{input.gtf}"))
-canonical_juncs <- tibble(junc_id=canonical_juncs)
-canonical_juncs %>% readr::write_tsv("{output.canonical_juncs}")
-EOF
-"""
+    script:
+        '../scripts/canonical_splice_junctions.R'
 
