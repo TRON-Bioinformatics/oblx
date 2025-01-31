@@ -18,9 +18,11 @@ def get_pull_resources_output(wildcards):
                    'resources/ref_transcripts.fasta',
                    'resources/ref_annot_metadata_SwissProt.tsv',
                    'resources/ref_annot_metadata_TrEMBL.tsv',
+                   'resources/ref_genome_repeatmasker.bed',
                    'resources/ucsc_repeatmasker_dump.txt.gz',
                    'resources/ref_genome.dict',
-                   "resources/ref_genome.fasta.fai"]
+                   'resources/ref_genome.fasta.fai',
+                   'resources/exome_definition/ref_exome.bed']
     # Files specific to human
     if organism == "human":
         final_files.extend([
@@ -67,8 +69,6 @@ def get_build_indices_output(wildcards):
             ".pac"
         )
     final_files.append('indices/bwa/ref_genome.fasta.fai')
-    final_files.append('resources/exome_definition/ref_exome.bed')
-    final_files.append('resources/ref_genome_repeatmasker.bed')
     final_files.extend(multiext(
             "indices/salmon/transcriptome_index/",
             "complete_ref_lens.bin",

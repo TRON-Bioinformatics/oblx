@@ -11,6 +11,7 @@ Make sure to specify a yaml config via --configfile containing the following key
 """
 import os
 import sys
+import pandas as pd
 from snakemake.utils import min_version
 
 min_version('8.5.4')
@@ -19,16 +20,37 @@ default_build = 'GRCh38'
 default_release = '46'
 default_organism = 'human'
 default_ensembl_version = '112'
+gencode_or_ucsc = None
 
 include: "rules/common.smk"
-include: "rules/genome_masking.smk"
+include: "rules/intervals.smk"
 include: "rules/faidx.smk"
+include: "rules/prepare_ucsc.smk"
+include: "rules/genome_masking.smk"
 include: "rules/sequence_dict.smk"
 
 configfile: workflow.source_path("../config/default.yaml")
 
 if config.get('genome-build', default_build) not in ['GRCh38', 'GRCm38', 'GRCm39']:
     sys.exit(f'Genome build {config.get('genome-build', default_build)} not supported.')
+
+if config.get('organism', default_organism) == 'human':
+    gencode2ensembl = pd.read_csv(
+        'workflow/resources/gencode2ensembl_human.tsv', 
+        sep = '\t',
+        dtype = str
+    )
+    ensembl_version = gencode2ensembl[gencode2ensembl.GENCODE_release == config.get('release', default_release)].Ensembl_release.values[0]
+else:
+    if not config.get('release', None):
+        sys.exit('When running with non human organism, "release" has to be specified in the config')
+    gencode2ensembl = pd.read_csv(
+        'workflow/resources/gencode2ensembl_mouse.tsv', 
+        sep = '\t',
+        dtype = str
+    )
+    ensembl_version = gencode2ensembl[gencode2ensembl.GENCODE_release == config['release']].Ensembl_release.values[0]
+    gencode_or_ucsc = 'gencode' if config['genome-build'] < 'GRCm39' else 'UCSC' 
 
 rule all:
     input:
@@ -356,14 +378,12 @@ rule download_dbsnp_human:
         tabix -p vcf {output.dbsnp_vcf}
         '''
 
-gencode_or_ucsc = 'gencode' if config['genome-build'] == 'GRCm38' else 'UCSC' 
-
 rule download_dbsnp_mouse:
-    """ Download dbSNP from ensembl and convert chromosome names to gencode.
+    """Download dbSNP from ensembl and convert chromosome names to gencode.
     """
     input:
         dbsnp_remote = storage(
-            f"https://ftp.ensembl.org/pub/release-{config.get('ensembl_version', default_ensembl_version)}/variation/vcf/mus_musculus/mus_musculus.vcf.gz"
+            f"https://ftp.ensembl.org/pub/release-{ensembl_version}/variation/vcf/mus_musculus/mus_musculus.vcf.gz"
         ),
         chromosome_mapping_remote = storage(
             f"https://raw.githubusercontent.com/dpryan79/ChromosomeMappings/refs/heads/master/{config['genome-build']}_ensembl2{gencode_or_ucsc}.txt"
@@ -389,8 +409,16 @@ rule download_dbsnp_mouse:
 
 
 rule prepare_dbsnp:
+    """Filter dbSNP for standard chromosomes and change chromosome names from gencode to ensembl.
+
     input:
-        chrom_mapping = workflow.source_path('../additional_resources/GRCh38_ensembl2gencode.txt'),
+        chrom_mapping (str): Path to chromosome mapping file from https://github.com/dpryan79/ChromosomeMappings
+        vcf (str): Path to human dbSNP file
+    output:
+        dbsnp_vcf (str): Path to final dbSNP file
+    """
+    input:
+        chrom_mapping = workflow.source_path('resources/GRCh38_ensembl2gencode.txt'),
         vcf = rules.download_dbsnp_human.output.dbsnp_vcf
     params:
         outdir = lambda wildcards, output: os.path.dirname(output.dbsnp_vcf)
@@ -428,7 +456,7 @@ rule af_only_gnomad:
     """
     input:
         gnomad = "resources/germline_variants/gnomad_{chromosome}.vcf.tmp.bgz",
-        minimal_gnomad_header = workflow.source_path('../additional_resources/minimal_gnomad_header.txt')
+        minimal_gnomad_header = workflow.source_path('resources/minimal_gnomad_header.txt')
     params:
         minimum_allele_frequency = config.get('minimum_allele_frequency', 0),
         tmp_vcf = "resources/germline_variants/gnomad_{chromosome}.vcf.tmp"
@@ -489,7 +517,7 @@ rule prepare_variants_for_contamination:
     input:
         vcf_chr1 = "resources/germline_variants/gnomad_chr1.vcf.gz",
         vcf_chr1_tbi = "resources/germline_variants/gnomad_chr1.vcf.gz.tbi",
-        minimal_gnomad_header = workflow.source_path('../additional_resources/minimal_gnomad_header.txt')
+        minimal_gnomad_header = workflow.source_path('resources/minimal_gnomad_header.txt')
     output:
         prep_vcf = "resources/germline_variants/common_biallelic_chr1.vcf.gz",
         prep_vcf_tbi = "resources/germline_variants/common_biallelic_chr1.vcf.gz.tbi",
@@ -502,7 +530,7 @@ rule prepare_variants_for_contamination:
 
 rule download_tcga_virus:
     input:
-        tcga_virus = workflow.source_path('../additional_resources/tcga_viruses.tsv')
+        tcga_virus = workflow.source_path('resources/tcga_viruses.tsv')
     params:
         output_prefix = lambda wildcards, output: os.path.dirname(output.tcga_virus)
     output:
