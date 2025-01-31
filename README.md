@@ -3,7 +3,7 @@
 <!-- badges: start -->
 
 [![Release](https://gitlab.rlp.net/tron/tronmake-genome-lib-builder/-/badges/release.svg)](https://gitlab.rlp.net/tron/tronmake-genome-lib-builder/-/releases)
-[![Snakemake](https://img.shields.io/badge/snakemake-8.16.0-brightgreen.svg?style=flat)](https://snakemake.readthedocs.io)
+[![Snakemake](https://img.shields.io/badge/snakemake-8.25.3-brightgreen.svg?style=flat)](https://snakemake.readthedocs.io)
 [![pipeline status](https://gitlab.rlp.net/tron/tronmake-genome-lib-builder/badges/develop/pipeline.svg)](https://gitlab.rlp.net/tron/tronmake-genome-lib-builder/commits/master)
 
 <!-- badges: end -->

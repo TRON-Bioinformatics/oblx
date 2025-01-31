@@ -1,6 +1,6 @@
 name: tronmake_genome_lib_builder
 dependencies:
-  - bioconda::snakemake-minimal=8.24.1
+  - bioconda::snakemake-minimal=8.25.3
   - conda-forge::pytest-workflow
   - conda-forge::make
   - pip
