@@ -7,7 +7,7 @@ def get_genome_for_index_building(wildcards):
     """
     organism = config.get('organism', 'human')
     if organism == 'human':
-        return "resources/ref_genome_grc_masked.fasta"
+        return "resources/ref_genome_masked_final.fasta"
     return "resources/ref_genome_primary.fasta"
 
 def get_pull_resources_output(wildcards):
@@ -22,7 +22,11 @@ def get_pull_resources_output(wildcards):
                    'resources/ucsc_repeatmasker_dump.txt.gz',
                    'resources/ref_genome.dict',
                    'resources/ref_genome.fasta.fai',
-                   'resources/exome_definition/ref_exome.bed']
+                   'resources/exome_definition/ref_exome.bed',
+                   'resources/ref_annot_splice_sites.tsv',
+                   'resources/ref_annot_transcript2gene.tsv',
+                   'resources/ref_annot_gene2symbol.tsv'
+                   ]
     # Files specific to human
     if organism == "human":
         final_files.extend([
@@ -50,6 +54,7 @@ def get_pull_resources_output(wildcards):
             "resources/ref_genome.fasta.fai"
         ])
 
+    # Files specific to mouse
     if organism == "mouse":
         final_files.extend([
             "resources/germline_variants/dbSNP_mouse.vcf.gz",
@@ -60,6 +65,8 @@ def get_pull_resources_output(wildcards):
 
 def get_build_indices_output(wildcards):
     organism = config.get('organism', 'human')
+
+    # bwa index files
     final_files = multiext(
             "indices/bwa/ref_genome.fasta", 
             ".0123", 
@@ -69,6 +76,8 @@ def get_build_indices_output(wildcards):
             ".pac"
         )
     final_files.append('indices/bwa/ref_genome.fasta.fai')
+
+    # salmon files
     final_files.extend(multiext(
             "indices/salmon/transcriptome_index/",
             "complete_ref_lens.bin",
@@ -86,18 +95,25 @@ def get_build_indices_output(wildcards):
             "refseq.bin",
             "seq.bin",
             "versionInfo.json",))
+
+    # snpeff files
     final_files.append(os.path.abspath(os.path.join(
             'indices/snpeff/data/',
             f'{config.get("genome-build", default_build)}.{config.get("release", default_release)}',
             'snpEffectPredictor.bin'
         )))
+
+    # STAR files
     final_files.append("indices/star/Genome")
-    final_files.append('resources/R/ref_annot_txdb.sqlite')
-    final_files.append('resources/R/ref_genome.2bit',)
-    final_files.append('resources/R/ref_transcripts.Rds')
-    final_files.append('resources/R/ref_transcript_ranges.Rds')
-    final_files.append('resources/R/ref_cds.Rds')
-    final_files.append('resources/ref_annot_transcript2gene.tsv')
-    final_files.append('resources/splicing/ref_annot_splice_sites.tsv')
+
+    # splice2neo files
+    final_files.append('indices/R/ref_annot_txdb.sqlite')
+    final_files.append('indices/R/ref_genome.2bit',)
+    final_files.append('indices/R/ref_transcripts.Rds')
+    final_files.append('indices/R/ref_transcript_ranges.Rds')
+    final_files.append('indices/R/ref_cds.Rds')
+
+    # kallisto files
+    final_files.append('indices/kallisto/ref_transcript.idx')
 
     return final_files

@@ -19,8 +19,9 @@ min_version('8.5.4')
 default_build = 'GRCh38'
 default_release = '46'
 default_organism = 'human'
-default_ensembl_version = '112'
 gencode_or_ucsc = None
+gencode2ensembl_file = 'resources/gencode2ensembl_human.tsv'
+ucsc_genome_build = 'hg38'
 
 include: "rules/common.smk"
 include: "rules/intervals.smk"
@@ -31,26 +32,22 @@ include: "rules/sequence_dict.smk"
 
 configfile: workflow.source_path("../config/default.yaml")
 
+# check if genome build is supported
 if config.get('genome-build', default_build) not in ['GRCh38', 'GRCm38', 'GRCm39']:
     sys.exit(f'Genome build {config.get('genome-build', default_build)} not supported.')
 
-if config.get('organism', default_organism) == 'human':
-    gencode2ensembl = pd.read_csv(
-        'workflow/resources/gencode2ensembl_human.tsv', 
-        sep = '\t',
-        dtype = str
-    )
-    ensembl_version = gencode2ensembl[gencode2ensembl.GENCODE_release == config.get('release', default_release)].Ensembl_release.values[0]
-else:
+if config.get('organism', default_organism) == 'mouse':
     if not config.get('release', None):
-        sys.exit('When running with non human organism, "release" has to be specified in the config')
-    gencode2ensembl = pd.read_csv(
-        'workflow/resources/gencode2ensembl_mouse.tsv', 
+        sys.exit('When running with non human organism, "release" has to be specified in the config')    
+    gencode_or_ucsc = 'gencode' if config['genome-build'] < 'GRCm39' else 'UCSC'
+    ucsc_genome_build = 'mm39' if config['genome-build'] == 'GRCm39' else 'mm10'
+
+gencode2ensembl = pd.read_csv(
+        workflow.source_path(gencode2ensembl_file), 
         sep = '\t',
         dtype = str
     )
-    ensembl_version = gencode2ensembl[gencode2ensembl.GENCODE_release == config['release']].Ensembl_release.values[0]
-    gencode_or_ucsc = 'gencode' if config['genome-build'] < 'GRCm39' else 'UCSC' 
+ensembl_version = gencode2ensembl[gencode2ensembl.GENCODE_release == config['release']].Ensembl_release.values[0]
 
 rule all:
     input:
@@ -500,13 +497,13 @@ rule tabix_af_only_gnomad:
         "v5.0.1/bio/tabix/index"
 
 rule prepare_variants_for_contamination:
-    """Create VCF file for GAKT PileupSummaries calculation.
+    """Create VCF file for GATK PileupSummaries calculation.
 
     As starting point, the previously generated gnomad AF only
     file is used and filtered.
     The resulting VCF file contains variants that match the 
     following criteria:
-    * VAF > 0.05
+    * AF > 0.05
     * Biallelic
     * Filter: PASS
     * On chromosome 1
@@ -541,8 +538,37 @@ rule download_tcga_virus:
         """
         while IFS=$'\\t' read -r name abbv genbank
         do
-            echo $genbank
             efetch -db nuccore -format fasta -id "${{genbank}}" >> {params.output_prefix}/tcga_virus_decoy.fasta
         
         done < <(grep -v GenBank {input.tcga_virus}) 
         """
+
+rule transcript_to_gene_mapping:
+    input:
+        gtf = 'resources/ref_annot.gtf'
+    output:
+        tx2gene = 'resources/ref_annot_transcript2gene.tsv'
+    conda:
+        'envs/renv.yaml'
+    script:
+        'scripts/tx2gene.R'
+
+rule gene_to_hgnc_mapping:
+    input:
+        gtf = 'resources/ref_annot.gtf'
+    output:
+        mapping_table = 'resources/ref_annot_gene2symbol.tsv'
+    conda:
+        'envs/python.yaml'
+    script:
+        'scripts/get_annotation_data.py'
+
+rule canonical_junction_list:
+    input:
+        gtf = 'resources/ref_annot.gtf'
+    output:
+        canonical_juncs = 'resources/ref_annot_splice_sites.tsv'
+    conda:
+        'envs/renv.yaml'
+    script:
+        'scripts/canonical_splice_junctions.R'

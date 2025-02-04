@@ -18,4 +18,18 @@ rule mask_GRC_assembly_errors:
         '-bed {input.grc_exclusion_bed} '
         '-fo {output.masked_genome} '
 
-        
+
+rule mask_pseudoautosomal:
+    input:
+        genome = config.get(
+            'genome-fasta', 'resources/ref_genome_grc_masked.fasta'),
+        pseudoautosomal_regions_bed = workflow.source_path("../resources/GRCh38_pseudoautosomal_regions.bed")
+    output:
+        masked_genome = "resources/ref_genome_masked_final.fasta"
+    conda:
+        '../envs/bedtools.yaml'
+    shell:
+        'maskFastaFromBed '
+        '-fi {input.genome} '
+        '-bed {input.pseudoautosomal_regions_bed} '
+        '-fo {output.masked_genome} '

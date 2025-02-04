@@ -5,6 +5,8 @@ The build indices workflow generates indices for the following bioinformatics to
 * [STAR](https://github.com/alexdobin/STAR)
 * [bwa-mem2](https://github.com/bwa-mem2/bwa-mem2)
 * [snpEff](https://github.com/pcingola/SnpEff)
+* [salmon](https://combine-lab.github.io/salmon/)
+* [kallisto](https://pachterlab.github.io/kallisto/)
 * more will follow soon ...
 
 It builds the indices based on the previously [pulled resources](pull_resources.md).
@@ -13,24 +15,35 @@ It builds the indices based on the previously [pulled resources](pull_resources.
 
 The build indices workflow is run after [pull resources](pull_resources.md). Therefore,
 the output of the pull resources workflow has to be present in the directory, where the
-indices should be generated.
+indices should be generated (snakemake command line parameter `--directory` has to point
+to a directory that was created with the pull_resources workflow).
 
 ## Usage
+
+To run the build indices workflow run the following command.
 
 ```
 snakemake -s workflow/build_indices.smk \
     --directory </path/to/output/directory> \
     --software-deployment-method conda \
     --latency-wait 60 \
+    [--configfile <path/to/config/file>] \
     [--conda-prefix </path/to/shared/conda/>] \
     [--profile </path/to/cluster/profile/>]
 ```
 
-TODO: describe parameters
+* `--directory`: Path to the directory that was created using pull_resources workflow
+* `--software-deployment-method`: Has to be set to `conda`, as only conda is supported currently
+* `--latency-wait`: Wait for e.g. 60 seconds for files to be created due to IO latency
+* `--configfile` (optional): Defines e.g. the reference genome version that should be used, see [Configuration](configuration.md) (default: `config/default.yaml`)
+* `--conda-prefix` (optional): Specify a path where conda environments should be stored (to reduce redundancy)
+* `--profile` (optional): Specify cluster profile to submit jobs e.g. to a HPC 
 
 ## Output
 
-The workflow generates the following directory structure:
+The output of the build_indices workflow creates the `indices` directory
+next to the `resources` directory, created by the pull_resources workflow.
+The following directory structure is being created:
 
 ```
 </path/to/output/directory>
@@ -43,36 +56,25 @@ The workflow generates the following directory structure:
 │   │   ├── ref_genome.fasta.bwt.2bit.64
 │   │   ├── ref_genome.fasta.fai
 │   │   └── ref_genome.fasta.pac
+│   ├── kallisto
+│   │   ├── ref_cdna.fa
+│   │   ├── ref_transcript.idx
+│   │   └── ref_transcript_to_gene.tsv
+|   ├── R
+│   │   ├── ref_annot_txdb.sqlite
+│   │   ├── ref_genome.2bit
+│   │   ├── ref_transcripts.Rds
+│   │   ├── ref_transcript_ranges.Rds'
+│   │   └── ref_cds.Rds
+│   ├── salmon
+│   │   ├── decoys.txt
+│   │   ├── gentrome.fasta
+│   │   └── transcriptome_index
 │   ├── snpeff
 │   │   ├── data
 │   │   │   └── GRCh38.46
 │   │   │       ├── genes.gtf -> ../../../../resources/ref_annot.gtf
-│   │   │       ├── sequence.10.bin
-│   │   │       ├── sequence.11.bin
-│   │   │       ├── sequence.12.bin
-│   │   │       ├── sequence.13.bin
-│   │   │       ├── sequence.14.bin
-│   │   │       ├── sequence.15.bin
-│   │   │       ├── sequence.16.bin
-│   │   │       ├── sequence.17.bin
-│   │   │       ├── sequence.18.bin
-│   │   │       ├── sequence.19.bin
-│   │   │       ├── sequence.1.bin
-│   │   │       ├── sequence.20.bin
-│   │   │       ├── sequence.21.bin
-│   │   │       ├── sequence.22.bin
-│   │   │       ├── sequence.2.bin
-│   │   │       ├── sequence.3.bin
-│   │   │       ├── sequence.4.bin
-│   │   │       ├── sequence.5.bin
-│   │   │       ├── sequence.6.bin
-│   │   │       ├── sequence.7.bin
-│   │   │       ├── sequence.8.bin
-│   │   │       ├── sequence.9.bin
-│   │   │       ├── sequence.bin
 │   │   │       ├── sequences.fa -> ../../../../resources/ref_genome_grc_masked.fasta
-│   │   │       ├── sequence.X.bin
-│   │   │       ├── sequence.Y.bin
 │   │   │       └── snpEffectPredictor.bin
 │   │   └── snpeff.config
 │   └── star
@@ -93,42 +95,46 @@ The workflow generates the following directory structure:
 │       ├── sjdbList.out.tab
 │       └── transcriptInfo.tab
 └── resources
-    ├── chromosome_sizes.txt
-    ├── exome_definition
-    │   ├── ref_exome.bed
-    │   ├── twist_comprehensive_exome.bed
-    │   ├── twist_core_exome.bed
-    │   ├── twist_exome2.bed
-    │   └── twist_refseq.bed
-    ├── gatk_bundle
-    │   ├── Homo_sapiens_assembly38.dbsnp138.vcf.gz
-    │   ├── Homo_sapiens_assembly38.dbsnp138.vcf.gz.tbi
-    │   ├── Homo_sapiens_assembly38.known_indels.vcf.gz
-    │   ├── Homo_sapiens_assembly38.known_indels.vcf.gz.tbi
-    │   ├── Mills_and_1000G_gold_standard.indels.hg38.vcf.gz
-    │   └── Mills_and_1000G_gold_standard.indels.hg38.vcf.gz.tbi
-    ├── germline_variants
-    │   ├── af_only_gnomad_hg38.vcf.gz
-    │   ├── af_only_gnomad_hg38.vcf.gz.tbi
-    │   ├── common_biallelic_chr1.vcf.gz
-    │   ├── common_biallelic_chr1.vcf.gz.tbi
-    │   ├── dbSNP_151.vcf.gz
-    │   └── dbSNP_151.vcf.gz.tbi
-    ├── mappability
-    │   ├── encode_exclusion.bed
-    │   ├── grcExclusions.bed
-    │   └── ucsc_problematic.bed
-    ├── ref_annot.bed
-    ├── ref_annot.gtf
-    ├── ref_annot_metadata_SwissProt.tsv
-    ├── ref_annot_metadata_TrEMBL.tsv
-    ├── ref_genome.fasta -> ref_genome_grc_masked.fasta
-    ├── ref_genome_grc_masked.fasta
-    ├── ref_genome_primary.fasta
-    ├── ref_genome_repeatmasker.bed
-    ├── ref_transcripts.fasta
-    ├── ucsc_repeatmasker_dump.txt.gz
-    └── viruses
-        └── tcga_virus_decoy.fasta
-
 ```
+
+### bwa
+
+Current bwa-mem2 version: **v2.2.1**
+
+The bwa directory contains the bwa-mem2 index and a symlink to the reference genome 
+fasta file (if the genome is masked, in case of human, this symlink points to
+the masked reference genome fasta).
+
+### snpEff
+
+This directory contains the resources required to run snpEff predictor. 
+
+Current snpEff version: **v5.2**
+
+**How to use the created resources to run snpEff?**
+
+The file `snpeff.config` has to be passed to snpEff with the command line option `-c` when
+running snpEff. Additionally, option `-nodownload` has to be set to the value of
+the name of the subfolder in `results/indices/snpeff/data` (e.g. `GRCh38.48`).
+
+### R
+
+This directory contains GenomicFeatures respresentations of annotation data for use 
+with [splice2neo](https://github.com/TRON-Bioinformatics/splice2neo).
+
+### star
+
+Current STAR version: **v2.7.11a**
+
+The STAR directory contains the STAR index. The path to the STAR directory has 
+to be set as `--genomeDir` parameter, when running STAR mapping.
+
+
+### Salmon
+
+Contains the [Salmon](https://salmon.readthedocs.io/en/latest/salmon.html) 
+index for [mapping based mode of Salmon](https://salmon.readthedocs.io/en/latest/salmon.html#preparing-transcriptome-indices-mapping-based-mode).
+
+### Kallisto
+
+Contains the [Kallisto](https://pachterlab.github.io/kallisto/) index.

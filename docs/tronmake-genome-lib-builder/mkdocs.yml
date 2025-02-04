@@ -3,6 +3,8 @@ nav:
   - Home: index.md
   - Pull Resources: pull_resources.md
   - Build Indices: build_indices.md
+  - Configuration: configuration.md
+  - Developer Guide: developer_guide.md
   - About: about.md
 theme: 
   name: material

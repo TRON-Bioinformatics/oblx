@@ -1,0 +1,6 @@
+channels:
+  - conda-forge
+dependencies:
+  - conda-forge::python=3.11
+  - pip:
+    - python-magic
