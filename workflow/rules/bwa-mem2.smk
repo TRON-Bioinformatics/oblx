@@ -1,4 +1,11 @@
 rule link_bwa_fasta:
+    """Create a symlink of the reference fasta into the bwa-mem2 index directory.
+
+    input:
+        fasta (str): Path to the fasta file that should be symlinked (either masked for human or default for mouse)
+    output:
+        fasta_link (str): Path to symlink reference fasta file in bwa directory
+    """
     input:
         fasta = get_genome_for_index_building
     output:

@@ -42,11 +42,33 @@ The workflow consist of two stages.
 
 1. Pulling resource data from Gencode, UCSC and GATK.
 
+```
+snakemake -s workflow/pull_resources.smk \
+    --directory </path/to/output/directory> \
+    --software-deployment-method conda \
+    --latency-wait 60 \
+    [--configfile <path/to/config/file>] \
+    [--conda-prefix </path/to/shared/conda/>] \
+    [--profile </path/to/cluster/profile/>]
+```
+
 2. Building genome indices
 
-Both stages can be executed independently from each other. We recommend to build the genome library using the default resources pulled by `workflow/pull_resources.smk`. However, you can also download your own genome data and start with `workflow/build_indices.smk`.
+```
+snakemake -s workflow/build_indices.smk \
+    --directory </path/to/output/directory> \
+    --software-deployment-method conda \
+    --latency-wait 60 \
+    [--configfile <path/to/config/file>] \
+    [--conda-prefix </path/to/shared/conda/>] \
+    [--profile </path/to/cluster/profile/>]
+```
 
-
+Both stages can be executed independently from each other. We recommend to build 
+the genome library using the default resources pulled by `workflow/pull_resources.smk`
+by setting `--directory` in the build_indices step to the same path that was
+used for the pull_resources step. However, you can also download your own genome 
+data and start with `workflow/build_indices.smk`.
 
 ## Authors & Acknowledgements 
 
