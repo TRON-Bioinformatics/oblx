@@ -1,4 +1,7 @@
 rule repeatmasker_bed:
+    """
+    Convert UCSC database dump of repeatmasker annotation into BED.
+    """
     input:
         rmsk = 'resources/ucsc_repeatmasker_dump.txt.gz'
     output:

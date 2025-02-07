@@ -11,6 +11,10 @@ def get_genome_for_index_building(wildcards):
     return "resources/ref_genome_primary.fasta"
 
 def get_pull_resources_output(wildcards):
+    """
+    Collect final output of resource download workflow
+    """
+    
     organism = config.get('organism', 'human')
     # Files for human and mouse
     final_files = ['resources/ref_genome_primary.fasta',
@@ -64,6 +68,9 @@ def get_pull_resources_output(wildcards):
     return final_files
 
 def get_build_indices_output(wildcards):
+    """
+    Collect final output of build indices workflow
+    """
     organism = config.get('organism', 'human')
 
     # bwa index files

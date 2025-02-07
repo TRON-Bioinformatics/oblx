@@ -28,6 +28,13 @@ include: 'rules/sequence_dict.smk'
 include: 'rules/snpeff.smk'
 include: 'rules/transcript_annotation.smk'
 
+onstart:
+    # write the config to the output directory for reproducibility
+    if not os.path.exists('configs'):
+        os.mkdir('configs')
+    with open(f'configs/{timestamp}_build_indices_config.yaml', 'w') as configfile:
+        yaml.dump(config, configfile, default_flow_style=False)
+
 rule all:
     input:
         get_build_indices_output

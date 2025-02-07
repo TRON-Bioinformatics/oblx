@@ -1,4 +1,16 @@
 rule kallisto_index:
+    """
+    Generate kallisto index with kb_python suite. This index
+    matches the TRSP index.
+
+    input:
+        genome (str): Path to the genome fasta file.
+        gtf (str): Path to reference annotation.
+    output:
+        index (str): Path to kallisto index.
+        tx2gene (str): Path to kallisto transcript to gene mapping.
+        cdna (str): Path to kallisto cDNA file.
+    """
     input:
         genome = 'resources/ref_genome.fasta',
         gtf = 'resources/ref_annot.gtf'

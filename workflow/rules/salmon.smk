@@ -1,4 +1,7 @@
 rule salmon_decoy:
+    """
+    Generate salmon decoys.
+    """
     input:
         transcriptome = config.get(
             'transcriptome-fasta', 'resources/ref_transcripts.fasta'
@@ -14,6 +17,9 @@ rule salmon_decoy:
         "v4.7.1/bio/salmon/decoys"
 
 rule salmon_index_gentrome:
+    """
+    Generate salmon gentrome index with chromosomes as decoys.
+    """
     input:
         sequences = 'indices/salmon/gentrome.fasta',
         decoys = 'indices/salmon/decoys.txt',

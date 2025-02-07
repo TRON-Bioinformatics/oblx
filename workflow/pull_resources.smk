@@ -36,18 +36,27 @@ configfile: workflow.source_path("../config/default.yaml")
 if config.get('genome-build', default_build) not in ['GRCh38', 'GRCm38', 'GRCm39']:
     sys.exit(f'Genome build {config.get('genome-build', default_build)} not supported.')
 
+# set mouse specific variables
 if config.get('organism', default_organism) == 'mouse':
     if not config.get('release', None):
         sys.exit('When running with non human organism, "release" has to be specified in the config')    
     gencode_or_ucsc = 'gencode' if config['genome-build'] < 'GRCm39' else 'UCSC'
     ucsc_genome_build = 'mm39' if config['genome-build'] == 'GRCm39' else 'mm10'
 
+# translate the gencode version to ensembl version for ensembl specific resources
 gencode2ensembl = pd.read_csv(
         workflow.source_path(gencode2ensembl_file), 
         sep = '\t',
         dtype = str
     )
 ensembl_version = gencode2ensembl[gencode2ensembl.GENCODE_release == config['release']].Ensembl_release.values[0]
+
+onstart:
+    # write the config to the output directory for reproducibility
+    if not os.path.exists('configs'):
+        os.mkdir('configs')
+    with open(f'configs/{timestamp}_pull_resources_config.yaml', 'w') as configfile:
+        yaml.dump(config, configfile, default_flow_style=False)
 
 rule all:
     input:
@@ -243,11 +252,10 @@ rule download_repeat_masker:
 
 rule download_exome_probesets:
     """
-    Download common exome capture kits for WES analysis
-    Here we download kits from Twist and Agilent
+    Download common exome capture kits for WES analysis in human.
+    Here we download kits from Twist.
     """
     input:
-        # https://hgdownload.soe.ucsc.edu/gbdb/hg38/problematic/encBlacklist.bb
         twist_refseq_remote = storage(
             "{}/exomeProbesets/Twist_Exome_RefSeq_targets_hg38.bb".format(config['UCSC_URL'])),
         twist_core_exome_remote = storage(
@@ -271,7 +279,7 @@ rule download_exome_probesets:
 
 rule bb_to_bed:
     """
-    Convert UCSC binary bigbed to ASCII bed
+    Convert UCSC binary bigbed to ASCII bed files.
     """
     input:
         encode_exclusion = "resources/mappability/encode_exclusion.bb",
@@ -306,6 +314,9 @@ rule bb_to_bed:
         '''
 
 rule download_gatk_bundle:
+    """
+    Download resources from GATK bundle.
+    """
     input:
         # Mills and 1000G gold standard
         mills_remote = storage(
@@ -360,6 +371,9 @@ rule download_gatk_bundle:
         '''
 
 rule download_dbsnp_human:
+    """
+    Download current dbSNP release from NCBI server.
+    """
     input:
         dbsnp_remote = storage(
             "https://ftp.ncbi.nih.gov/snp/organisms/human_9606_b151_GRCh38p7/VCF/00-common_all.vcf.gz"
@@ -376,7 +390,8 @@ rule download_dbsnp_human:
         '''
 
 rule download_dbsnp_mouse:
-    """Download dbSNP from ensembl and convert chromosome names to gencode.
+    """
+    Download dbSNP from ENSEMBL and convert chromosome names to GENCODE.
     """
     input:
         dbsnp_remote = storage(
@@ -406,7 +421,8 @@ rule download_dbsnp_mouse:
 
 
 rule prepare_dbsnp:
-    """Filter dbSNP for standard chromosomes and change chromosome names from gencode to ensembl.
+    """
+    Filter dbSNP for standard chromosomes and change chromosome names from GENCODE to GENCODE.
 
     input:
         chrom_mapping (str): Path to chromosome mapping file from https://github.com/dpryan79/ChromosomeMappings
@@ -428,7 +444,8 @@ rule prepare_dbsnp:
 
 rule download_gnomad_exome:
     """
-    Download gnomad exome data from Google cloud storage.
+    Download gnomad exome based population SNPs from Google cloud storage
+    per chromosome.
     """
     input:
         gnomad_remote = storage(
@@ -447,7 +464,7 @@ rule download_gnomad_exome:
 
 rule af_only_gnomad:
     """
-    Create allele frequency only VCF file required by MuTect2. This
+    Create allele frequency only (AF-only) VCF file required by MuTect2. This
     file inlcudes only germline variants and their overall population
     allele frequency.
     """
@@ -467,7 +484,7 @@ rule af_only_gnomad:
 
 rule bcftools_concat:
     """
-    Concatenate chromosome level gnomad VCF into unified af-only VCF
+    Concatenate chromosome level gnomad VCF into unified af-only VCF.
     """
     input:
         calls=[f"resources/germline_variants/gnomad_{x}.vcf.gz" for x in config['chrom-filter']],
@@ -485,6 +502,9 @@ rule bcftools_concat:
         "v4.7.8/bio/bcftools/concat"
 
 rule tabix_af_only_gnomad:
+    """
+    Create index for af-only VCF.
+    """
     input:
         rules.bcftools_concat.output.af_only_gnomad,
     output:
@@ -526,6 +546,9 @@ rule prepare_variants_for_contamination:
         "scripts/prepare_variants_for_contamination.sh"
 
 rule download_tcga_virus:
+    """
+    Download common virus (as defined by TCGA) genomes from GenBank.
+    """
     input:
         tcga_virus = workflow.source_path('resources/tcga_viruses.tsv')
     params:
@@ -544,6 +567,9 @@ rule download_tcga_virus:
         """
 
 rule transcript_to_gene_mapping:
+    """
+    Generate a TSV file mapping Ensembl transcript ids to gene ids.
+    """
     input:
         gtf = 'resources/ref_annot.gtf'
     output:
@@ -554,6 +580,9 @@ rule transcript_to_gene_mapping:
         'scripts/tx2gene.R'
 
 rule gene_to_hgnc_mapping:
+    """
+    Generate a TSV file mapping Ensembl gene ids to HGNC gene symbols.
+    """
     input:
         gtf = 'resources/ref_annot.gtf'
     output:
@@ -564,6 +593,9 @@ rule gene_to_hgnc_mapping:
         'scripts/get_annotation_data.py'
 
 rule canonical_junction_list:
+    """
+    Extract canoncial splice junctions from GENCODE reference transcripts.
+    """
     input:
         gtf = 'resources/ref_annot.gtf'
     output:
