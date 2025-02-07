@@ -1,0 +1,31 @@
+site_name: TronMake Genome Lib Builder
+nav:
+  - Home: index.md
+  - Pull Resources: pull_resources.md
+  - Build Indices: build_indices.md
+  - Configuration: configuration.md
+  - Developer Guide: developer_guide.md
+  - About: about.md
+theme: 
+  name: material
+  features:
+    - navigation.sections
+    - navigation.tabs
+    - toc.integrate
+  palette:
+    # Palette toggle for light mode 
+    - scheme: default
+      primary: teal
+      accent: teal
+      toggle:
+        icon: material/lightbulb-on
+        name: Switch to dark mode
+    # Palette toggle for dark mode
+    - scheme: slate
+      primary: teal
+      accent: teal
+      toggle:
+        icon: material/weather-night
+        name: Switch to light mode 
+
+copyright: © TRON gGmbH, 2025. This work is licensed under MIT.
