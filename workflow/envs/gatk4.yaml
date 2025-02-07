@@ -1,0 +1,4 @@
+name: gatk4
+dependencies:
+  - bioconda::gatk4=4.5.0.0
+  - bioconda::snakemake-wrapper-utils=0.6.2

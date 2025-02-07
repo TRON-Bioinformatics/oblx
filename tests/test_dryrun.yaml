@@ -1,0 +1,20 @@
+- name: pull_resources_dryrun
+  tags:
+    - unittest
+  command: >
+    snakemake 
+      -s workflow/pull_resources.smk
+      --configfile config/default.yaml
+      --software-deployment-method conda 
+      -n
+
+- name: build_indices_dryrun
+  tags:
+    - unittest
+  command: >
+    snakemake 
+      --directory tests
+      -s workflow/build_indices.smk
+      --configfile config/default.yaml
+      --software-deployment-method conda 
+      -n

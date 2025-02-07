@@ -1,0 +1,30 @@
+stages:
+  - test
+  - deploy
+
+test_syntaxcheck:
+  image: condaforge/miniforge3:24.7.1-2
+  stage: test
+  variables:
+    GIT_SUBMODULE_STRATEGY: recursive
+  script:
+    - mamba env create -f environment.yaml
+    - source /opt/conda/bin/activate tronmake_genome_lib_builder
+    - make unittest
+
+.mkdocs:
+  image: condaforge/miniforge3:24.7.1-2
+  stage: deploy
+  script:
+    - mamba create -n mkdocs conda-forge::mkdocs conda-forge::mkdocs-material
+    - source /opt/conda/bin/activate mkdocs
+    - mkdocs build -f docs/tronmake-genome-lib-builder/mkdocs.yml -d ../../public
+  artifacts:
+    paths:
+      - public
+
+pages:
+  extends: .mkdocs
+  #only:
+  #  - main
+  #  - dev

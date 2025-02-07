@@ -1,4 +1,4 @@
-# TronMake Genome Lib Builder
+## TronMake Genome Lib Builder
 
 <!-- badges: start -->
 
