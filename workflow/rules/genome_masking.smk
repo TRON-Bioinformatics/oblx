@@ -4,10 +4,19 @@
 
 
 rule mask_GRC_assembly_errors:
+    """
+    Mask assembly errors in hg38 build of the human genome.
+
+    input:
+        genome (str): Path to the fasta file that should be masked.
+        grc_exclusion_bed (str): Path to GRC exclusion regions.
+    output:
+        masked_genome (str): Path to masked fasta file.
+    """
     input:
         genome = config.get(
             'genome-fasta', 'resources/ref_genome_primary.fasta'),
-        grc_exclusion_bed = "resources/mappability/grcExclusions.bed"  
+        grc_exclusion_bed = "resources/mappability/grcExclusions.bed"
     output:
         masked_genome = "resources/ref_genome_grc_masked.fasta"
     conda:
@@ -20,6 +29,15 @@ rule mask_GRC_assembly_errors:
 
 
 rule mask_pseudoautosomal:
+    """
+    Mask pseudoautosomal regions in hg38 build of the human genome.
+
+    input:
+        genome (str): Path to the fasta file that should be masked.
+        pseudoautosomal_regions_bed (str): Path to BED file of chrY regions.
+    output:
+        masked_genome (str): Path to masked fasta file.
+    """
     input:
         genome = config.get(
             'genome-fasta', 'resources/ref_genome_grc_masked.fasta'),

@@ -1,4 +1,7 @@
 rule chrom_sizes:
+    """
+    Generate chromosome size table from fasta index.
+    """
     input:
         fasta_index = 'resources/ref_genome.fasta.fai'
     output:

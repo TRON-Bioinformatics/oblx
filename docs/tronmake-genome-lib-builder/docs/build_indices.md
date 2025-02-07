@@ -9,7 +9,7 @@ The build indices workflow generates indices for the following bioinformatics to
 * [kallisto](https://pachterlab.github.io/kallisto/)
 * more will follow soon ...
 
-It builds the indices based on the previously [pulled resources](pull_resources.md).
+It builds the tool indices based on the previously [pulled resources](pull_resources.md).
 
 ## Input
 
@@ -119,10 +119,12 @@ the name of the subfolder in `results/indices/snpeff/data` (e.g. `GRCh38.48`).
 
 ### R
 
+R-version: **v4.3.3**
+
 This directory contains GenomicFeatures respresentations of annotation data for use 
 with [splice2neo](https://github.com/TRON-Bioinformatics/splice2neo).
 
-### star
+### Star
 
 Current STAR version: **v2.7.11a**
 
@@ -132,9 +134,13 @@ to be set as `--genomeDir` parameter, when running STAR mapping.
 
 ### Salmon
 
+Current Salmon version: **v1.10.1**
+
 Contains the [Salmon](https://salmon.readthedocs.io/en/latest/salmon.html) 
 index for [mapping based mode of Salmon](https://salmon.readthedocs.io/en/latest/salmon.html#preparing-transcriptome-indices-mapping-based-mode).
 
 ### Kallisto
+
+Current kallisto version **v0.48**
 
 Contains the [Kallisto](https://pachterlab.github.io/kallisto/) index.

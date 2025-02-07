@@ -1,5 +1,6 @@
 rule link_bwa_fasta:
-    """Create a symlink of the reference fasta into the bwa-mem2 index directory.
+    """
+    Create a symlink of the reference fasta into the bwa-mem2 index directory.
 
     input:
         fasta (str): Path to the fasta file that should be symlinked (either masked for human or default for mouse)
@@ -16,7 +17,7 @@ rule link_bwa_fasta:
 rule bwa_mem2_index:
     """bwa-mem2 index
 
-    Rule to create a bwa index from the DNA fasta file.
+    Rule to create a bwa index from the reference genome file.
 
     input:
         fasta (string): Path to DNA fasta file
