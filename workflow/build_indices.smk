@@ -12,6 +12,7 @@ Make sure to specify a yaml config via --configfile containing the following key
 """
 import os
 import datetime
+import yaml
 from snakemake.utils import min_version
 
 min_version('8.5.4')
