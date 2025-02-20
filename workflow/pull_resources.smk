@@ -11,6 +11,7 @@ Make sure to specify a yaml config via --configfile containing the following key
 """
 import os
 import sys
+import yaml
 import pandas as pd
 import datetime
 from snakemake.utils import min_version
