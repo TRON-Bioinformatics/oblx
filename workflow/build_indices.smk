@@ -11,9 +11,11 @@ Make sure to specify a yaml config via --configfile containing the following key
 @version: 20241002
 """
 import os
+import datetime
 from snakemake.utils import min_version
 
 min_version('8.5.4')
+timestamp = datetime.datetime.now().strftime("%Y-%m-%d_%H:%M:%S")
 
 default_build = 'GRCh38'
 default_release = '46'
