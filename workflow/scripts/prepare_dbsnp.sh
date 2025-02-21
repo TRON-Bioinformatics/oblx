@@ -9,8 +9,8 @@
 # @Version: 0.0.1
 # @Status: Development
 
-CHROMOSOMES="$(echo {{1..22}} | tr ' ' ',')"
-CHROMOSOMES="${{CHROMOSOMES}},X,Y"
+CHROMOSOMES="$(echo {1..22} | tr ' ' ',')"
+CHROMOSOMES="${CHROMOSOMES},X,Y"
 
 TMPDIR="$(mktemp -d -p ${snakemake_params[outdir]})"
 
