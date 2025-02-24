@@ -425,7 +425,7 @@ rule download_dbsnp_mouse:
 
 rule prepare_dbsnp:
     """
-    Filter dbSNP for standard chromosomes and change chromosome names from GENCODE to GENCODE.
+    Filter dbSNP for standard chromosomes and change chromosome names from Ensembl to GENCODE.
 
     input:
         chrom_mapping (str): Path to chromosome mapping file from https://github.com/dpryan79/ChromosomeMappings
@@ -435,13 +435,16 @@ rule prepare_dbsnp:
     """
     input:
         chrom_mapping = workflow.source_path('resources/GRCh38_ensembl2gencode.txt'),
-        vcf = rules.download_dbsnp_human.output.dbsnp_vcf
+        vcf = rules.download_dbsnp_human.output.dbsnp_vcf,
+        tbi = rules.download_dbsnp_human.output.dbsnp_tbi
     params:
         outdir = lambda wildcards, output: os.path.dirname(output.dbsnp_vcf)
     output:
         dbsnp_vcf = "resources/germline_variants/dbSNP_151.vcf.gz"
     conda:
         'envs/bcftools.yaml'
+    log:
+        'logs/pull_resources/prepare_dbsnp.log'
     script:
         'scripts/prepare_dbsnp.sh'
 
