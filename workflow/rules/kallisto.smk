@@ -21,7 +21,7 @@ rule kallisto_index:
     params:
         extra="",
     log:
-        "logs/kallisto_index.log",
+        "logs/kallisto/kallisto_index.log",
     threads: 2
     conda:
         '../envs/kb_tools.yaml'

@@ -12,7 +12,7 @@ rule salmon_decoy:
         decoys = 'indices/salmon/decoys.txt',
     threads: 2
     log:
-        'decoys.log'
+        'logs/salmon/decoys.log'
     wrapper:
         "v4.7.1/bio/salmon/decoys"
 
