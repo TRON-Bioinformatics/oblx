@@ -44,7 +44,7 @@ rule bwa_mem2_index:
     threads:
         16
     log:
-        'logs/indices/bwa/bwa-mem2-index.log'
+        'logs/bwa/bwa-mem2-index.log'
     shell:
         'bwa-mem2 index -p {input.fasta} {input.fasta} &> {log}'
 
