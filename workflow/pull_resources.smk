@@ -45,6 +45,7 @@ if config.get('organism', default_organism) == 'mouse':
         sys.exit('When running with non human organism, "release" has to be specified in the config')    
     gencode_or_ucsc = 'gencode' if config['genome-build'] < 'GRCm39' else 'UCSC'
     ucsc_genome_build = 'mm39' if config['genome-build'] == 'GRCm39' else 'mm10'
+    gencode2ensembl_file = 'resources/gencode2ensembl_mouse.tsv'
 
 # translate the gencode version to ensembl version for ensembl specific resources
 gencode2ensembl = pd.read_csv(
