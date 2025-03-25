@@ -122,7 +122,7 @@ the name of the subfolder in `results/indices/snpeff/data` (e.g. `GRCh38.48`).
 R-version: **v4.3.3**
 
 This directory contains GenomicFeatures respresentations of annotation data for use 
-with [splice2neo](https://github.com/TRON-Bioinformatics/splice2neo).
+with [splice2neo](https://github.com/TRON-Bioinformatics/splice2neo) and TRSP.
 
 ### Star
 
