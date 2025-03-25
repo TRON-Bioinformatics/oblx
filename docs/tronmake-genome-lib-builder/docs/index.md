@@ -24,6 +24,8 @@ The following pipelines are compatible with the TRON Genome Library:
 
 - splice2neo
 
+- TRSP
+
 Pre-built TRON Genome Libraries will be available for download for you to use and cite.
 
 ## Installation
