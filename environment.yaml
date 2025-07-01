@@ -5,7 +5,7 @@ dependencies:
   - conda-forge::make
   - pip
   - pip:
-    - eido==0.2.3
-    - peppy==0.40.6
+    - eido==0.2.4
+    - peppy==0.40.7
     - snakemake-storage-plugin-http==0.2.3
     - snakemake-executor-plugin-cluster-generic
