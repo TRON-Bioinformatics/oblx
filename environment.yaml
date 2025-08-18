@@ -4,10 +4,10 @@ channels:
   - conda-forge
   - bioconda
 dependencies:
-  - conda-forge::pytest-workflow
   - conda-forge::make
   - conda-forge::eido
   - conda-forge::peppy
+  - conda-forge::pytest-workflow
   - bioconda::snakemake-minimal=8.25.3
   - bioconda::snakemake-storage-plugin-http=0.2.3
   - bioconda::snakemake-executor-plugin-cluster-generic
