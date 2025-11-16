@@ -1,6 +1,6 @@
 ## Contribute
 
-Contributions are welcome, are greatly appreciated and are acknowledged. 
+Contributions are very welcome and acknowledged. 
 Therefore, create a new issue that describes the required contribution
 and steps. We will check if the feature fits into the concept.
 If this is the case, create a merge request and we will merge the
@@ -29,3 +29,4 @@ if there are good reasons to do so. If you need another version of
 a tool index, consider creating a new rule in `build_indices.smk`
 that creates the required index with the specific version of the
 tool.
+
