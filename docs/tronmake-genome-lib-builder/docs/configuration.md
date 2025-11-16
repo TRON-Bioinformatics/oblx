@@ -9,7 +9,7 @@ The configuration file defines the following parameters:
 * `intron-slop`: Number of intronic bases that should extend the exome definition `ref_exome.bed` (suggested: `20`)
 * `exome_transcript_definition`: Define which GENCODE transcripts should be used to create the exome definition. The default is the `"basic"` tag. Please note that GENCODE basic definitions were deprecated in version 48 and replaced by the tag `"GENCODE_Primary"`. These are not the same sets of transcripts. For now, we recommend continuing to use basic transcripts.
 * `star-sjdb-overhang`: `--sjdbOverhang` parameter for STAR index generation (should be read length - 1, in most cases `100` should be sufficient)
-* `star-genomesaindexnbases`: Defines the STAR parameter `genomeSAindexNbases` (default 14). The lower the value, the smaller the index. This can be useful, when creating test data for CI tests to keep the file small.
+* `star-genome-sa-index-n-bases`: Defines the STAR parameter `genomeSAindexNbases` (default 14). The lower the value, the smaller the index. This can be useful, when creating test data for CI tests to keep the file small.
 * `minimum_allele_frequency` (only required in human mode): `af_only_gnomad_hg38.vcf.gz` variants are filtered for population allele frequency > this cutoff (suggested: `0.001`)
 * `GENCODE_URL`: URL of GENCODE, where reference genome and annotation is downloaded from (default: "https://ftp.ebi.ac.uk/pub/databases/gencode")
 * `UCSC_URL` (only required in human mode): URL of UCSC FTP (default: "https://hgdownload.soe.ucsc.edu/gbdb/hg38")
@@ -33,7 +33,7 @@ intron-slop: 20
 
 # Paramter for STAR index creation. Adapt to the read size if necessary
 star-sjdb-overhang: 100
-star-genomesaindexnbases: 14
+star-genome-sa-index-n-bases: 14
 
 # Remove variants from gnomad VCF with poplutation allele frequency <= this cutoff
 minimum_allele_frequency: 0.001
@@ -87,7 +87,7 @@ intron-slop: 20
 
 # Paramter for STAR index creation. Adapt to the read size if necessary
 star-sjdb-overhang: 100
-star-genomesaindexnbases: 14
+star-genome-sa-index-n-bases: 14
 
 GENCODE_URL: "https://ftp.ebi.ac.uk/pub/databases/gencode"
 
