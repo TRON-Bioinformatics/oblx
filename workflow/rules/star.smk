@@ -21,8 +21,8 @@ rule star_index:
     params:
         genome_dir = lambda wildcards, output: os.path.dirname(output.genome_file),
         ram_byte = 48 * 1000000000,
-        # if the index is built for a minimal genome
-        genomesaindexnbases = '14', #'9' if config['minigenome'] else
+        # see STAR parameter genomeSAindexNbases
+        genomesaindexnbases = config.get("star-genomesaindexnbases", '14'),
         sjdb_overhang = config.get('star-sjdb-overhang', 100)
     output:
         genome_file = "indices/star/Genome"
