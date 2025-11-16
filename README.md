@@ -30,7 +30,7 @@ Pre-built TRON Genome Libraries will be available for download for you to use an
 Clone the repository:
 
 ```
-git clone https://gitlab.rlp.net/tron/tronmake-genome-lib-builder.git
+git clone https://github.com/TRON-Private/tronmake-genome-lib-builder.git
 cd tronmake-genome-lib-builder
 ```
 
