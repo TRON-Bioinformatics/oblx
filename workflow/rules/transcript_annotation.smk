@@ -1,17 +1,19 @@
 rule annotation_R:
-    """Prepare annotation for R
+    """Prepare annotation data for the splice2neo R package.
 
-    Rule to prepare annotation data for splice2neo.
     This rule creates a TxDb (sqlite) database of 
     the reference transcript annotation and a 2Bit 
     representation of the genomic fasta file.
 
     input:
-        fasta (string): Path to DNA fasta file
-        gtf (string): Path to GTF file
+        fasta (str): Path to DNA fasta file.
+        gtf (str): Path to GTF file.
     output:
-        txdb (string): Path to TxDb sqlite database
-        twoBitGenome(string): Path to 2Bit DNA file
+        txdb (str): Path to TxDb sqlite database.
+        twobit_genome (str): Path to 2Bit DNA reference file.
+        serialized_transcripts (str): Path to transcripts RDS file.
+        serialized_transcript_ranges (str): Path to transcript ranges RDS file.
+        serialized_cds (str): Path to CDS RDS file.
     """
     input:
         fasta = 'resources/ref_genome.fasta',

@@ -1,7 +1,6 @@
 rule kallisto_index:
     """
-    Generate kallisto index with kb_python suite. This index
-    matches the TRSP index.
+    Generate kallisto index with kb_python suite.
 
     input:
         genome (str): Path to the genome fasta file.
