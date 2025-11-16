@@ -19,7 +19,7 @@ rule link_snpeff:
             'genes.gtf'
         )
     conda:
-        "../env/shellutils.yaml"
+        "../envs/shellutils.yaml"
     shell:
         '''
         ln -sr {input.fasta} {output.fasta_link}
@@ -49,7 +49,7 @@ rule prepare_snpEff_config:
         genome_build = config.get('genome-build', default_build),
         release = config.get('release', default_release)
     conda:
-        "../env/shellutils.yaml"
+        "../envs/shellutils.yaml"
     shell:
         """
         cat {input.codon_mit_vertebrate} >> {output.config_file}
