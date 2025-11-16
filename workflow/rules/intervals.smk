@@ -5,9 +5,9 @@ rule chrom_sizes:
     input:
         fasta_index = 'resources/ref_genome.fasta.fai'
     output:
-        'resources/chromosome_sizes.txt'
+        chrom_size_file = 'resources/chromosome_sizes.txt'
     shell:
-        'cut -f 1,2 {input.fasta_index} > {output}'
+        'cut -f 1,2 {input.fasta_index} > {output.chrom_size_file}'
 
 rule gencode_exome_bed:
     """

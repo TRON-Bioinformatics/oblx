@@ -24,7 +24,7 @@ rule salmon_index_gentrome:
         sequences = 'indices/salmon/gentrome.fasta',
         decoys = 'indices/salmon/decoys.txt',
     output:
-        multiext(
+        index_files = multiext(
             "indices/salmon/transcriptome_index/",
             "complete_ref_lens.bin",
             "ctable.bin",
