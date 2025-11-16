@@ -22,7 +22,7 @@ rule star_index:
         genome_dir = lambda wildcards, output: os.path.dirname(output.genome_file),
         ram_byte = 48 * 1000000000,
         # see STAR parameter genomeSAindexNbases
-        genomesaindexnbases = config.get("star-genomesaindexnbases", '14'),
+        genomesaindexnbases = config.get("star-genome-sa-index-n-bases", '14'),
         sjdb_overhang = config.get('star-sjdb-overhang', 100)
     output:
         genome_file = "indices/star/Genome"
