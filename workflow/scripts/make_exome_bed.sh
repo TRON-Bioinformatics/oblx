@@ -15,8 +15,10 @@ trap 'rm -rf -- "$TMPDIR"' EXIT
 
 exec 2> "${snakemake_log[0]}"
 
+TX_TAG="${snakemake_params[exome_transcript_definition]}"
+
 awk '{if ($3 == "exon") print $0}' "${snakemake_input[gtf]}" | \
-    grep 'tag "basic"' | \
+    grep "tag \"${TX_TAG}\"" | \
         bedtools sort | \
             bedtools merge > "${TMPDIR}"/tmp.bed
 

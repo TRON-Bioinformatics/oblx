@@ -12,6 +12,9 @@ star-sjdb-overhang: 100
 # Remove variants from gnomad VCF with poplutation allele frequency <= this cutoff
 minimum_allele_frequency: 0.001
 
+# GENCODE transcript definition for exome bed (pre v48 basic after v48 basic or GENCODE_Primary)
+exome_transcript_definition: "basic"
+
 GENCODE_URL: "https://ftp.ebi.ac.uk/pub/databases/gencode"
 UCSC_URL: "https://hgdownload.soe.ucsc.edu/gbdb/hg38"
 UCSC_GOLDEN_PATH_URL: "https://hgdownload.soe.ucsc.edu/goldenPath"
