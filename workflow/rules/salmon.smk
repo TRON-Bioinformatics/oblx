@@ -54,3 +54,22 @@ rule salmon_index_gentrome:
     wrapper:
         "v4.7.1/bio/salmon/index"
 
+rule salmon_requant_transcriptome:
+    input:
+        annotation = config.get(
+            'genome-gtf', 'resources/ref_annot.gtf'
+        ),
+        fasta = 'resources/ref_genome.fasta'
+    output:
+        transcript_fasta = "indices/salmon/requant_index/transcripts.fa"
+    cache: True
+    log:
+        "logs/salmon/requant_transcriptome.log",
+    threads: 1
+    resources:
+        mem_mb = 4000
+    params:
+        fasta_flag="-w",
+        extra="",
+    wrapper:
+        "v5.0.0/bio/gffread"
