@@ -297,7 +297,7 @@ rule bb_to_bed:
     output:
         encode_exclusion = "resources/mappability/encode_exclusion.bed",
         grc_exclusion = "resources/mappability/grcExclusions.bed",
-        ucsc_problematic = "resources/mappability/ucsc_problematic.bed",
+        ucsc_problematic = temp("resources/mappability/ucsc_problematic_tmp.bed"),
         gencode_bed = "resources/ref_annot.bed",
         twist_refseq = "resources/exome_definition/twist_refseq.bed",
         twist_core_exome = "resources/exome_definition/twist_core_exome.bed",
@@ -315,6 +315,21 @@ rule bb_to_bed:
         bigBedToBed {input.twist_core_exome} {output.twist_core_exome}
         bigBedToBed {input.twist_comprehensive_exome} {output.twist_comprehensive_exome}
         bigBedToBed {input.twist_exome2} {output.twist_exome2}
+        '''
+
+rule ucsc_problematic_bed_format:
+    """
+    Remove comment from UCSC big bed file
+    """
+    input:
+        ucsc_problematic = "resources/mappability/ucsc_problematic_tmp.bed"
+    output:
+        ucsc_problematic = "resources/mappability/ucsc_problematic.bed"
+    conda:
+        'envs/shellutils.yaml'
+    shell:
+        '''
+        cut -f 1-6 {input.ucsc_problematic} > {output.ucsc_problematic}
         '''
 
 rule download_gatk_bundle:
