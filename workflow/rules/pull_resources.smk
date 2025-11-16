@@ -409,7 +409,7 @@ rule prepare_dbsnp:
     log:
         'logs/pull_resources/prepare_dbsnp.log'
     script:
-        'scripts/prepare_dbsnp.sh'
+        '../scripts/prepare_dbsnp.sh'
 
 rule download_gnomad_exome:
     """
@@ -449,7 +449,7 @@ rule af_only_gnomad:
     conda:
         '../envs/bcftools.yaml'
     script:
-        "scripts/make_AF_only_gnomad_vcf.sh"
+        "../scripts/make_AF_only_gnomad_vcf.sh"
 
 rule bcftools_concat:
     """
@@ -512,7 +512,7 @@ rule prepare_variants_for_contamination:
     conda:
         '../envs/bcftools.yaml'
     script:
-        "scripts/prepare_variants_for_contamination.sh"
+        "../scripts/prepare_variants_for_contamination.sh"
 
 rule download_tcga_virus:
     """
@@ -546,7 +546,7 @@ rule transcript_to_gene_mapping:
     conda:
         '../envs/renv.yaml'
     script:
-        'scripts/tx2gene.R'
+        '../scripts/tx2gene.R'
 
 rule gene_to_hgnc_mapping:
     """
@@ -559,7 +559,7 @@ rule gene_to_hgnc_mapping:
     conda:
         '../envs/python.yaml'
     script:
-        'scripts/get_annotation_data.py'
+        '../scripts/get_annotation_data.py'
 
 rule canonical_junction_list:
     """
@@ -572,4 +572,4 @@ rule canonical_junction_list:
     conda:
         '../envs/renv.yaml'
     script:
-        'scripts/canonical_splice_junctions.R'
+        '../scripts/canonical_splice_junctions.R'
