@@ -61,7 +61,7 @@ rule salmon_requant_transcriptome:
         ),
         fasta = 'resources/ref_genome.fasta'
     output:
-        transcript_fasta = "indices/salmon/requant_index/transcripts.fa",
+        transcript_fasta = "indices/salmon/requant_index/transcripts.fa"
     cache: True
     log:
         "logs/salmon/requant_transcriptome.log",
