@@ -1,0 +1,6 @@
+name: shellutils
+channels:
+  - nodefaults
+  - conda-forge
+dependencies:
+  - conda-forge::coreutils
