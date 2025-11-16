@@ -8,7 +8,7 @@ intron-slop: 20
 
 # Paramter for STAR index creation. Adapt to the read size if necessary
 star-sjdb-overhang: 100
-star-genomesaindexnbases: 14 # see STAR parameter genomeSAindexNbases
+star-genome-sa-index-n-bases: 14 # see STAR parameter genomeSAindexNbases
 
 # Remove variants from gnomad VCF with poplutation allele frequency <= this cutoff
 minimum_allele_frequency: 0.001
