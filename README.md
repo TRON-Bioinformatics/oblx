@@ -10,7 +10,7 @@
 
 The **TRON Genome Library** is a unified resource collection used by next generation sequencing (NGS) analysis pipelines developed by the computational medicine group at [TRON](https://github.com/TRON-Bioinformatics). The TronMake Genome Lib Builder system is leveraged for preparing a reference genome and annotation set for use with SnakeMake and NextFlow based pipelines, including cancer-specific alternative splicing and somatic mutation discovery. The genome resource building process creates a unified annotation set based on GENCODE reference annotation and the GATK resource bundle (hg38). The workflow is implemented in SnakeMake (Mölder et al., 2021) for reproducible downloading and building of genome resource data. 
 
-Documentation: https://tron.pages.gitlab.rlp.net/tronmake-genome-lib-builder
+Documentation: https://urban-guacamole-qmm473j.pages.github.io/
 
 The following pipelines are compatible with the TRON Genome Library:
 
