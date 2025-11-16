@@ -27,6 +27,7 @@ def get_pull_resources_output(wildcards):
                    'resources/ref_genome.dict',
                    'resources/ref_genome.fasta.fai',
                    'resources/exome_definition/ref_exome.bed',
+                   'resources/exome_definition/ref_cds.bed',
                    'resources/ref_annot_splice_sites.tsv',
                    'resources/ref_annot_transcript2gene.tsv',
                    'resources/ref_annot_gene2symbol.tsv'

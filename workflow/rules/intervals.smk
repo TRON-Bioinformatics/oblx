@@ -28,3 +28,26 @@ rule gencode_exome_bed:
         'logs/exome_creation.log'
     script:
         '../scripts/make_exome_bed.sh'
+
+rule gencode_cds_bed:
+    """
+    Generate generic CDS definition based on GENCODE transcripts.
+    CDS regions are merged. Based on DeepVariant RNA-seq variant calling
+    tutorial.
+    """
+    input:
+        gtf = config.get(
+            'genome-gtf', 'resources/ref_annot.gtf'
+        ),
+        chrom_sizes = rules.chrom_sizes.output
+    params:
+        extra=""
+    output:
+        cds_interval = 'resources/exome_definition/ref_cds.bed'
+    conda:
+        '../envs/bedtools.yaml'
+    log:
+        'logs/cds_bed.log'
+    script:
+        '../scripts/make_cds_bed.sh'
+
