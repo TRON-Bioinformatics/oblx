@@ -4,9 +4,7 @@ rule link_snpeff:
     """
     input:
         fasta = get_genome_for_index_building,
-        gtf = os.path.abspath(
-            config.get('genome-gtf', 'resources/ref_annot.gtf')
-        )
+        gtf = config.get('genome-gtf', 'resources/ref_annot.gtf')
     output:
         fasta_link = os.path.join(
             'indices/snpeff/data/',
@@ -23,7 +21,7 @@ rule link_snpeff:
     shell:
         '''
         ln -sr {input.fasta} {output.fasta_link}
-        ln -sr {input.gtf} {output.gtf_link}
+        ln -sr $(realpath {input.gtf}) {output.gtf_link}
         '''
 
 
