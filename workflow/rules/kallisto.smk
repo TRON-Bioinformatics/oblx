@@ -23,8 +23,6 @@ rule kallisto_index:
     log:
         "logs/kallisto/kallisto_index.log",
     threads: 2
-    resources:
-        mem_mb = 32000
     conda:
         '../envs/kb_tools.yaml'
     container:
