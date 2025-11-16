@@ -1,0 +1,7 @@
+name: salmon_decoy
+channels:
+  - conda-forge
+  - nodefaults
+dependencies:
+  - conda-forge::bzip2 =1.0.8
+  - conda-forge::gzip =1.14

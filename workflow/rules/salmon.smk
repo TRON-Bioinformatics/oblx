@@ -18,6 +18,8 @@ rule salmon_decoy:
     output:
         gentrome = 'indices/salmon/gentrome.fasta',
         decoys = 'indices/salmon/decoys.txt',
+    conda:
+        "../envs/salmon_decoy.yaml"
     threads: 2
     log:
         'logs/salmon/decoys.log'
@@ -60,6 +62,8 @@ rule salmon_index_gentrome:
             "versionInfo.json",
         ),
     cache: True
+    conda:
+        "../envs/salmon.yaml"
     log:
         "logs/salmon/transcriptome_index.log",
     threads: 2
@@ -93,6 +97,8 @@ rule salmon_requant_transcriptome:
     output:
         transcript_fasta = "indices/salmon/requant_index/transcripts.fa"
     cache: True
+    conda:
+        "../envs/gffread.yaml"
     log:
         "logs/salmon/requant_transcriptome.log",
     threads: 1

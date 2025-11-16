@@ -16,6 +16,8 @@ rule set_genome:
         fasta = get_genome_for_index_building
     output:
         genome = 'resources/ref_genome.fasta'
+    conda:
+        "../env/shellutils.yaml"
     shell:
         'ln -sr {input.fasta} {output.genome}'
 
