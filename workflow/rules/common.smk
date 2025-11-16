@@ -102,6 +102,7 @@ def get_build_indices_output(wildcards):
             "refseq.bin",
             "seq.bin",
             "versionInfo.json",))
+    final_files.append('indices/salmon/requant_index/transcripts.fa')
 
     # snpeff files
     final_files.append(os.path.abspath(os.path.join(
