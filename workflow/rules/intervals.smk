@@ -19,7 +19,8 @@ rule gencode_exome_bed:
         ),
         chrom_sizes = rules.chrom_sizes.output
     params:
-        intron_slop = config.get('intron-slop', 20)
+        intron_slop = config.get('intron-slop', 20),
+        exome_transcript_definition = config.get('exome_transcript_definition', 'basic')
     output:
         exome_interval = 'resources/exome_definition/ref_exome.bed'
     conda:
