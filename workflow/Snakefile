@@ -1,0 +1,102 @@
+"""
+Unified Snakemake workflow to pull the required resources and build required
+indices all in one go.
+
+Make sure to specify a yaml config via --configfile containing the following keys:
+* organism: 'human' or 'mouse'
+* release: The gencode release (e.g. 45 for human or M35 for mouse)
+* genome-build: The genome build name (e.g. GRCh38 for human or GRCm39 for mouse)
+* resource-dir: Path to the resources, pulled with pull_resources.smk
+
+@author: Luis Kress (TRON), Johannes Hausmann (TRON)
+@version: 20241002
+"""
+
+import os
+import sys
+import yaml
+import pandas as pd
+import datetime
+from snakemake.utils import min_version
+
+min_version("8.5.4")
+timestamp = datetime.datetime.now().strftime("%Y-%m-%d_%H:%M:%S")
+
+default_build = "GRCh38"
+default_release = "46"
+default_organism = "human"
+gencode_or_ucsc = None
+gencode2ensembl_file = "resources/gencode2ensembl_human.tsv"
+ucsc_genome_build = "hg38"
+
+
+configfile: workflow.source_path("../config/default.yaml")
+
+
+# check if genome build is supported
+if config.get("genome-build", default_build) not in ["GRCh38", "GRCm38", "GRCm39"]:
+    sys.exit(
+        f"Genome build {config.get(' genome - build ', default_build)} not supported."
+    )
+
+# set mouse specific variables
+if config.get("organism", default_organism) == "mouse":
+    if not config.get("release", None):
+        sys.exit(
+            'When running with non human organism, "release" has to be specified in the config'
+        )
+    gencode_or_ucsc = "gencode" if config["genome-build"] < "GRCm39" else "UCSC"
+    ucsc_genome_build = "mm39" if config["genome-build"] == "GRCm39" else "mm10"
+    gencode2ensembl_file = "resources/gencode2ensembl_mouse.tsv"
+
+# translate the gencode version to ensembl version for ensembl specific resources
+gencode2ensembl = pd.read_csv(
+    workflow.source_path(gencode2ensembl_file), sep="\t", dtype=str
+)
+
+ENSEMBL_VERSION = gencode2ensembl[
+    gencode2ensembl.GENCODE_release == config["release"]
+].Ensembl_release.values[0]
+
+GENCODE2ENSEMBL_CHROM_MAPPING = workflow.source_path(
+    "resources/GRCh38_ensembl2gencode.txt"
+)
+MINIMAL_GNOMAD_HEADER_FILE = workflow.source_path("resources/minimal_gnomad_header.txt")
+TCGA_VIRUS_FILE = workflow.source_path("resources/tcga_viruses.tsv")
+PA_REGION_BED_PATH = workflow.source_path(
+    "resources/GRCh38_pseudoautosomal_regions.bed"
+)
+
+
+# For both sections.
+include: "rules/common.smk"
+include: "rules/sequence_dict.smk"
+# For pulling resources.
+include: "rules/intervals.smk"
+include: "rules/faidx.smk"
+include: "rules/prepare_ucsc.smk"
+include: "rules/genome_masking.smk"
+include: "rules/pull_resources.smk"
+include: "rules/build_indices.smk"
+# For building indices.
+include: "rules/bwa-mem2.smk"
+include: "rules/star.smk"
+include: "rules/salmon.smk"
+include: "rules/kallisto.smk"
+include: "rules/snpeff.smk"
+include: "rules/transcript_annotation.smk"
+
+
+onstart:
+    # write the config to the output directory for reproducibility
+    if not os.path.exists("configs"):
+        os.mkdir("configs")
+    with open(f"configs/{timestamp}_pull_resources_config.yaml", "w") as configfile:
+        yaml.dump(config, configfile, default_flow_style=False)
+
+
+rule all:
+    input:
+        resources=get_pull_resources_output,
+        indices=get_build_indices_output,
+    default_target: True

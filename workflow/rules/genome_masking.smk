@@ -41,7 +41,7 @@ rule mask_pseudoautosomal:
     input:
         genome = config.get(
             'genome-fasta', 'resources/ref_genome_grc_masked.fasta'),
-        pseudoautosomal_regions_bed = workflow.source_path("../resources/GRCh38_pseudoautosomal_regions.bed")
+        pseudoautosomal_regions_bed = PA_REGION_BED_PATH
     output:
         masked_genome = "resources/ref_genome_masked_final.fasta"
     conda:
