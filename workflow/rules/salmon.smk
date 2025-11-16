@@ -1,6 +1,14 @@
 rule salmon_decoy:
     """
     Generate salmon decoys.
+
+    input:
+        transcriptome (str): Path to transcriptome fasta file.
+        genome (str): Path to genome fasta file.
+    output:
+        gentrome (str): Path to hybrid genome & transcriptome (gentrome) fasta
+            file.
+        decoys (str): Path to decoys text file.
     """
     input:
         transcriptome = config.get(
@@ -19,6 +27,15 @@ rule salmon_decoy:
 rule salmon_index_gentrome:
     """
     Generate salmon gentrome index with chromosomes as decoys.
+
+    input:
+        sequences (str): Path to hybrid genome & transcriptome (gentrome) fasta
+            file.
+        decoys (str): Path to decoys text file.
+    output:
+        index_files (list): List of salmon index files.
+    params:
+        extra (str): Additional parameters controlling the wrapper execution.
     """
     input:
         sequences = 'indices/salmon/gentrome.fasta',
@@ -55,6 +72,19 @@ rule salmon_index_gentrome:
         "v4.7.1/bio/salmon/index"
 
 rule salmon_requant_transcriptome:
+    """
+    Generate transcriptome fasta for salmon requant index that only contains the
+    sequences that are part of the annotation.
+
+    input:
+        annotation (str): Path to annotation GTF file.
+        fasta (str): Path to reference genome fasta file.
+    output:
+        transcript_fasta (str): Path to filtered transcript fasta file.
+    params:
+        fasta_flag (str): Flag for fasta output.
+        extra (str): Additional parameters for the wrapper execution.
+    """
     input:
         annotation = config.get(
             'genome-gtf', 'resources/ref_annot.gtf'
