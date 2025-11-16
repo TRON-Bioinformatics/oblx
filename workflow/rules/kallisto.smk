@@ -18,8 +18,6 @@ rule kallisto_index:
         index = "indices/kallisto/ref_transcript.idx",
         tx2gene = "indices/kallisto/ref_transcript_to_gene.tsv",
         cdna = "indices/kallisto/ref_cdna.fa"
-    params:
-        extra="",
     log:
         "logs/kallisto/kallisto_index.log",
     threads: 2
