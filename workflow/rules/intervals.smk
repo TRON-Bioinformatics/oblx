@@ -11,6 +11,8 @@ rule chrom_sizes:
         fasta_index = 'resources/ref_genome.fasta.fai'
     output:
         chrom_size_file = 'resources/chromosome_sizes.txt'
+    conda:
+        "../env/shellutils.yaml"
     shell:
         'cut -f 1,2 {input.fasta_index} > {output.chrom_size_file}'
 

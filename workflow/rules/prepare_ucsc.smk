@@ -8,7 +8,8 @@ rule repeatmasker_bed:
         rmsk_bed = 'resources/ref_genome_repeatmasker.bed'
     conda:
         '../envs/bedtools.yaml'
-    #shadow: 'shallow'
+    conda:
+        "../env/shellutils.yaml"
     log:
         'logs/rmsk_creation.log'
     script:
