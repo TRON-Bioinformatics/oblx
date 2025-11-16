@@ -1,3 +1,7 @@
 name: bigbedtobed
+channels:
+  - conda-forge
+  - bioconda
+  - nodefaults
 dependencies:
   - bioconda::ucsc-bigbedtobed=469
