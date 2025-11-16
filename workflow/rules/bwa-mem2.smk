@@ -30,7 +30,7 @@ rule bwa_mem2_index:
     input:
         fasta = rules.link_bwa_fasta.output.fasta_link
     output:
-        multiext(
+        index_files=multiext(
             "indices/bwa/ref_genome.fasta", 
             ".0123", 
             ".amb", 
