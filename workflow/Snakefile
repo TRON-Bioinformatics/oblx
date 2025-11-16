@@ -36,7 +36,7 @@ configfile: workflow.source_path("../config/default.yaml")
 # check if genome build is supported
 if config.get("genome-build", default_build) not in ["GRCh38", "GRCm38", "GRCm39"]:
     sys.exit(
-        f"Genome build {config.get(' genome - build ', default_build)} not supported."
+        f"Genome build {config.get('genome-build', default_build)} not supported."
     )
 
 # set mouse specific variables
