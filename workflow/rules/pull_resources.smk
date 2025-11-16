@@ -9,63 +9,10 @@ Make sure to specify a yaml config via --configfile containing the following key
 @author: Luis Kress (TRON), Johannes Hausmann (TRON)
 @version: 20240522
 """
-import os
-import sys
-import yaml
-import pandas as pd
-import datetime
-from snakemake.utils import min_version
 
-min_version('8.5.4')
-timestamp = datetime.datetime.now().strftime("%Y-%m-%d_%H:%M:%S")
-
-default_build = 'GRCh38'
-default_release = '46'
-default_organism = 'human'
-gencode_or_ucsc = None
-gencode2ensembl_file = 'resources/gencode2ensembl_human.tsv'
-ucsc_genome_build = 'hg38'
-
-include: "rules/common.smk"
-include: "rules/intervals.smk"
-include: "rules/faidx.smk"
-include: "rules/prepare_ucsc.smk"
-include: "rules/genome_masking.smk"
-include: "rules/sequence_dict.smk"
-
-configfile: workflow.source_path("../config/default.yaml")
-
-# check if genome build is supported
-if config.get('genome-build', default_build) not in ['GRCh38', 'GRCm38', 'GRCm39']:
-    sys.exit(f'Genome build {config.get('genome-build', default_build)} not supported.')
-
-# set mouse specific variables
-if config.get('organism', default_organism) == 'mouse':
-    if not config.get('release', None):
-        sys.exit('When running with non human organism, "release" has to be specified in the config')    
-    gencode_or_ucsc = 'gencode' if config['genome-build'] < 'GRCm39' else 'UCSC'
-    ucsc_genome_build = 'mm39' if config['genome-build'] == 'GRCm39' else 'mm10'
-    gencode2ensembl_file = 'resources/gencode2ensembl_mouse.tsv'
-
-# translate the gencode version to ensembl version for ensembl specific resources
-gencode2ensembl = pd.read_csv(
-        workflow.source_path(gencode2ensembl_file), 
-        sep = '\t',
-        dtype = str
-    )
-ensembl_version = gencode2ensembl[gencode2ensembl.GENCODE_release == config['release']].Ensembl_release.values[0]
-
-onstart:
-    # write the config to the output directory for reproducibility
-    if not os.path.exists('configs'):
-        os.mkdir('configs')
-    with open(f'configs/{timestamp}_pull_resources_config.yaml', 'w') as configfile:
-        yaml.dump(config, configfile, default_flow_style=False)
-
-rule all:
+rule pull_resources:
     input:
-        get_pull_resources_output
-    
+        get_pull_resources_output,
 
 rule download_gencode_data:
     """Rule to download annotation data
@@ -304,7 +251,7 @@ rule bb_to_bed:
         twist_comprehensive_exome = "resources/exome_definition/twist_comprehensive_exome.bed",
         twist_exome2 = "resources/exome_definition/twist_exome2.bed"
     conda:
-        'envs/bigbedtobed.yaml'
+        '../envs/bigbedtobed.yaml'
     shell:
         '''
         bigBedToBed {input.encode_exclusion} {output.encode_exclusion}
@@ -326,7 +273,7 @@ rule ucsc_problematic_bed_format:
     output:
         ucsc_problematic = "resources/mappability/ucsc_problematic.bed"
     conda:
-        'envs/shellutils.yaml'
+        '../envs/shellutils.yaml'
     shell:
         '''
         cut -f 1-6 {input.ucsc_problematic} > {output.ucsc_problematic}
@@ -366,7 +313,7 @@ rule download_gatk_bundle:
         gatk_dbsnp = lambda wildcards, output:
             os.path.splitext(output.gatk_dbsnp_gz)[0]
     conda:
-        'envs/bcftools.yaml'
+        '../envs/bcftools.yaml'
     shell:
         '''
         cp {input.mills_remote} {output.mills_vcf}
@@ -401,7 +348,7 @@ rule download_dbsnp_human:
         dbsnp_vcf = temp("resources/germline_variants/00-common_all.vcf.gz"),
         dbsnp_tbi = temp("resources/germline_variants/00-common_all.vcf.gz.tbi")
     conda:
-        'envs/bcftools.yaml'
+        '../envs/bcftools.yaml'
     shell:
         '''
         cp {input.dbsnp_remote} {output.dbsnp_vcf}
@@ -414,7 +361,7 @@ rule download_dbsnp_mouse:
     """
     input:
         dbsnp_remote = storage(
-            f"https://ftp.ensembl.org/pub/release-{ensembl_version}/variation/vcf/mus_musculus/mus_musculus.vcf.gz"
+            f"https://ftp.ensembl.org/pub/release-{ENSEMBL_VERSION}/variation/vcf/mus_musculus/mus_musculus.vcf.gz"
         ),
         chromosome_mapping_remote = storage(
             f"https://raw.githubusercontent.com/dpryan79/ChromosomeMappings/refs/heads/master/{config['genome-build']}_ensembl2{gencode_or_ucsc}.txt"
@@ -426,7 +373,7 @@ rule download_dbsnp_mouse:
     params:
         dbsnp_tmp = temp("resources/germline_variants/mus_musculus.vcf.gz"),
     conda:
-        'envs/bcftools.yaml'
+        '../envs/bcftools.yaml'
     shell:
         """
         cp {input.dbsnp_remote} {params.dbsnp_tmp}
@@ -450,7 +397,7 @@ rule prepare_dbsnp:
         dbsnp_vcf (str): Path to final dbSNP file
     """
     input:
-        chrom_mapping = workflow.source_path('resources/GRCh38_ensembl2gencode.txt'),
+        chrom_mapping = GENCODE2ENSEMBL_CHROM_MAPPING,
         vcf = rules.download_dbsnp_human.output.dbsnp_vcf,
         tbi = rules.download_dbsnp_human.output.dbsnp_tbi
     params:
@@ -458,7 +405,7 @@ rule prepare_dbsnp:
     output:
         dbsnp_vcf = "resources/germline_variants/dbSNP_151.vcf.gz"
     conda:
-        'envs/bcftools.yaml'
+        '../envs/bcftools.yaml'
     log:
         'logs/pull_resources/prepare_dbsnp.log'
     script:
@@ -492,7 +439,7 @@ rule af_only_gnomad:
     """
     input:
         gnomad = "resources/germline_variants/gnomad_{chromosome}.vcf.tmp.bgz",
-        minimal_gnomad_header = workflow.source_path('resources/minimal_gnomad_header.txt')
+        minimal_gnomad_header = MINIMAL_GNOMAD_HEADER_FILE
     params:
         minimum_allele_frequency = config.get('minimum_allele_frequency', 0),
         tmp_vcf = "resources/germline_variants/gnomad_{chromosome}.vcf.tmp"
@@ -500,7 +447,7 @@ rule af_only_gnomad:
         vcf_file = temp("resources/germline_variants/gnomad_{chromosome}.vcf.gz"),
         vcf_file_index = temp("resources/germline_variants/gnomad_{chromosome}.vcf.gz.tbi")
     conda:
-        'envs/bcftools.yaml'
+        '../envs/bcftools.yaml'
     script:
         "scripts/make_AF_only_gnomad_vcf.sh"
 
@@ -556,14 +503,14 @@ rule prepare_variants_for_contamination:
     input:
         vcf_chr1 = "resources/germline_variants/gnomad_chr1.vcf.gz",
         vcf_chr1_tbi = "resources/germline_variants/gnomad_chr1.vcf.gz.tbi",
-        minimal_gnomad_header = workflow.source_path('resources/minimal_gnomad_header.txt')
+        minimal_gnomad_header = MINIMAL_GNOMAD_HEADER_FILE
     output:
         prep_vcf = "resources/germline_variants/common_biallelic_chr1.vcf.gz",
         prep_vcf_tbi = "resources/germline_variants/common_biallelic_chr1.vcf.gz.tbi",
     params:
         tmp_vcf = "resources/germline_variants/common_biallelic_chr1.vcf",
     conda:
-        'envs/bcftools.yaml'
+        '../envs/bcftools.yaml'
     script:
         "scripts/prepare_variants_for_contamination.sh"
 
@@ -572,13 +519,13 @@ rule download_tcga_virus:
     Download common virus (as defined by TCGA) genomes from GenBank.
     """
     input:
-        tcga_virus = workflow.source_path('resources/tcga_viruses.tsv')
+        tcga_virus = TCGA_VIRUS_FILE
     params:
         output_prefix = lambda wildcards, output: os.path.dirname(output.tcga_virus)
     output:
         tcga_virus = "resources/viruses/tcga_virus_decoy.fasta"
     conda:
-        'envs/efetch.yaml'
+        '../envs/efetch.yaml'
     shell:
         """
         while IFS=$'\\t' read -r name abbv genbank
@@ -597,7 +544,7 @@ rule transcript_to_gene_mapping:
     output:
         tx2gene = 'resources/ref_annot_transcript2gene.tsv'
     conda:
-        'envs/renv.yaml'
+        '../envs/renv.yaml'
     script:
         'scripts/tx2gene.R'
 
@@ -610,7 +557,7 @@ rule gene_to_hgnc_mapping:
     output:
         mapping_table = 'resources/ref_annot_gene2symbol.tsv'
     conda:
-        'envs/python.yaml'
+        '../envs/python.yaml'
     script:
         'scripts/get_annotation_data.py'
 
@@ -623,6 +570,6 @@ rule canonical_junction_list:
     output:
         canonical_juncs = 'resources/ref_annot_splice_sites.tsv'
     conda:
-        'envs/renv.yaml'
+        '../envs/renv.yaml'
     script:
         'scripts/canonical_splice_junctions.R'
