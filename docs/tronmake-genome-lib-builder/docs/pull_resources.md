@@ -1,6 +1,13 @@
 # Pull Resources
 
 The pull resources workflow downloads resources required for common NGS analysis pipeline.
+The resources include data from the following sources, among others. The pulled resources
+are the basis to [build indices](build_indices.md) for several bioinformatics tools.
+
+* [Gencode](https://www.gencodegenes.org/)
+* [GATK](https://gatk.broadinstitute.org/hc/en-us)
+* [dbSNP](https://www.ncbi.nlm.nih.gov/snp/)
+* [GnomAD](https://gnomad.broadinstitute.org)
 
 ## Input
 
@@ -12,7 +19,7 @@ resources should be based on has to be specified in the [config file](configurat
 To run the pull resources workflow run the following command.
 
 ```
-snakemake -s workflow/pull_resources.smk \
+snakemake --until pull_resources \ 
     --directory </path/to/output/directory> \
     --software-deployment-method conda \
     --latency-wait 60 \
@@ -80,21 +87,33 @@ The workflow generates the following directory structure:
     └── tcga_virus_decoy.fasta
 ```
 
+### Gencode reference files
+
 The following files are downloaded directly from [Gencode](https://www.gencodegenes.org/).
+In human mode, problematic regions defined by [GRC](https://ftp-trace.ncbi.nlm.nih.gov/ReferenceSamples/giab/release/references/README_GIAB_Mapping_References.md) are hard masked in the reference fasta 
+while repetitive regions are not masked. 
+
 
 * `chromosome_sizes.txt`: Lengths of the chromosomes
-* `ref_annot.gtf`: Comprehensive gene annotation based on primary assembly (PRI)
-* `ref_annot.bed`: BED12 file of the transcripts
-* `ref_genome.fasta`: Symlink to reference genome fasta. When pull_resources is run in human mode, the symlink points to the masked genome (masking is based on `resources/mappability/grcExclusions.bed` which contains a set of regions that have been flagged by the GRC to contain false duplications or contamination sequences, downloaded from UCSC, see section [Mappability](#mappability)). Additionally in human mode, pseudoautosomal regions (defined in `workflow/resources/GRCh38_pseudoautosomal_regions.bed` from www.ensembl.org/info/genome/genebuild/human_PARS.html) are masked. If pull_resources is run in mouse mode, the symlink points to the primary assembly (`ref_genome_primary.fasta`).
-* `ref_genome_grc_masked.fasta` (Only given in human mode): Based on the primary assembly, problematic regions defined by GRC are masked (e.g. false duplications and contaminations, https://ftp-trace.ncbi.nlm.nih.gov/ReferenceSamples/giab/release/references/README_GIAB_Mapping_References.md)
+* `ref_annot.gtf`: Comprehensive gene annotation based on primary assembly (PRI) (gencode.v<release>.primary_assembly.basic.annotation.gtf.gz)
+* `ref_annot.bed`: BED12 file of the transcripts (transformed from GTF file)
+* `ref_genome.fasta`: Symlink to the primary assembly reference genome fasta. When pull_resources is run in human mode, the symlink points to the masked genome (masking is based on `resources/mappability/grcExclusions.bed` which contains a set of regions that have been flagged by the GRC to contain false duplications or contamination sequences, downloaded from UCSC, see section [Mappability](#mappability)). Additionally in human mode, pseudoautosomal regions (defined in `workflow/resources/GRCh38_pseudoautosomal_regions.bed` from www.ensembl.org/info/genome/genebuild/human_PARS.html) are hard masked. If pull_resources is run in mouse mode, the symlink points to the primary assembly (`ref_genome_primary.fasta`).
+* `ref_genome_grc_masked.fasta` (Only given in human mode): Based on the primary assembly, problematic regions defined by GRC are hard masked (e.g. false duplications and contaminations, https://ftp-trace.ncbi.nlm.nih.gov/ReferenceSamples/giab/release/references/README_GIAB_Mapping_References.md)
 * `ref_genome_masked_final.fasta` (Only given in human mode): Based on `ref_genome_grc_masked.fasta` file, pseudoautosomal regions (defined in `workflow/resources/GRCh38_pseudoautosomal_regions.bed` from www.ensembl.org/info/genome/genebuild/human_PARS.html) are masked.
-* `ref_annot_metadata_SwissProt.tsv`: UniProtKB/SwissProt entry associated to the transcript (from Ensembl xref pipeline)
-* `ref_annot_metadata_TrEMBL.tsv`: UniProtKB/TrEMBL entry associated to the transcript (from Ensembl xref pipeline)
-* `ref_genome_primary.fasta`: Primary (PRI) assembly
-* `ref_transcripts.fasta`: Transcript sequences 
-* `ref_annot_transcript2gene.tsv`: Translation of transcript ID to gene ID
-* `ref_annot_gene2symbol.tsv`: Translation of gene ID to gene symbol
-* `ref_annot_splice_sites.tsv`: Splice sites of reference transcripts (see [splice2neo](https://github.com/TRON-Bioinformatics/splice2neo))
+* `ref_annot_metadata_SwissProt.tsv`: UniProtKB/SwissProt entry associated to the transcript (from Ensembl xref pipeline gencode.v<release>.metadata.SwissProt.gz)
+* `ref_annot_metadata_TrEMBL.tsv`: UniProtKB/TrEMBL entry associated to the transcript (from Ensembl xref pipeline gencode.v<release>.metadata.TrEMBL.gz)
+* `ref_genome_primary.fasta`: Primary (PRI) assembly (GRC<build>.primary_assembly.genome.fa.gz)
+* `ref_transcripts.fasta`: Transcript sequences (gencode.v<release>.transcripts.fa.gz) 
+* `ref_annot_transcript2gene.tsv`: Translation of transcript ID to gene ID (transformed from GTF file)
+* `ref_annot_gene2symbol.tsv`: Translation of gene ID to gene symbol (gencode.v<release>.metadata.HGNC.gz)
+* `ref_annot_splice_sites.tsv`: Splice sites of reference transcripts generated from the GTF (see [splice2neo](https://github.com/TRON-Bioinformatics/splice2neo))
+
+### UCSC repeatmasker regions
+
+The [RepeatMasker](https://www.repeatmasker.org/) annotated regions are downloaded.
+
+>Note: We do not mask the repetitive regions in the ref_genome.fasta file
+
 * `ucsc_repeatmasker_dump.txt.gz`: Repeat masker regions from [UCSC golden path](https://hgdownload.soe.ucsc.edu/downloads.html)
 
 ### Exome definition
@@ -104,9 +123,11 @@ These files can be used e.g. to restrict specific variant callers (e.g. Mutect2)
 only consider the specified regions for variant calling.
 In human and mouse mode the following files can be found in this directory:
 
-* `ref_exome.bed`: The exonic intervals extended by `intron-slop` (default: 20) bases defined in the config file. The file was generated by selecting the exons from the annotation GTF with the `basic` tag.
+* `ref_exome.bed`: The exonic intervals extended by `intron-slop` (default: 20) bases defined in the config file. 
+The file was generated by selecting the exons from the annotation GTF with the tag defined in exome_transcript_definition.
 
-In human mode, the following files are additionally in this directory:
+In human mode, the [Twist](https://www.twistbioscience.com/resources/data-files/twist-exome-20-bed-files)
+exome bed files are additionally in this directory:
 
 * `twist_refseq.bed`: Exome capture kit `Twist_Exome_RefSeq_targets_hg38.bb` downloaded from UCSC exomeProbesets transformed into bed file using `ucsc-bigbedtobed` version 469
 * `twist_core_exome.bed`: Exome capture kit `Twist_Exome_Target_hg38.bb` downloaded from UCSC exomeProbesets transformed into bed file using `ucsc-bigbedtobed` version 469
@@ -116,7 +137,7 @@ In human mode, the following files are additionally in this directory:
 ### GATK bundle
 
 The GATK bundle is only available for human and thus only present in the output
-when `pull_resources.smk` is run in human mode.
+when `pull_resources` is run in human mode.
 The URL to the GATK bundle for download can be specified in the config file via
 the parameter `GATK_URL` and is by default the public Google cloud bucket:
 https://storage.googleapis.com/genomics-public-data/resources/broad/hg38/v0.
@@ -132,7 +153,7 @@ For all VCF files, the index is created using `tabix` v1.11.
 ### Germline variants
 
 The germline variants are downloaded from [GNOMAD](https://gnomad.broadinstitute.org/)
-and processed and are only available when `pull_resources.smk` was run in human mode.
+and processed and are only available when `pull_resources` was run in human mode.
 The GNOMAD version has to be specified in the config file (see [Configuration](configuration.md)).
 Default is v4.1 and tests were done for v4.1.
 For every file an index is created with tabix v1.11.
@@ -148,7 +169,7 @@ For every file an index is created with tabix v1.11.
 ### Mappability
 
 Mappability contains bed files with regions that are complicated to map with short reads. 
-The files are only downloaded when `pull_resources.smk` is run in human mode.
+The files are only downloaded when `pull_resources` is run in human mode.
 These files are downloaded from [UCSC](https://hgdownload.soe.ucsc.edu/gbdb/hg38/problematic).
 All files are transformed to bed format using `ucsc-bigbedtobed` v469.
 

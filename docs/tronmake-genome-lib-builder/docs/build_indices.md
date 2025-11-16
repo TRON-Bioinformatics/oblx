@@ -1,6 +1,13 @@
 # Build Indices
 
-The build indices workflow generates indices for the following bioinformatics tools:
+The build indices workflow generates indices for the following bioinformatics tools.
+It builds the tool indices based on the previously [pulled resources](pull_resources.md).
+
+> Note: When using the generated indices, it is essential to ensure that the versions
+> of the tools used in your analysis match the versions of the tools that were used 
+> to create the indices. Mismatched versions may lead to errors or inconsistent results.
+> The versions for each tool can be found in the respective environment yaml file 
+> in `workflow/envs`.
 
 * [STAR](https://github.com/alexdobin/STAR)
 * [bwa-mem2](https://github.com/bwa-mem2/bwa-mem2)
@@ -8,8 +15,6 @@ The build indices workflow generates indices for the following bioinformatics to
 * [salmon](https://combine-lab.github.io/salmon/)
 * [kallisto](https://pachterlab.github.io/kallisto/)
 * more will follow soon ...
-
-It builds the tool indices based on the previously [pulled resources](pull_resources.md).
 
 ## Input
 
@@ -23,7 +28,7 @@ to a directory that was created with the pull_resources workflow).
 To run the build indices workflow run the following command.
 
 ```
-snakemake -s workflow/build_indices.smk \
+snakemake --until build_indices \
     --directory </path/to/output/directory> \
     --software-deployment-method conda \
     --latency-wait 60 \
@@ -32,7 +37,7 @@ snakemake -s workflow/build_indices.smk \
     [--profile </path/to/cluster/profile/>]
 ```
 
-* `--directory`: Path to the directory that was created using pull_resources workflow
+* `--directory`: Path to the directory that was created using [pull_resources](pull_resources.md) workflow
 * `--software-deployment-method`: Has to be set to `conda`, as only conda is supported currently
 * `--latency-wait`: Wait for e.g. 60 seconds for files to be created due to IO latency
 * `--configfile` (optional): Defines e.g. the reference genome version that should be used, see [Configuration](configuration.md) (default: `config/default.yaml`)
@@ -42,7 +47,7 @@ snakemake -s workflow/build_indices.smk \
 ## Output
 
 The output of the build_indices workflow creates the `indices` directory
-next to the `resources` directory, created by the pull_resources workflow.
+next to the `resources` directory, created by the [pull_resources](pull_resources.md) workflow.
 The following directory structure is being created:
 
 ```
@@ -99,8 +104,6 @@ The following directory structure is being created:
 
 ### bwa
 
-Current bwa-mem2 version: **v2.2.1**
-
 The bwa directory contains the bwa-mem2 index and a symlink to the reference genome 
 fasta file (if the genome is masked, in case of human, this symlink points to
 the masked reference genome fasta).
@@ -109,38 +112,38 @@ the masked reference genome fasta).
 
 This directory contains the resources required to run snpEff predictor. 
 
-Current snpEff version: **v5.2**
-
 **How to use the created resources to run snpEff?**
 
 The file `snpeff.config` has to be passed to snpEff with the command line option `-c` when
 running snpEff. Additionally, option `-nodownload` has to be set to the value of
 the name of the subfolder in `results/indices/snpeff/data` (e.g. `GRCh38.48`).
 
-### R
+Example usage
 
-R-version: **v4.3.3**
+```
+snpEff \
+    -stats <path_to_stats_outfile> \
+    -csvStats <path_to_stats_outcsvfile> \
+    -c <path_to_generated_snpeff_config> \
+    -nodownload \
+    <release> \
+    <path_to_vcf_file>
+```
+
+### R
 
 This directory contains GenomicFeatures respresentations of annotation data for use 
 with [splice2neo](https://github.com/TRON-Bioinformatics/splice2neo).
 
 ### Star
 
-Current STAR version: **v2.7.11a**
-
 The STAR directory contains the STAR index. The path to the STAR directory has 
 to be set as `--genomeDir` parameter, when running STAR mapping.
 
-
 ### Salmon
 
-Current Salmon version: **v1.10.1**
-
-Contains the [Salmon](https://salmon.readthedocs.io/en/latest/salmon.html) 
-index for [mapping based mode of Salmon](https://salmon.readthedocs.io/en/latest/salmon.html#preparing-transcriptome-indices-mapping-based-mode).
+Contains the [Salmon](https://salmon.readthedocs.io/en/latest/salmon.html) index.
 
 ### Kallisto
-
-Current kallisto version **v0.48**
 
 Contains the [Kallisto](https://pachterlab.github.io/kallisto/) index.
