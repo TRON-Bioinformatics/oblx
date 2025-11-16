@@ -1,17 +1,20 @@
 rule star_index:
-    """STAR index
-
-    Rule to create a STAR index from the GENCODE annotation and
-    DNA fasta file.
+    """
+    Create a STAR index from the GENCODE annotation file and reference DNA
+    sequence fasta file.
 
     input:
-        fasta (string): Path to DNA fasta file
-        gtf (string): Path to GTF file
+        fasta (str): Path to reference DNA sequence fasta file.
+        gtf (str): Path to reference annotation GTF file.
     params:
-        genomeDir (string): Path (dirname) to STAR index
-        ramByte (int): Memory limit in byte for index generation
+        genome_dir (str): Path to the dir containing STAR index files.
+        ram_byte (int): Memory limit in bytes for index generation, needs to
+          match the amount provided by Snakemake.
+        genomesaindexnbases (str): Genome SA index pre-indexing string length.
+        sjdb_overhang (int): Splice junction database donor/acceptor sequence
+          length per side of a splice junction.
     output:
-        genomeFile (string): Path to STAR index genome file
+        genome_file (str): Path to STAR index genome file.
     """
     input:
         fasta = 'resources/ref_genome.fasta',

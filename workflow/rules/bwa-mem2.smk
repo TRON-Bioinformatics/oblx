@@ -3,9 +3,10 @@ rule link_bwa_fasta:
     Create a symlink of the reference fasta into the bwa-mem2 index directory.
 
     input:
-        fasta (str): Path to the fasta file that should be symlinked (either masked for human or default for mouse)
+        fasta (str): Path to the fasta file that should be symlinked (either
+            masked for human or default for mouse).
     output:
-        fasta_link (str): Path to symlink reference fasta file in bwa directory
+        fasta_link (str): Path to symlink reference fasta file in bwa directory.
     """
     input:
         fasta = get_genome_for_index_building
@@ -15,17 +16,13 @@ rule link_bwa_fasta:
         'ln -sr {input.fasta} {output.fasta_link}'
 
 rule bwa_mem2_index:
-    """bwa-mem2 index
-
-    Rule to create a bwa index from the reference genome file.
+    """
+    Create a bwa-mem2 index from the reference genome file.
 
     input:
-        fasta (string): Path to DNA fasta file
-    params:
-        genomeDir (string): Path (dirname) to STAR index
-        ramByte (int): Memory limit in byte for index generation
+        fasta (str): Path to DNA fasta file.
     output:
-        genomeFile (string): Path to STAR index genome file
+        index_files (list): List of bwa-mem2 index files.
     """
     input:
         fasta = rules.link_bwa_fasta.output.fasta_link
@@ -51,7 +48,12 @@ rule bwa_mem2_index:
 
 rule samtools_faidx_bwa:
     """
-    Generate FASTA index of reference genome in bwa index dir
+    Generate FASTA index of reference genome in bwa index dir.
+
+    input:
+        fasta (str): Path to reference genome fasta file.
+    output:
+        fai (str): Path to FASTA index file.
     """
     input:
         fasta = 'indices/bwa/ref_genome.fasta'

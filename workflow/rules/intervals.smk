@@ -1,6 +1,11 @@
 rule chrom_sizes:
     """
     Generate chromosome size table from fasta index.
+
+    input:
+        fasta_index (str): Path to FASTA index file.
+    output:
+        chrom_size_file (str): Path to chromosome sizes table.
     """
     input:
         fasta_index = 'resources/ref_genome.fasta.fai'
@@ -11,7 +16,18 @@ rule chrom_sizes:
 
 rule gencode_exome_bed:
     """
-    Generate generic exome definition based on GENCODE basic transcript definition
+    Generate generic exome definition based on GENCODE basic transcript
+    definition.
+
+    input:
+        gtf (str): Path to GTF file.
+        chrom_sizes (str): Path to chromosome sizes table.
+    params:
+        intron_slop (int): Number of bases to extend exons (from
+            `bedtools slop`).
+        exome_transcript_definition (str): Tag to filter transcripts.
+    output:
+        exome_interval (str): Path to exome BED file.
     """
     input:
         gtf = config.get(
