@@ -7,6 +7,7 @@ The configuration file defines the following parameters:
 * `genome-build`: Genome build version, has to match the `release` (currently supported: `GRCh38`, `GRCm39`, `GRCm38`)
 * `gnomad-release`: Version of the gnomad release (suggested version: `4.1`)
 * `intron-slop`: Number of intronic bases that should extend the exome definition `ref_exome.bed` (suggested: `20`)
+* `exome_transcript_definition`: Define which GENCODE transcripts should be used to create the exome definition. The default is the `"basic"` tag. Please note that GENCODE basic definitions were deprecated in version 48 and replaced by the tag `"GENCODE_Primary"`. These are not the same sets of transcripts. For now, we recommend continuing to use basic transcripts.
 * `star-sjdb-overhang`: `--sjdbOverhang` parameter for STAR index generation (should be read length - 1, in most cases `100` should be sufficient)
 * `minimum_allele_frequency` (only required in human mode): `af_only_gnomad_hg38.vcf.gz` variants are filtered for population allele frequency > this cutoff (suggested: `0.001`)
 * `GENCODE_URL`: URL of GENCODE, where reference genome and annotation is downloaded from (default: "https://ftp.ebi.ac.uk/pub/databases/gencode")
