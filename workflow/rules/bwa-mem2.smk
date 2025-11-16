@@ -13,7 +13,7 @@ rule link_bwa_fasta:
     output:
         fasta_link = 'indices/bwa/ref_genome.fasta'
     conda:
-        "../env/shellutils.yaml"
+        "../envs/shellutils.yaml"
     shell:
         'ln -sr {input.fasta} {output.fasta_link}'
 

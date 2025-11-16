@@ -12,7 +12,7 @@ rule chrom_sizes:
     output:
         chrom_size_file = 'resources/chromosome_sizes.txt'
     conda:
-        "../env/shellutils.yaml"
+        "../envs/shellutils.yaml"
     shell:
         'cut -f 1,2 {input.fasta_index} > {output.chrom_size_file}'
 

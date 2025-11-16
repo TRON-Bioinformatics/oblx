@@ -9,7 +9,7 @@ rule repeatmasker_bed:
     conda:
         '../envs/bedtools.yaml'
     conda:
-        "../env/shellutils.yaml"
+        "../envs/shellutils.yaml"
     log:
         'logs/rmsk_creation.log'
     script:

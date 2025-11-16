@@ -17,7 +17,7 @@ rule set_genome:
     output:
         genome = 'resources/ref_genome.fasta'
     conda:
-        "../env/shellutils.yaml"
+        "../envs/shellutils.yaml"
     shell:
         'ln -sr {input.fasta} {output.genome}'
 
