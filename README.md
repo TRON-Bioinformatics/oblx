@@ -2,7 +2,6 @@
 
 <!-- badges: start -->
 
-[![Release](https://gitlab.rlp.net/tron/tronmake-genome-lib-builder/-/badges/release.svg)](https://gitlab.rlp.net/tron/tronmake-genome-lib-builder/-/releases)
 [![Snakemake](https://img.shields.io/badge/snakemake-8.25.3-brightgreen.svfg?style=plastic)](https://snakemake.readthedocs.io)
 [![pipeline status](https://github.com/TRON-Private/tronmake-genome-lib-builder/actions/workflows/ci.yaml/badge.svg)](https://github.com/TRON-Private/tronmake-genome-lib-builder/actions/workflows/ci.yaml)
 
