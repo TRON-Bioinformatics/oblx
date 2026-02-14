@@ -336,6 +336,23 @@ rule download_gatk_bundle:
         tabix -p vcf {output.hapmap_vcf}
         '''
 
+rule download_uniprot:
+    """
+    Download UniProt data.
+    """
+    output:
+        uniprot_annotations = temp("resources/uniprot/uniprot_stream.tsv"),
+    params:
+        script = "../scripts/programatically_get_uniprot.py",
+        outdir = lambda wildcards, output: os.path.dirname(output.uniprot_annotations),
+        organism = lambda wildcards: config.get("organism"),
+    conda:
+        "../envs/python.yaml"
+    shell:
+        """
+        python {params.script} --outdir {params.outdir} --organism {params.organism}
+        """
+
 rule download_dbsnp_human:
     """
     Download current dbSNP release from NCBI server.
