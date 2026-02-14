@@ -78,6 +78,7 @@ include: "rules/prepare_ucsc.smk"
 include: "rules/genome_masking.smk"
 include: "rules/pull_resources.smk"
 include: "rules/build_indices.smk"
+include: "rules/uniprot_annotations.smk"
 # For building indices.
 include: "rules/bwa-mem2.smk"
 include: "rules/star.smk"

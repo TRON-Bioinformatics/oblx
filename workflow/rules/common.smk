@@ -29,7 +29,8 @@ def get_pull_resources_output(wildcards):
                    'resources/exome_definition/ref_exome.bed',
                    'resources/ref_annot_splice_sites.tsv',
                    'resources/ref_annot_transcript2gene.tsv',
-                   'resources/ref_annot_gene2symbol.tsv'
+                   'resources/ref_annot_gene2symbol.tsv',
+                   'resources/uniprot/uniprot_annotations.tsv'
                    ]
     # Files specific to human
     if organism == "human":
