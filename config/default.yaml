@@ -19,7 +19,7 @@ exome_transcript_definition: "basic"
 GENCODE_URL: "https://ftp.ebi.ac.uk/pub/databases/gencode"
 UCSC_URL: "https://hgdownload.soe.ucsc.edu/gbdb/hg38"
 UCSC_GOLDEN_PATH_URL: "https://hgdownload.soe.ucsc.edu/goldenPath"
-GATK_URL: "https://console.cloud.google.com/storage/browser/genomics-public-data/resources/broad/hg38/v0/"
+GATK_URL: "https://storage.googleapis.com/gcp-public-data--broad-references/hg38/v0"
 GNOMAD_URL: "https://storage.googleapis.com/gcp-public-data--gnomad/release"
 
 chrom-filter:
