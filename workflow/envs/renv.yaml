@@ -1,14 +1,16 @@
 name: R
 channels:
   - conda-forge
+  - bioconda
   - nodefaults
 dependencies:
   - conda-forge::r-base=4.3.3
   - conda-forge::cmake
-  - conda-forge::r-xml
+  - conda-forge::r-xml2
   - conda-forge::freetype
   - conda-forge::pkg-config
   - conda-forge::fontconfig
   - conda-forge::libtiff
   - conda-forge::libdeflate
+  - conda-forge::r-tidyverse
   - conda-forge::r-systemfonts

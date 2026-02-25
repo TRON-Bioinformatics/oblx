@@ -343,11 +343,11 @@ rule download_uniprot:
     output:
         uniprot_annotations = temp("resources/uniprot/uniprot_stream.tsv"),
     params:
-        script = "../scripts/programatically_get_uniprot.py",
+        script = os.path.join(workflow.basedir, 'scripts/programatically_get_uniprot.py'),
         outdir = lambda wildcards, output: os.path.dirname(output.uniprot_annotations),
         organism = lambda wildcards: config.get("organism"),
     conda:
-        "../envs/python.yaml"
+        "../envs/pull_uniprot.yaml"
     shell:
         """
         python {params.script} --outdir {params.outdir} --organism {params.organism}
