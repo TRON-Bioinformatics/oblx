@@ -14,6 +14,8 @@ rule link_bwa_fasta:
         fasta_link = 'indices/bwa/ref_genome.fasta'
     conda:
         "../envs/shellutils.yaml"
+    container:
+        config['container'].get('shell_utils')
     shell:
         'ln -sr {input.fasta} {output.fasta_link}'
 
@@ -38,6 +40,8 @@ rule bwa_mem2_index:
             ".pac"
         )
     conda: '../envs/bwa_mem2.yaml'
+    container:
+        config['container'].get('bwa_mem2')
     resources:
         mem_mb = 100000
     threads:
@@ -63,6 +67,8 @@ rule samtools_faidx_bwa:
        fai = 'indices/bwa/ref_genome.fasta.fai'
     conda:
         '../envs/samtools.yaml'
+    container:
+        config['container'].get('samtools')
     shell:
         '''
 	    samtools faidx {input.fasta}

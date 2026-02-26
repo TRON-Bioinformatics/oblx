@@ -18,6 +18,8 @@ rule set_genome:
         genome = 'resources/ref_genome.fasta'
     conda:
         "../envs/shellutils.yaml"
+    container:
+        config['container'].get('shell_utils')
     shell:
         'ln -sr {input.fasta} {output.genome}'
 
@@ -36,6 +38,8 @@ rule samtools_faidx_ref_genome:
        fai = 'resources/ref_genome.fasta.fai'
     conda:
         '../envs/samtools.yaml'
+    container:
+        config['container'].get('samtools')
     shell:
         '''
 	    samtools faidx {input.fasta}

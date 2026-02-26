@@ -29,8 +29,12 @@ rule annotation_R:
             'indices/R/ref_transcript_ranges.Rds',
         serialized_cds =
             'indices/R/ref_cds.Rds'
+    log:
+        'logs/annotation_R.log'
     conda:
         '../envs/renv.yaml'
+    container:
+        config['container'].get('splice2neo')
     resources:
         mem_mb = 32000
     benchmark:

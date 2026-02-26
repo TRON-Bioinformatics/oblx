@@ -23,7 +23,7 @@ rule kallisto_index:
     conda:
         '../envs/kb_tools.yaml'
     container:
-        'docker://quay.io/biocontainers/kb-python:0.27.3--pyhdfd78af_1'
+        config['container'].get('kb_tools')
     shell:
         'kb ref --workflow=standard '
         '-i {output.index} -g {output.tx2gene} -f1 {output.cdna} '

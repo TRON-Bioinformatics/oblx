@@ -21,6 +21,8 @@ rule mask_GRC_assembly_errors:
         masked_genome = "resources/ref_genome_grc_masked.fasta"
     conda:
         '../envs/bedtools.yaml'
+    container:
+        config['container'].get('bedtools')
     shell:
         'maskFastaFromBed '
         '-fi {input.genome} '
@@ -46,6 +48,8 @@ rule mask_pseudoautosomal:
         masked_genome = "resources/ref_genome_masked_final.fasta"
     conda:
         '../envs/bedtools.yaml'
+    container:
+        config['container'].get('bedtools')
     shell:
         'maskFastaFromBed '
         '-fi {input.genome} '
