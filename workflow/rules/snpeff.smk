@@ -18,6 +18,8 @@ rule link_snpeff:
         )
     conda:
         "../envs/shellutils.yaml"
+    container:
+        config['container'].get('shell_utils')
     shell:
         '''
         ln -sr {input.fasta} {output.fasta_link}
@@ -48,6 +50,8 @@ rule prepare_snpEff_config:
         release = config.get('release', default_release)
     conda:
         "../envs/shellutils.yaml"
+    container:
+        config['container'].get('shell_utils')
     shell:
         """
         cat {input.codon_mit_vertebrate} >> {output.config_file}
@@ -76,6 +80,8 @@ rule build_snpEff_index:
         mem_mb = 8000
     conda:
         '../envs/snpeff.yaml'
+    container:
+        config['container'].get('snpeff')
     log:
         'logs/snpeff/snpeff-build-db.log'
     shell:

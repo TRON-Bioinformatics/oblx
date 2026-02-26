@@ -1,6 +1,6 @@
 rule salmon_decoy:
     """
-    Generate salmon decoys.
+    Generate salmon decoys. Based on https://snakemake-wrappers.readthedocs.io/en/v3.1.0/wrappers/salmon/decoys.html.
 
     input:
         transcriptome (str): Path to transcriptome fasta file.
@@ -19,12 +19,25 @@ rule salmon_decoy:
         gentrome = 'indices/salmon/gentrome.fasta',
         decoys = 'indices/salmon/decoys.txt',
     conda:
-        "../envs/salmon_decoy.yaml"
-    threads: 2
+        "../envs/shellutils.yaml"
+    container:
+        config['container'].get('shell_utils')
     log:
         'logs/salmon/decoys.log'
-    wrapper:
-        "v4.7.1/bio/salmon/decoys"
+    shell:
+        r"""
+        genome="{input.genome}"
+        decoys="{output.decoys}"
+
+        # Gathering decoy sequences names
+        # Sed command works as follow:
+        # -n       = do not print all lines
+        # s/ .*//g = Remove anything after spaces. (remove comments)
+        # s/>//p  = Remove '>' character at the begining of sequence names. Print names.
+        eval "sed -n 's/ .*//g;s/>//p' $genome" > "$decoys" &> {log}
+
+        cat {input.transcriptome} {input.genome} > {output.gentrome} &> {log}
+        """
 
 rule salmon_index_gentrome:
     """
@@ -64,6 +77,8 @@ rule salmon_index_gentrome:
     cache: True
     conda:
         "../envs/salmon.yaml"
+    container:
+        config['container'].get('salmon')
     log:
         "logs/salmon/transcriptome_index.log",
     threads: 2
@@ -72,8 +87,17 @@ rule salmon_index_gentrome:
     params:
         # optional parameters
         extra="--gencode",
-    wrapper:
-        "v4.7.1/bio/salmon/index"
+        outdir = lambda _, output: os.path.dirname(output.index_files[0]),
+    shell:
+        """
+        salmon index \
+        --transcripts {input.sequences} \
+        --index {params.outdir} \
+        --threads {threads} \
+        --params {params.extra} \
+        --decoys {input.decoys} \
+        &> {log}
+        """
 
 rule salmon_requant_transcriptome:
     """
@@ -99,6 +123,8 @@ rule salmon_requant_transcriptome:
     cache: True
     conda:
         "../envs/gffread.yaml"
+    container:
+        config['container'].get('gffread')
     log:
         "logs/salmon/requant_transcriptome.log",
     threads: 1
@@ -107,5 +133,10 @@ rule salmon_requant_transcriptome:
     params:
         fasta_flag="-w",
         extra="",
-    wrapper:
-        "v5.0.0/bio/gffread"
+    shell:
+        """
+        gffread \
+        -w {output.transcript_fasta} \
+        -g {input.fasta} {input.annotation} \
+        &> {log}
+        """

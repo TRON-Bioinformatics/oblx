@@ -15,6 +15,8 @@ rule create_sequence_dict:
         genome_dict = 'resources/ref_genome.dict'
     conda:
         '../envs/gatk4.yaml'
+    container:
+        config['container'].get('gatk4')
     shell:
         '''
         gatk CreateSequenceDictionary --REFERENCE {input.genome_fasta} --OUTPUT {output.genome_dict}

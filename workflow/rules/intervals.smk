@@ -13,6 +13,8 @@ rule chrom_sizes:
         chrom_size_file = 'resources/chromosome_sizes.txt'
     conda:
         "../envs/shellutils.yaml"
+    container:
+        config['container'].get('shell_utils')
     shell:
         'cut -f 1,2 {input.fasta_index} > {output.chrom_size_file}'
 
@@ -43,6 +45,8 @@ rule gencode_exome_bed:
         exome_interval = 'resources/exome_definition/ref_exome.bed'
     conda:
         '../envs/bedtools.yaml'
+    container:
+        config['container'].get('bedtools')
     log:
         'logs/exome_creation.log'
     script:

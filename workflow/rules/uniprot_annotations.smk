@@ -9,6 +9,8 @@ rule merge_gencode_to_uniprot:
         python_script = os.path.join(workflow.basedir, 'scripts/merge_gencode_to_uniprot.py')
     conda:
         "../envs/pandas.yaml"
+    container:
+        config['container'].get('python')
     threads: 1
     log:
         'logs/uniprot/merge_gencode_to_uniprot.log'

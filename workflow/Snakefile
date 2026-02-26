@@ -22,6 +22,8 @@ from snakemake.utils import min_version
 min_version("8.5.4")
 timestamp = datetime.datetime.now().strftime("%Y-%m-%d_%H:%M:%S")
 
+configfile: workflow.source_path('../config/container_config.yaml')
+
 default_build = "GRCh38"
 default_release = "46"
 default_organism = "human"

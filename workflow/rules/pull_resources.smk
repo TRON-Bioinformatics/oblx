@@ -69,7 +69,6 @@ rule download_gencode_data:
                 config.get('release', default_release)
             )
         ),
-
     output:
         fasta = temp(
             "resources/GENCODE_GRC{}{}v{}_dna.fasta.gz".format(
@@ -101,6 +100,10 @@ rule download_gencode_data:
                 config.get('genome-build', default_build),
                 config.get('release', default_release)
         )),
+    conda:
+        '../envs/shellutils.yaml'
+    container:
+        config['container'].get('shell_utils')
     shell:
         '''
         cp {input.transcripts_remote} {output.transcripts}
@@ -141,6 +144,10 @@ rule gunzip_annotation_data:
         transcripts = 'resources/ref_transcripts.fasta',
         swissprot = 'resources/ref_annot_metadata_SwissProt.tsv',
         trembl = 'resources/ref_annot_metadata_TrEMBL.tsv'
+    conda:
+        '../envs/shellutils.yaml'
+    container:
+        config['container'].get('shell_utils')
     shell:
         '''
         gunzip -c {input.fasta_gzipped} > {output.fasta}
@@ -175,6 +182,10 @@ rule download_ucsc_data:
         grc_exclusion = temp("resources/mappability/grcExclusions.bb"),
         ucsc_problematic = temp("resources/mappability/ucsc_problematic.bb"),
         gencode_bed = temp("resources/ref_annot.bb"),
+    conda:
+        '../envs/shellutils.yaml'
+    container:
+        config['container'].get('shell_utils')
     shell:
         '''
         cp {input.encode_exclusion_remote} {output.encode_exclusion}
@@ -197,6 +208,10 @@ rule download_repeat_masker:
         )
     output:
         rmsk_annot = "resources/ucsc_repeatmasker_dump.txt.gz"
+    conda:
+        '../envs/shellutils.yaml'
+    container:
+        config['container'].get('shell_utils')
     shell:
         'cp {input.rmsk_remote} {output.rmsk_annot}'
 
@@ -220,6 +235,10 @@ rule download_exome_probesets:
         twist_core_exome = temp("resources/exome_definition/twist_core_exome.bb"),
         twist_comprehensive_exome = temp("resources/exome_definition/twist_comprehensive_exome.bb"),
         twist_exome2 = temp("resources/exome_definition/twist_exome2.bb")
+    conda:
+        '../envs/shellutils.yaml'
+    container:
+        config['container'].get('shell_utils')
     shell:
         '''
         cp {input.twist_refseq_remote} {output.twist_refseq}
@@ -252,6 +271,8 @@ rule bb_to_bed:
         twist_exome2 = "resources/exome_definition/twist_exome2.bed"
     conda:
         '../envs/bigbedtobed.yaml'
+    container:
+        config['container'].get('bigbedtobed')
     shell:
         '''
         bigBedToBed {input.encode_exclusion} {output.encode_exclusion}
@@ -274,6 +295,8 @@ rule ucsc_problematic_bed_format:
         ucsc_problematic = "resources/mappability/ucsc_problematic.bed"
     conda:
         '../envs/shellutils.yaml'
+    container:
+        config['container'].get('shell_utils')
     shell:
         '''
         cut -f 1-6 {input.ucsc_problematic} > {output.ucsc_problematic}
@@ -314,6 +337,8 @@ rule download_gatk_bundle:
             os.path.splitext(output.gatk_dbsnp_gz)[0]
     conda:
         '../envs/bcftools.yaml'
+    container:
+        config['container'].get('bcftools')
     shell:
         '''
         cp {input.mills_remote} {output.mills_vcf}
@@ -348,6 +373,8 @@ rule download_uniprot:
         organism = lambda wildcards: config.get("organism"),
     conda:
         "../envs/pull_uniprot.yaml"
+    container:
+        config['container'].get('python')
     shell:
         """
         python {params.script} --outdir {params.outdir} --organism {params.organism}
@@ -366,6 +393,8 @@ rule download_dbsnp_human:
         dbsnp_tbi = temp("resources/germline_variants/00-common_all.vcf.gz.tbi")
     conda:
         '../envs/bcftools.yaml'
+    container:
+        config['container'].get('bcftools')
     shell:
         '''
         cp {input.dbsnp_remote} {output.dbsnp_vcf}
@@ -391,6 +420,8 @@ rule download_dbsnp_mouse:
         dbsnp_tmp = temp("resources/germline_variants/mus_musculus.vcf.gz"),
     conda:
         '../envs/bcftools.yaml'
+    container:
+        config['container'].get('bcftools')
     shell:
         """
         cp {input.dbsnp_remote} {params.dbsnp_tmp}
@@ -423,6 +454,8 @@ rule prepare_dbsnp:
         dbsnp_vcf = "resources/germline_variants/dbSNP_151.vcf.gz"
     conda:
         '../envs/bcftools.yaml'
+    container:
+        config['container'].get('bcftools')
     log:
         'logs/pull_resources/prepare_dbsnp.log'
     script:
@@ -443,6 +476,10 @@ rule download_gnomad_exome:
         )
     output:
         vcf_file = temp("resources/germline_variants/gnomad_{chromosome}.vcf.tmp.bgz")
+    conda:
+        '../envs/shellutils.yaml'
+    container:
+        config['container'].get('shell_utils')
     shell:
         """
         cp {input.gnomad_remote} {output.vcf_file}
@@ -465,6 +502,8 @@ rule af_only_gnomad:
         vcf_file_index = temp("resources/germline_variants/gnomad_{chromosome}.vcf.gz.tbi")
     conda:
         '../envs/bcftools.yaml'
+    container:
+        config['container'].get('bcftools')
     script:
         "../scripts/make_AF_only_gnomad_vcf.sh"
 
@@ -479,28 +518,33 @@ rule bcftools_concat:
     log:
         "logs/all.log",
     params:
-        uncompressed_bcf=False,
         extra="",  # optional parameters for bcftools concat (except -o)
     threads: 4
     resources:
         mem_mb=1024,
-    wrapper:
-        "v4.7.8/bio/bcftools/concat"
+    shell:
+        """
+        bcftools concat --threads {threads} \
+        --output {output.af_only_gnomad} {params.extra} {input.calls} \
+        --output-type z 
+        """
 
 rule tabix_af_only_gnomad:
     """
     Create index for af-only VCF.
     """
     input:
-        rules.bcftools_concat.output.af_only_gnomad,
+        af_only_vcf = rules.bcftools_concat.output.af_only_gnomad,
     output:
         af_only_gnomad_tbi = "resources/germline_variants/af_only_gnomad_hg38.vcf.gz.tbi",
     log:
         "logs/tabix/af_only_gnomad_tbi.log",
     params:
-        "-p vcf",
-    wrapper:
-        "v5.0.1/bio/tabix/index"
+        extra = "-p vcf",
+    shell:
+        """
+        tabix {params.extra} {input.af_only_vcf} &> {log}
+        """
 
 rule prepare_variants_for_contamination:
     """Create VCF file for GATK PileupSummaries calculation.
@@ -528,6 +572,8 @@ rule prepare_variants_for_contamination:
         tmp_vcf = "resources/germline_variants/common_biallelic_chr1.vcf",
     conda:
         '../envs/bcftools.yaml'
+    container:
+        config['container'].get('bcftools')
     script:
         "../scripts/prepare_variants_for_contamination.sh"
 
@@ -543,6 +589,8 @@ rule download_tcga_virus:
         tcga_virus = "resources/viruses/tcga_virus_decoy.fasta"
     conda:
         '../envs/efetch.yaml'
+    container:
+        config['container'].get('efetch')
     shell:
         """
         while IFS=$'\\t' read -r name abbv genbank
@@ -560,8 +608,12 @@ rule transcript_to_gene_mapping:
         gtf = 'resources/ref_annot.gtf'
     output:
         tx2gene = 'resources/ref_annot_transcript2gene.tsv'
+    log:
+        'logs/pull_resources/transcript_to_gene_mapping.log'
     conda:
         '../envs/renv.yaml'
+    container:
+        config['container'].get('splice2neo')
     script:
         '../scripts/tx2gene.R'
 
@@ -575,6 +627,8 @@ rule gene_to_hgnc_mapping:
         mapping_table = 'resources/ref_annot_gene2symbol.tsv'
     conda:
         '../envs/python.yaml'
+    container:
+        config['container'].get('python')
     script:
         '../scripts/get_annotation_data.py'
 
@@ -586,7 +640,11 @@ rule canonical_junction_list:
         gtf = 'resources/ref_annot.gtf'
     output:
         canonical_juncs = 'resources/ref_annot_splice_sites.tsv'
+    log:
+        'logs/pull_resources/canonical_junction_list.log'
     conda:
         '../envs/renv.yaml'
+    container:
+        config['container'].get('splice2neo')
     script:
         '../scripts/canonical_splice_junctions.R'

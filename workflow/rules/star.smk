@@ -34,6 +34,8 @@ rule star_index:
         mem_mb = 48 * 1000
     conda:
         '../envs/star.yaml'
+    container:
+        config['container'].get('star')
     log:
         'logs/star/star-index.log'
     shell:
