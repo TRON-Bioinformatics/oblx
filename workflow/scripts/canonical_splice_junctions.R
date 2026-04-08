@@ -1,7 +1,9 @@
 #!/usr/bin/env Rscript
 
 library(GenomicFeatures)
-library(tidyverse)
+library(readr)
+library(tibble)
+library(magrittr)
 library(splice2neo)
 
 gtf <- snakemake@input[['gtf']]

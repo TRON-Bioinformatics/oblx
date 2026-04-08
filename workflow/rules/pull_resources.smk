@@ -365,19 +365,22 @@ rule download_uniprot:
     """
     Download UniProt data.
     """
+    input:
+        script = workflow.source_path('../scripts/programatically_get_uniprot.py'),
     output:
         uniprot_annotations = temp("resources/uniprot/uniprot_stream.tsv"),
     params:
-        script = os.path.join(workflow.basedir, 'scripts/programatically_get_uniprot.py'),
         outdir = lambda wildcards, output: os.path.dirname(output.uniprot_annotations),
         organism = lambda wildcards: config.get("organism"),
+    log:
+        "logs/pull_resources/download_uniprot.log"
     conda:
         "../envs/pull_uniprot.yaml"
     container:
-        config['container'].get('python')
+        config['container'].get('scipy-notebook')
     shell:
         """
-        python {params.script} --outdir {params.outdir} --organism {params.organism}
+        python {input.script} --outdir {params.outdir} --organism {params.organism} &> {log}
         """
 
 rule download_dbsnp_human:
@@ -519,6 +522,10 @@ rule bcftools_concat:
         "logs/all.log",
     params:
         extra="",  # optional parameters for bcftools concat (except -o)
+    conda:
+        "../envs/bcftools.yaml"
+    container:
+        config['container'].get('bcftools')
     threads: 4
     resources:
         mem_mb=1024,
@@ -526,7 +533,7 @@ rule bcftools_concat:
         """
         bcftools concat --threads {threads} \
         --output {output.af_only_gnomad} {params.extra} {input.calls} \
-        --output-type z 
+        --output-type z &> {log}
         """
 
 rule tabix_af_only_gnomad:
@@ -541,6 +548,10 @@ rule tabix_af_only_gnomad:
         "logs/tabix/af_only_gnomad_tbi.log",
     params:
         extra = "-p vcf",
+    conda:
+        '../envs/bcftools.yaml'
+    container:
+        config['container'].get('bcftools')
     shell:
         """
         tabix {params.extra} {input.af_only_vcf} &> {log}
@@ -614,6 +625,8 @@ rule transcript_to_gene_mapping:
         '../envs/renv.yaml'
     container:
         config['container'].get('splice2neo')
+    resources:
+        mem_mb = 16000
     script:
         '../scripts/tx2gene.R'
 
@@ -622,15 +635,22 @@ rule gene_to_hgnc_mapping:
     Generate a TSV file mapping Ensembl gene ids to HGNC gene symbols.
     """
     input:
-        gtf = 'resources/ref_annot.gtf'
+        gtf = 'resources/ref_annot.gtf',
+        script = workflow.source_path('../scripts/get_annotation_data.py')
     output:
         mapping_table = 'resources/ref_annot_gene2symbol.tsv'
+    log:
+        'logs/pull_resources/gene_to_hgnc_mapping.log'
     conda:
         '../envs/python.yaml'
     container:
-        config['container'].get('python')
-    script:
-        '../scripts/get_annotation_data.py'
+        config['container'].get('scipy-notebook')
+    resources:
+        mem_mb = 16000
+    shell:
+        """
+        python {input.script} --gtf {input.gtf} --outfile {output.mapping_table} &> {log}
+        """
 
 rule canonical_junction_list:
     """
@@ -646,5 +666,7 @@ rule canonical_junction_list:
         '../envs/renv.yaml'
     container:
         config['container'].get('splice2neo')
+    resources:
+        mem_mb = 16000
     script:
         '../scripts/canonical_splice_junctions.R'

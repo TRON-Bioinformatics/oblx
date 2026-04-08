@@ -24,20 +24,8 @@ rule salmon_decoy:
         config['container'].get('shell_utils')
     log:
         'logs/salmon/decoys.log'
-    shell:
-        r"""
-        genome="{input.genome}"
-        decoys="{output.decoys}"
-
-        # Gathering decoy sequences names
-        # Sed command works as follow:
-        # -n       = do not print all lines
-        # s/ .*//g = Remove anything after spaces. (remove comments)
-        # s/>//p  = Remove '>' character at the begining of sequence names. Print names.
-        eval "sed -n 's/ .*//g;s/>//p' $genome" > "$decoys" &> {log}
-
-        cat {input.transcriptome} {input.genome} > {output.gentrome} &> {log}
-        """
+    script:
+        "../scripts/salmon_decoy.sh"
 
 rule salmon_index_gentrome:
     """
@@ -88,13 +76,14 @@ rule salmon_index_gentrome:
         # optional parameters
         extra="--gencode",
         outdir = lambda _, output: os.path.dirname(output.index_files[0]),
+    # TODO: Fails currently with container -> check
     shell:
         """
         salmon index \
         --transcripts {input.sequences} \
         --index {params.outdir} \
         --threads {threads} \
-        --params {params.extra} \
+        {params.extra} \
         --decoys {input.decoys} \
         &> {log}
         """

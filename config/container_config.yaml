@@ -5,13 +5,13 @@ container:
   bedtools: docker://quay.io/biocontainers/bedtools:2.31.1--h13024bc_3
   kb_tools: docker://quay.io/biocontainers/kb-python:0.27.3--pyhdfd78af_1
   bcftools: docker://quay.io/biocontainers/bcftools:1.21--h3a4d415_1
-  python: docker://quay.io/biocontainers/python:3.12.12
+  scipy-notebook: docker://quay.io/jupyter/scipy-notebook:python-3.13 # this container contains requests and pandas
   efetch: docker://quay.io/biocontainers/entrez-direct:22.4--he881be0_0
   gatk4: docker://quay.io/biocontainers/gatk4:4.5.0.0--py36hdfd78af_0
   splice2neo: docker://tronbioinformatics/splice2neo:0.6.13
   snpeff: docker://quay.io/biocontainers/snpeff:5.2--hdfd78af_1
   star: docker://quay.io/biocontainers/star:2.7.11b--h43eeafb_2
   bigbedtobed: docker://quay.io/biocontainers/ucsc-bigbedtobed:469--h664eb37_1
-  salmon: docker://quay.io/biocontainers/salmon:1.10.1--hecfa306_2
+  salmon: docker://quay.io/biocontainers/salmon:1.10.1--h7e5ed60_1
   gffread: docker://quay.io/biocontainers/gffread:0.12.7--h077b44d_6
   
