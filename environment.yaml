@@ -15,6 +15,6 @@ dependencies:
   - conda-forge::mkdocs
   - conda-forge::mkdocs-material
   - conda-forge::mkdocs-table-reader-plugin
-  - bioconda::snakemake-minimal>9
+  - bioconda::snakemake-minimal=9.13.7
   - bioconda::snakemake-storage-plugin-http
   - bioconda::snakemake-executor-plugin-cluster-generic
