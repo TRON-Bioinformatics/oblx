@@ -41,23 +41,15 @@ def main():
     sp_mapping = sp_mapping[["transcript_id", "Entry"]]
     sp_mapping["Source"] = "SwissProt"
 
-    print(sp_mapping)
-
     tr_mapping = pd.read_csv(
         args.tr_mapping, sep="\t", names=["transcript_id", "Entry", "Entry_version"]
     )
     tr_mapping = tr_mapping[["transcript_id", "Entry"]]
     tr_mapping["Source"] = "TrEMBL"
 
-    print(tr_mapping)
-
     mapping = pd.concat([sp_mapping, tr_mapping], axis=0)
 
-    print(mapping)
-
     uniprot = pd.read_csv(args.uniprot, sep="\t", low_memory=False)
-
-    print(uniprot)
 
     merged = pd.merge(mapping, uniprot, how="left", on="Entry")
 
