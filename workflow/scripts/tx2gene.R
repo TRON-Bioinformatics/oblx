@@ -1,6 +1,8 @@
 #!/usr/bin/env Rscript
 library(GenomicFeatures)
-library(tidyverse)
+library(AnnotationDbi)
+library(readr)
+library(magrittr)
 
 gtf <- snakemake@input[['gtf']]
 tx2gene <- snakemake@output[['tx2gene']]

@@ -39,9 +39,8 @@ rule prepare_snpEff_config:
     input:
         fasta_link = rules.link_snpeff.output.fasta_link,
         gtf_link = rules.link_snpeff.output.gtf_link,
-        codon_mit_vertebrate = os.path.join(
-            workflow.basedir,
-            'resources/vertebrate_mitochondrial.txt'
+        codon_mit_vertebrate = workflow.source_path(
+            '../resources/vertebrate_mitochondrial.txt'
         )
     output:
         config_file = f'indices/snpeff/snpeff.config'
@@ -77,7 +76,7 @@ rule build_snpEff_index:
     params:
         data_dir = os.path.abspath(Path(rules.link_snpeff.output.fasta_link).parents[1]),
     resources:
-        mem_mb = 8000
+        mem_mb = 16000
     conda:
         '../envs/snpeff.yaml'
     container:
