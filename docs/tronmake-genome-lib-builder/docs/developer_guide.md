@@ -21,4 +21,4 @@ make unittest
 
 ## Contribute
 
-See [CONTRIBUTING.md](https://github.com/TRON-Private/tronmake-genome-lib-builder/blob/mainCONTRIBUTING.md).
+See [CONTRIBUTING.md](https://github.com/TRON-Private/tronmake-genome-lib-builder/blob/main/CONTRIBUTING.md).
