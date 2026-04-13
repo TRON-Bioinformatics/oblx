@@ -76,7 +76,6 @@ rule salmon_index_gentrome:
         # optional parameters
         extra="--gencode",
         outdir = lambda _, output: os.path.dirname(output.index_files[0]),
-    # TODO: Fails currently with container -> check
     shell:
         """
         salmon index \
