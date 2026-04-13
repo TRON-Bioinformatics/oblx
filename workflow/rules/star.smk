@@ -31,7 +31,7 @@ rule star_index:
         genome_file = "indices/star/Genome"
     threads: 16
     resources:
-        mem_mb = 48 * 1000
+        mem_mb = 64 * 1000 # higher than actual memory usage to consider container overhead
     conda:
         '../envs/star.yaml'
     container:
