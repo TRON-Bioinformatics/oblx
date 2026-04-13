@@ -59,12 +59,13 @@ snakemake -s workflow/Snakefile \
 
 The TronMake Genome Lib Builder was originally developed by Luis Kress and Johannes Hausmann at [TRON - Translational Oncology at the Medical Center of the Johannes Gutenberg University Mainz gGmbH (non-profit)](https://tron-mainz.de/).
 
-Maintenance is now lead by Luis Kress and Johannes Hausmann. 
+Maintenance is now lead by Jonas Freimuth, Luis Kress and Johannes Hausmann. 
 
 Main developers: 
 
 - [Luis Kress](mailto:luis.kress@tron-mainz.de)
 - [Johannes Hausmann](mailto:johannes.hausmann@tron-mainz.de)
+- [Jonas Freimuth](mailto:jonas.freimuth@tron-mainz.de)
 
 
 ## References
