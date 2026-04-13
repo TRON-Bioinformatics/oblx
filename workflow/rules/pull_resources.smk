@@ -382,12 +382,12 @@ rule download_uniprot:
     Download UniProt data.
     """
     input:
-        script = workflow.source_path('../scripts/programatically_get_uniprot.py'),
+        script = workflow.source_path('../scripts/programmatically_get_uniprot.py'),
     output:
         uniprot_annotations = temp("resources/uniprot/uniprot_stream.tsv"),
     params:
         outdir = lambda wildcards, output: os.path.dirname(output.uniprot_annotations),
-        organism = lambda wildcards: config.get("organism"),
+        organism = lambda wildcards: config.get("organism", default_organism),
     log:
         "logs/pull_resources/download_uniprot.log"
     conda:
@@ -658,7 +658,7 @@ rule gene_to_hgnc_mapping:
     log:
         'logs/pull_resources/gene_to_hgnc_mapping.log'
     conda:
-        '../envs/python.yaml'
+        '../envs/pandas.yaml'
     container:
         config['container'].get('scipy-notebook')
     resources:
