@@ -100,6 +100,8 @@ rule download_gencode_data:
                 config.get('genome-build', default_build),
                 config.get('release', default_release)
         )),
+    log:
+        'logs/pull_resources/download_gencode_data.log'
     conda:
         '../envs/shellutils.yaml'
     container:
@@ -144,6 +146,8 @@ rule gunzip_annotation_data:
         transcripts = 'resources/ref_transcripts.fasta',
         swissprot = 'resources/ref_annot_metadata_SwissProt.tsv',
         trembl = 'resources/ref_annot_metadata_TrEMBL.tsv'
+    log:
+        'logs/pull_resources/gunzip_annotation_data.log'
     conda:
         '../envs/shellutils.yaml'
     container:
@@ -186,6 +190,8 @@ rule download_ucsc_data:
         '../envs/shellutils.yaml'
     container:
         config['container'].get('shell_utils')
+    log:
+        'logs/pull_resources/download_ucsc_data.log'
     shell:
         '''
         cp {input.encode_exclusion_remote} {output.encode_exclusion}
@@ -212,6 +218,8 @@ rule download_repeat_masker:
         '../envs/shellutils.yaml'
     container:
         config['container'].get('shell_utils')
+    log:
+        'logs/pull_resources/download_repeat_masker.log'
     shell:
         'cp {input.rmsk_remote} {output.rmsk_annot}'
 
@@ -235,6 +243,8 @@ rule download_exome_probesets:
         twist_core_exome = temp("resources/exome_definition/twist_core_exome.bb"),
         twist_comprehensive_exome = temp("resources/exome_definition/twist_comprehensive_exome.bb"),
         twist_exome2 = temp("resources/exome_definition/twist_exome2.bb")
+    log:
+        'logs/pull_resources/download_exome_probesets.log'
     conda:
         '../envs/shellutils.yaml'
     container:
@@ -273,6 +283,8 @@ rule bb_to_bed:
         '../envs/bigbedtobed.yaml'
     container:
         config['container'].get('bigbedtobed')
+    log:
+        'logs/pull_resources/bb_to_bed.log'
     shell:
         '''
         bigBedToBed {input.encode_exclusion} {output.encode_exclusion}
@@ -293,6 +305,8 @@ rule ucsc_problematic_bed_format:
         ucsc_problematic = "resources/mappability/ucsc_problematic_tmp.bed"
     output:
         ucsc_problematic = "resources/mappability/ucsc_problematic.bed"
+    log:
+        'logs/pull_resources/ucsc_problematic_bed_format.log'
     conda:
         '../envs/shellutils.yaml'
     container:
@@ -335,6 +349,8 @@ rule download_gatk_bundle:
     params:
         gatk_dbsnp = lambda wildcards, output:
             os.path.splitext(output.gatk_dbsnp_gz)[0]
+    log:
+        'logs/pull_resources/download_gatk_bundle.log'
     conda:
         '../envs/bcftools.yaml'
     container:
