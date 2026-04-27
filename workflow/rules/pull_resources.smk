@@ -480,22 +480,27 @@ rule prepare_dbsnp:
     script:
         '../scripts/prepare_dbsnp.sh'
 
-rule download_gnomad_exome:
+rule download_gnomad:
     """
-    Download gnomad exome based population SNPs from Google cloud storage
-    per chromosome.
+    Download gnomAD population SNPs from Google Cloud Storage per chromosome.
     """
     input:
         gnomad_remote = storage(
-            "{}/{}/vcf/exomes/gnomad.exomes.v{}.sites.{{chromosome}}.vcf.bgz".format(
+            (
+                "{}/{}/vcf/{{gnomad_type}}/gnomad.{{gnomad_type}}.v{}.sites."
+                "{{chromosome}}.vcf.bgz"
+            ).format(
                 config['GNOMAD_URL'],
                 config['gnomad-release'],
                 config['gnomad-release']
             )
         )
+    wildcard_constraints:
+        # No other values are currently provided by GnomAD.
+        gnomad_type = "exomes|genomes"
     output:
         vcf_file = temp(
-            "resources/germline_variants/gnomAD/"
+            "resources/germline_variants/gnomAD/{gnomad_type}/"
             "gnomad_{chromosome}.vcf.tmp.bgz"
         )
     conda:
@@ -510,28 +515,28 @@ rule download_gnomad_exome:
 rule af_only_gnomad:
     """
     Create allele frequency only (AF-only) VCF file required by MuTect2. This
-    file inlcudes only germline variants and their overall population
+    file includes only germline variants and their overall population
     allele frequency.
     """
     input:
         gnomad = (
-            "resources/germline_variants/gnomAD/"
+            "resources/germline_variants/gnomAD/{gnomad_type}/"
             "gnomad_{chromosome}.vcf.tmp.bgz"
         ),
         minimal_gnomad_header = MINIMAL_GNOMAD_HEADER_FILE
     params:
         minimum_allele_frequency = config.get('minimum_allele_frequency', 0),
         tmp_vcf = (
-            "resources/germline_variants/gnomAD/"
+            "resources/germline_variants/gnomAD/{gnomad_type}/"
             "gnomad_{chromosome}.vcf.tmp"
         ),
     output:
         vcf_file = temp(
-            "resources/germline_variants/gnomAD/"
+            "resources/germline_variants/gnomAD/{gnomad_type}/"
             "gnomad_{chromosome}.vcf.gz"
         ),
         vcf_file_index = temp(
-            "resources/germline_variants/gnomAD/"
+            "resources/germline_variants/gnomAD/{gnomad_type}/"
             "gnomad_{chromosome}.vcf.gz.tbi"
         )
     conda:
@@ -541,24 +546,25 @@ rule af_only_gnomad:
     script:
         "../scripts/make_AF_only_gnomad_vcf.sh"
 
-rule bcftools_concat:
+rule bcftools_concat_gnomad:
     """
-    Concatenate chromosome level gnomad VCF into unified af-only VCF.
+    Concatenate chromosome-level gnomAD VCFs into a unified AF-only VCF.
     """
     input:
         calls=lambda wildcards: [
             (
-                f"resources/germline_variants/gnomAD/gnomad_{x}.vcf.gz"
+                f"resources/germline_variants/gnomAD/{wildcards.gnomad_type}/"
+                f"gnomad_{x}.vcf.gz"
             )
             for x in config['chrom-filter']
         ],
     output:
         af_only_gnomad = (
-            "resources/germline_variants/gnomAD/"
+            "resources/germline_variants/gnomAD/{gnomad_type}/"
             "af_only_gnomad_hg38.vcf.gz"
         ),
     log:
-        "logs/all.log",
+        "logs/bcftools_concat_gnomad/{gnomad_type}.log",
     params:
         extra="",  # optional parameters for bcftools concat (except -o)
     conda:
@@ -577,20 +583,20 @@ rule bcftools_concat:
 
 rule tabix_af_only_gnomad:
     """
-    Create index for af-only VCF.
+    Create index for the AF-only gnomAD VCF.
     """
     input:
         af_only_vcf = (
-            "resources/germline_variants/gnomAD/"
+            "resources/germline_variants/gnomAD/{gnomad_type}/"
             "af_only_gnomad_hg38.vcf.gz"
         ),
     output:
         af_only_gnomad_tbi = (
-            "resources/germline_variants/gnomAD/"
+            "resources/germline_variants/gnomAD/{gnomad_type}/"
             "af_only_gnomad_hg38.vcf.gz.tbi"
         ),
     log:
-        "logs/tabix/af_only_gnomad_tbi.log",
+        "logs/tabix/af_only_gnomad_{gnomad_type}_tbi.log",
     params:
         extra = "-p vcf",
     conda:
@@ -605,7 +611,7 @@ rule tabix_af_only_gnomad:
 rule prepare_variants_for_contamination:
     """Create VCF file for GATK PileupSummaries calculation.
 
-    As starting point, the previously generated gnomad AF only
+    As starting point, the previously generated gnomAD AF-only
     file is used and filtered.
     The resulting VCF file contains variants that match the 
     following criteria:
@@ -619,26 +625,26 @@ rule prepare_variants_for_contamination:
     """
     input:
         vcf_chr1 = (
-            "resources/germline_variants/gnomAD/"
+            "resources/germline_variants/gnomAD/{gnomad_type}/"
             "gnomad_chr1.vcf.gz"
         ),
         vcf_chr1_tbi = (
-            "resources/germline_variants/gnomAD/"
+            "resources/germline_variants/gnomAD/{gnomad_type}/"
             "gnomad_chr1.vcf.gz.tbi"
         ),
         minimal_gnomad_header = MINIMAL_GNOMAD_HEADER_FILE
     output:
         prep_vcf = (
-            "resources/germline_variants/gnomAD/"
+            "resources/germline_variants/gnomAD/{gnomad_type}/"
             "common_biallelic_chr1.vcf.gz"
         ),
         prep_vcf_tbi = (
-            "resources/germline_variants/gnomAD/"
+            "resources/germline_variants/gnomAD/{gnomad_type}/"
             "common_biallelic_chr1.vcf.gz.tbi"
         ),
     params:
         tmp_vcf = (
-            "resources/germline_variants/gnomAD/"
+            "resources/germline_variants/gnomAD/{gnomad_type}/"
             "common_biallelic_chr1.vcf"
         ),
     conda:
