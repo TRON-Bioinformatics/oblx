@@ -13,11 +13,19 @@ Currently, CI tests include dry-runs of the pull_resources and build_indices
 workflow. These tests check, if the syntax is correct but do not detect errors
 that occur during runtime.
 
-To run the tests locally execute:
+To run the tests locally execute (in the pixi shell):
 
 ```
 make unittest
 ```
+
+## Software environment
+
+Currently we use [Pixi](https://pixi.prefix.dev/latest/) to manage the software
+environments used to run and develop the pipeline. See
+[Pixi pack](https://pixi.prefix.dev/latest/deployment/pixi_pack/) on how to
+make software environments available in environments where Pixi is not
+available.
 
 ## Contribute
 

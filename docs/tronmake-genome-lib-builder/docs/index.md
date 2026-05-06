@@ -33,11 +33,10 @@ git clone https://gitlab.rlp.net/tron/tronmake-genome-lib-builder.git
 cd tronmake-genome-lib-builder
 ```
 
-Create and activate the conda environment containing snakemake:
+Enter a shell environment containing snakemake:
 
 ```
-conda env create --name tronmake_genome --file environment.yaml
-conda activate tronmake_genome
+pixi shell
 ``` 
 
 ## Usage

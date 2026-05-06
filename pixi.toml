@@ -1,0 +1,23 @@
+[workspace]
+authors = ["Jonas Freimuth <jonas.freimuth@tron-mainz.de>", "Johannes Hausmann <johannes.hausmann@tron-mainz.de>", "Luis Kress <luis.kress@tron-mainz.de>"]
+channels = ["conda-forge", "bioconda"]
+description = "Reproducible generation of references and resources for next generation sequencing pipelines."
+name = "tronmake-genome-lib-builder"
+platforms = ["linux-64"]
+version = "0.0.3"
+
+[dependencies]
+# Ensure compatibility with requests. Else there may be errors along the lines
+# of UNEXPECTED_EOF_WHILE_READING from SSL.
+openssl = { version = "<=3.4.2", channel = "conda-forge" }
+make = { channel = "conda-forge" }
+eido = { channel = "conda-forge" }
+peppy = { channel = "conda-forge" }
+pytest-workflow = { channel = "conda-forge" }
+mkdocs = { version = "<2", channel = "conda-forge" }
+mkdocs-material = { channel = "conda-forge" }
+mkdocs-table-reader-plugin = { channel = "conda-forge" }
+snakemake-minimal = { version = ">=9.20,<10", channel = "bioconda" }
+snakemake-storage-plugin-http = { channel = "bioconda" }
+snakemake-executor-plugin-cluster-generic = { channel = "bioconda" }
+
