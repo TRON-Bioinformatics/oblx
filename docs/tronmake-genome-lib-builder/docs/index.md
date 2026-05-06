@@ -2,7 +2,7 @@
 
 <!-- badges: start -->
 
-[![Snakemake](https://img.shields.io/badge/snakemake-8.25.3-brightgreen.svfg?style=plastic)](https://snakemake.readthedocs.io)
+[![Snakemake](https://img.shields.io/badge/snakemake-8.25.3-brightgreen.svg?style=plastic)](https://snakemake.readthedocs.io)
 [![pipeline status](https://github.com/TRON-Private/tronmake-genome-lib-builder/actions/workflows/ci.yaml/badge.svg)](https://github.com/TRON-Private/tronmake-genome-lib-builder/actions/workflows/ci.yaml)
 
 <!-- badges: end -->
