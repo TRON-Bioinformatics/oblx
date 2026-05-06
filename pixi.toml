@@ -6,9 +6,12 @@ name = "tronmake-genome-lib-builder"
 platforms = ["linux-64"]
 version = "0.0.3"
 
+[tasks]
+unittest = "pytest --tag unittest"
+documentation = "mkdocs build -f docs/tronmake-genome-lib-builder/mkdocs.yml"
+
 [dependencies]
 openssl = { version = "<=3.4.2", channel = "conda-forge" }
-make = { channel = "conda-forge" }
 eido = { channel = "conda-forge" }
 peppy = { channel = "conda-forge" }
 pytest-workflow = { channel = "conda-forge" }
