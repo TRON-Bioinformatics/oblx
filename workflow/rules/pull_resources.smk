@@ -494,7 +494,10 @@ rule download_gnomad_exome:
             )
         )
     output:
-        vcf_file = temp("resources/germline_variants/gnomad_{chromosome}.vcf.tmp.bgz")
+        vcf_file = temp(
+            "resources/germline_variants/gnomAD/"
+            "gnomad_{chromosome}.vcf.tmp.bgz"
+        )
     conda:
         '../envs/shellutils.yaml'
     container:
@@ -511,14 +514,26 @@ rule af_only_gnomad:
     allele frequency.
     """
     input:
-        gnomad = "resources/germline_variants/gnomad_{chromosome}.vcf.tmp.bgz",
+        gnomad = (
+            "resources/germline_variants/gnomAD/"
+            "gnomad_{chromosome}.vcf.tmp.bgz"
+        ),
         minimal_gnomad_header = MINIMAL_GNOMAD_HEADER_FILE
     params:
         minimum_allele_frequency = config.get('minimum_allele_frequency', 0),
-        tmp_vcf = "resources/germline_variants/gnomad_{chromosome}.vcf.tmp"
+        tmp_vcf = (
+            "resources/germline_variants/gnomAD/"
+            "gnomad_{chromosome}.vcf.tmp"
+        ),
     output:
-        vcf_file = temp("resources/germline_variants/gnomad_{chromosome}.vcf.gz"),
-        vcf_file_index = temp("resources/germline_variants/gnomad_{chromosome}.vcf.gz.tbi")
+        vcf_file = temp(
+            "resources/germline_variants/gnomAD/"
+            "gnomad_{chromosome}.vcf.gz"
+        ),
+        vcf_file_index = temp(
+            "resources/germline_variants/gnomAD/"
+            "gnomad_{chromosome}.vcf.gz.tbi"
+        )
     conda:
         '../envs/bcftools.yaml'
     container:
@@ -531,9 +546,17 @@ rule bcftools_concat:
     Concatenate chromosome level gnomad VCF into unified af-only VCF.
     """
     input:
-        calls=[f"resources/germline_variants/gnomad_{x}.vcf.gz" for x in config['chrom-filter']],
+        calls=lambda wildcards: [
+            (
+                f"resources/germline_variants/gnomAD/gnomad_{x}.vcf.gz"
+            )
+            for x in config['chrom-filter']
+        ],
     output:
-        af_only_gnomad = "resources/germline_variants/af_only_gnomad_hg38.vcf.gz",
+        af_only_gnomad = (
+            "resources/germline_variants/gnomAD/"
+            "af_only_gnomad_hg38.vcf.gz"
+        ),
     log:
         "logs/all.log",
     params:
@@ -557,9 +580,15 @@ rule tabix_af_only_gnomad:
     Create index for af-only VCF.
     """
     input:
-        af_only_vcf = rules.bcftools_concat.output.af_only_gnomad,
+        af_only_vcf = (
+            "resources/germline_variants/gnomAD/"
+            "af_only_gnomad_hg38.vcf.gz"
+        ),
     output:
-        af_only_gnomad_tbi = "resources/germline_variants/af_only_gnomad_hg38.vcf.gz.tbi",
+        af_only_gnomad_tbi = (
+            "resources/germline_variants/gnomAD/"
+            "af_only_gnomad_hg38.vcf.gz.tbi"
+        ),
     log:
         "logs/tabix/af_only_gnomad_tbi.log",
     params:
@@ -589,14 +618,29 @@ rule prepare_variants_for_contamination:
     https://github.com/broadinstitute/gatk/tree/master/scripts/mutect2_wdl
     """
     input:
-        vcf_chr1 = "resources/germline_variants/gnomad_chr1.vcf.gz",
-        vcf_chr1_tbi = "resources/germline_variants/gnomad_chr1.vcf.gz.tbi",
+        vcf_chr1 = (
+            "resources/germline_variants/gnomAD/"
+            "gnomad_chr1.vcf.gz"
+        ),
+        vcf_chr1_tbi = (
+            "resources/germline_variants/gnomAD/"
+            "gnomad_chr1.vcf.gz.tbi"
+        ),
         minimal_gnomad_header = MINIMAL_GNOMAD_HEADER_FILE
     output:
-        prep_vcf = "resources/germline_variants/common_biallelic_chr1.vcf.gz",
-        prep_vcf_tbi = "resources/germline_variants/common_biallelic_chr1.vcf.gz.tbi",
+        prep_vcf = (
+            "resources/germline_variants/gnomAD/"
+            "common_biallelic_chr1.vcf.gz"
+        ),
+        prep_vcf_tbi = (
+            "resources/germline_variants/gnomAD/"
+            "common_biallelic_chr1.vcf.gz.tbi"
+        ),
     params:
-        tmp_vcf = "resources/germline_variants/common_biallelic_chr1.vcf",
+        tmp_vcf = (
+            "resources/germline_variants/gnomAD/"
+            "common_biallelic_chr1.vcf"
+        ),
     conda:
         '../envs/bcftools.yaml'
     container:
