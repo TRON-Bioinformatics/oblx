@@ -13,4 +13,4 @@ jobs:
         with:
           cache: true
       - run: |
-          pixi run make unittest
+          pixi run unittest

@@ -16,7 +16,7 @@ that occur during runtime.
 To run the tests locally execute (in the pixi shell):
 
 ```
-make unittest
+pixi run unittest
 ```
 
 ## Software environment
