@@ -29,20 +29,14 @@ jobs:
       - name: Setup GitHub Pages
         uses: actions/configure-pages@v5
 
-      - name: Set up Miniconda
-        uses: conda-incubator/setup-miniconda@v3
+      - name: Setup Pixi
+        uses: prefix-dev/setup-pixi@v0.9.4
         with:
-          miniforge-version: latest
-          auto-update-conda: true
-          channels: conda-forge,bioconda
-          environment-file: environment.yaml
-          activate-environment: tronmake_genome_lib_builder
-          use-mamba: true
+          cache: true
 
       - name: Build MkDocs site
-        shell: bash -l {0}
         run: |
-          make documentation 
+          pixi run make documentation
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3

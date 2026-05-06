@@ -2,3 +2,7 @@
 logs
 
 docs/tronmake-genome-lib-builder/site
+
+# pixi environments
+.pixi/*
+!.pixi/config.toml

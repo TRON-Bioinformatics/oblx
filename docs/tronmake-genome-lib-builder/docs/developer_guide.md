@@ -13,7 +13,7 @@ Currently, CI tests include dry-runs of the pull_resources and build_indices
 workflow. These tests check, if the syntax is correct but do not detect errors
 that occure during runtime.
 
-To run the tests locally execute:
+To run the tests locally execute (in the pixi shell):
 
 ```
 make unittest
