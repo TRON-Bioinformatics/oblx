@@ -6,4 +6,4 @@ dependencies:
   - conda-forge::python =3.9
   - conda-forge::pip
   - pip:
-    - kb-python==0.27.3
+      - kb-python==0.27.3

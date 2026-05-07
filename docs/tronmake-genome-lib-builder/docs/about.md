@@ -2,6 +2,6 @@
 
 TronMake Genome Lib Builder is developed by
 
-* Johannes Hausmann (TRON)
-* Luis Kress (TRON)
-* Jonas Freimuth (TRON)
+- Johannes Hausmann (TRON)
+- Luis Kress (TRON)
+- Jonas Freimuth (TRON)

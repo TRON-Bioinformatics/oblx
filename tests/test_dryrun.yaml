@@ -1,9 +1,9 @@
 - name: all_in_one_dryrun
   tags:
     - unittest
-  command: >
-    snakemake 
+  command: >-
+    snakemake
       -s workflow/Snakefile
       --configfile config/default.yaml
-      --software-deployment-method conda 
+      --software-deployment-method conda
       -n

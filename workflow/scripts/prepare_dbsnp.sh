@@ -18,9 +18,9 @@ TMPDIR="$(mktemp -d -p ${snakemake_params[outdir]})"
 
 trap 'rm -rf -- "$TMPDIR"' EXIT
 
-exec 2> "${snakemake_log[0]}"
- 
-bcftools view --regions "$CHROMOSOMES" "${snakemake_input[vcf]}" | \
-    bcftools annotate --rename-chrs "${snakemake_input[chrom_mapping]}" | bgzip -c > "${snakemake_output[dbsnp_vcf]}"
+exec 2>"${snakemake_log[0]}"
+
+bcftools view --regions "$CHROMOSOMES" "${snakemake_input[vcf]}" |
+    bcftools annotate --rename-chrs "${snakemake_input[chrom_mapping]}" | bgzip -c >"${snakemake_output[dbsnp_vcf]}"
 
 tabix -p vcf "${snakemake_output[dbsnp_vcf]}"

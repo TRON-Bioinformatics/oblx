@@ -4,8 +4,9 @@
 
 Before creating a new release make sure to do the following steps:
 
-* If new resources are pulled or new indices are created: Add the description to the documentation
-* Update CHANGELOG.md
+- If new resources are pulled or new indices are created: Add the description to
+  the documentation
+- Update CHANGELOG.md
 
 ## Tests
 
@@ -23,9 +24,8 @@ pixi run unittest
 
 Currently we use [Pixi](https://pixi.prefix.dev/latest/) to manage the software
 environments used to run and develop the pipeline. See
-[Pixi pack](https://pixi.prefix.dev/latest/deployment/pixi_pack/) on how to
-make software environments available in environments where Pixi is not
-available.
+[Pixi pack](https://pixi.prefix.dev/latest/deployment/pixi_pack/) on how to make
+software environments available in environments where Pixi is not available.
 
 ## Code styling
 
@@ -34,4 +34,5 @@ you are only interested in certain filetypes, the subtasks).
 
 ## Contribute
 
-See [CONTRIBUTING.md](https://github.com/TRON-Private/tronmake-genome-lib-builder/blob/main/CONTRIBUTING.md).
+See
+[CONTRIBUTING.md](https://github.com/TRON-Private/tronmake-genome-lib-builder/blob/main/CONTRIBUTING.md).

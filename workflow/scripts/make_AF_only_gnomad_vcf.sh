@@ -21,7 +21,7 @@ bcftools query \
     -f '%CHROM\t%POS\t%ID\t%REF\t%ALT\t%QUAL\t%FILTER\tAF=%INFO/AF\n' \
     --output $tmp_vcf $gnomad_vcf
 
-cat $vcf_header $tmp_vcf | bgzip -c > $out_vcf
+cat $vcf_header $tmp_vcf | bgzip -c >$out_vcf
 
 tabix -p vcf $out_vcf
 

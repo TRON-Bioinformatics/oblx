@@ -4,8 +4,8 @@ library(AnnotationDbi)
 library(readr)
 library(magrittr)
 
-gtf <- snakemake@input[['gtf']]
-tx2gene <- snakemake@output[['tx2gene']]
+gtf <- snakemake@input[["gtf"]]
+tx2gene <- snakemake@output[["tx2gene"]]
 
 txdb <- makeTxDbFromGFF(gtf)
 k <- keys(txdb, keytype = "TXNAME")

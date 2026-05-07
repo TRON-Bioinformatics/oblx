@@ -26,13 +26,13 @@ out_vcf="${snakemake_output[prep_vcf]}"
 bcftools view \
     --max-alleles 2 \
     --regions chr1 \
-    $input_vcf |\
+    $input_vcf |
     bcftools query \
-    -i "AF > 0.05 & FILTER == 'PASS'" \
-    -f '%CHROM\t%POS\t%ID\t%REF\t%ALT\t%QUAL\t%FILTER\tAF=%INFO/AF\n' \
-    --output $tmp_vcf -
+        -i "AF > 0.05 & FILTER == 'PASS'" \
+        -f '%CHROM\t%POS\t%ID\t%REF\t%ALT\t%QUAL\t%FILTER\tAF=%INFO/AF\n' \
+        --output $tmp_vcf -
 
-cat $vcf_header $tmp_vcf | bgzip -c > $out_vcf
+cat $vcf_header $tmp_vcf | bgzip -c >$out_vcf
 
 tabix -p vcf $out_vcf
 
