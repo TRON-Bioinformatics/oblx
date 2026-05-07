@@ -30,7 +30,10 @@ software environments available in environments where Pixi is not available.
 ## Code styling
 
 To ensure code and docs are correctly formatted, run `pixi run style` (or, if
-you are only interested in certain filetypes, the subtasks).
+you are only interested in certain filetypes, the subtasks). Running
+`pixi run lint` will in turn check if all files are correctly formatted without
+changing anything, but rather exit with a non-zero exit code in that case. It is
+mainly used for CI tasks.
 
 ## Contribute
 

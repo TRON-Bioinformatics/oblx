@@ -42,12 +42,14 @@ mdformat-tables = ">=1.0.0,<2"
 
 [feature.style-md.tasks]
 style-md = { cmd = "mdformat **/*.md", default-environment = "style-md" }
+lint-md = { cmd = "mdformat --check **/*.md", default-environment = "style-md" }
 
 [feature.style-python.dependencies]
 black = ">=26.3.1,<27"
 
 [feature.style-python.tasks]
 style-python = { cmd = "black **/*.py", default-environment = "style-python" }
+lint-python = { cmd = "black --check **/*.py", default-environment = "style-python" }
 
 [feature.style-r.dependencies]
 r-base = ">=4.5.3,<4.6"
@@ -57,30 +59,37 @@ r-styler = ">=1.11.0,<2"
 style-r = { cmd = """\
     R -q --vanilla -e "styler::style_dir('workflow')"\
     """, default-environment = "style-r" }
+lint-r = { cmd = """\
+    R -q --vanilla -e "styler::style_dir('workflow', dry = 'fail')"\
+    """, default-environment = "style-r" }
 
 [feature.style-sh.dependencies]
 go-shfmt = ">=3.13.1,<4"
 
 [feature.style-sh.tasks]
 style-sh = { cmd = "shfmt --write --indent 4 **/*.sh", default-environment = "style-sh" }
+lint-sh = { cmd = "shfmt --diff --indent 4 **/*.sh", default-environment = "style-sh" }
 
 [feature.style-snakemake.dependencies]
 snakefmt = ">=1.1.0,<2"
 
 [feature.style-snakemake.tasks]
 style-snakemake = { cmd = "snakefmt workflow/", default-environment = "style-snakemake" }
+lint-snakemake = { cmd = "snakefmt --check workflow/", default-environment = "style-snakemake" }
 
 [feature.style-toml.dependencies]
 tombi = ">=0.10.5,<0.11"
 
 [feature.style-toml.tasks]
 style-toml = { cmd = "tombi format **/*.toml", default-environment = "style-toml" }
+lint-toml = { cmd = "tombi format --check **/*.toml", default-environment = "style-toml" }
 
 [feature.style-yaml.dependencies]
 yamlfmt = ">=0.21.0,<0.22"
 
 [feature.style-yaml.tasks]
 style-yaml = { cmd = "yamlfmt **/*.yaml **/*.yml", default-environment = "style-yaml" }
+lint-yaml = { cmd = "yamlfmt -lint **/*.yaml **/*.yml", default-environment = "style-yaml" }
 
 [environments]
 docs = { features = ["docs"], no-default-feature = true }
@@ -104,4 +113,13 @@ style = { depends-on = [
   "style-sh",
   "style-yaml",
   "style-toml"
+] }
+lint = { depends-on = [
+  "lint-snakemake",
+  "lint-python",
+  "lint-r",
+  "lint-md",
+  "lint-sh",
+  "lint-yaml",
+  "lint-toml"
 ] }
