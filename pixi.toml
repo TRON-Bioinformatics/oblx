@@ -91,6 +91,12 @@ yamlfmt = ">=0.21.0,<0.22"
 style-yaml = { cmd = "yamlfmt **/*.yaml **/*.yml", default-environment = "style-yaml" }
 lint-yaml = { cmd = "yamlfmt -lint **/*.yaml **/*.yml", default-environment = "style-yaml" }
 
+[feature.rule-env-pinning.dependencies]
+snakedeploy = ">=0.16.0,<0.17"
+
+[feature.rule-env-pinning.tasks]
+pin-rule-envs = { cmd = "snakedeploy pin-conda-envs workflow/envs/*.yaml", default-environment = "rule-env-pinning" }
+
 [environments]
 docs = { features = ["docs"], no-default-feature = true }
 test = { features = ["test"] }
@@ -101,6 +107,7 @@ style-sh = { features = ["style-sh"], no-default-feature = true }
 style-snakemake = { features = ["style-snakemake"], no-default-feature = true }
 style-toml = { features = ["style-toml"], no-default-feature = true }
 style-yaml = { features = ["style-yaml"], no-default-feature = true }
+rule-env-pinning = { features = ["rule-env-pinning"], no-default-feature = true }
 
 [tasks]
 # Order matters, these are laid out from most likely to fail during development
