@@ -2,6 +2,19 @@ name: Continuous integration tasks
 on: [push]
 
 jobs:
+  lint:
+    runs-on: "ubuntu-latest"
+    steps:
+      - uses: actions/checkout@v4
+      - run: |
+          git submodule update
+      - name: Install Pixi
+        uses: prefix-dev/setup-pixi@v0.9.4
+        with:
+          cache: true
+      - run: |
+          pixi run lint
+
   unit_tests:
     runs-on: "ubuntu-latest"
     steps:
