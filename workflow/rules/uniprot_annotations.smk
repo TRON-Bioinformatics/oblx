@@ -1,18 +1,18 @@
 rule merge_gencode_to_uniprot:
     input:
-        uniprot_annotations = rules.download_uniprot.output.uniprot_annotations,
-        sp_mapping = rules.download_gencode_data.output.swissprot,
-        tr_mapping = rules.download_gencode_data.output.trembl,
-        script = workflow.source_path('../scripts/merge_gencode_to_uniprot.py')
+        uniprot_annotations=rules.download_uniprot.output.uniprot_annotations,
+        sp_mapping=rules.download_gencode_data.output.swissprot,
+        tr_mapping=rules.download_gencode_data.output.trembl,
+        script=workflow.source_path("../scripts/merge_gencode_to_uniprot.py"),
     output:
-        uniprot_annotations_merged = 'resources/uniprot/uniprot_annotations.tsv',
+        uniprot_annotations_merged="resources/uniprot/uniprot_annotations.tsv",
+    log:
+        "logs/uniprot/merge_gencode_to_uniprot.log",
     conda:
         "../envs/pandas.yaml"
     container:
-        config['container'].get('scipy-notebook')
+        config["container"].get("scipy-notebook")
     threads: 1
-    log:
-        'logs/uniprot/merge_gencode_to_uniprot.log'
     shell:
         """
         python {input.script} \

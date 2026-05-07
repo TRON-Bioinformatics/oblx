@@ -1,5 +1,9 @@
 [workspace]
-authors = ["Jonas Freimuth <jonas.freimuth@tron-mainz.de>", "Johannes Hausmann <johannes.hausmann@tron-mainz.de>", "Luis Kress <luis.kress@tron-mainz.de>"]
+authors = [
+  "Jonas Freimuth <jonas.freimuth@tron-mainz.de>",
+  "Johannes Hausmann <johannes.hausmann@tron-mainz.de>",
+  "Luis Kress <luis.kress@tron-mainz.de>"
+]
 channels = ["conda-forge", "bioconda"]
 description = "Reproducible generation of references and resources for next generation sequencing pipelines."
 name = "tronmake-genome-lib-builder"
@@ -59,7 +63,7 @@ style-toml = { cmd = "tombi format **/*.toml", default-environment = "style-toml
 yamlfmt = ">=0.21.0,<0.22"
 
 [feature.style-yaml.tasks]
-style-yaml = { cmd = 'yamlfmt **/*.yaml **/*.yml', default-environment = "style-yaml" }
+style-yaml = { cmd = "yamlfmt **/*.yaml **/*.yml", default-environment = "style-yaml" }
 
 [environments]
 docs = { features = ["docs"], no-default-feature = true }
@@ -73,4 +77,10 @@ style-yaml = { features = ["style-yaml"], no-default-feature = true }
 [tasks]
 # Order matters, these are laid out from most likely to fail during develompent
 # to least likely.
-style = { depends-on = ["style-snakemake", "style-python", "style-md", "style-yaml", "style-toml"] }
+style = { depends-on = [
+  "style-snakemake",
+  "style-python",
+  "style-md",
+  "style-yaml",
+  "style-toml"
+] }

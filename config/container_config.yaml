@@ -14,4 +14,4 @@ container:
   bigbedtobed: docker://quay.io/biocontainers/ucsc-bigbedtobed:469--h664eb37_1
   salmon: docker://quay.io/biocontainers/salmon:1.10.1--h7e5ed60_1
   gffread: docker://quay.io/biocontainers/gffread:0.12.7--h077b44d_6
-  
+

@@ -4,8 +4,9 @@
 
 Before creating a new release make sure to do the following steps:
 
-* If new resources are pulled or new indices are created: Add the description to the documentation
-* Update CHANGELOG.md
+- If new resources are pulled or new indices are created: Add the description to
+  the documentation
+- Update CHANGELOG.md
 
 ## Tests
 
@@ -21,4 +22,5 @@ make unittest
 
 ## Contribute
 
-See [CONTRIBUTING.md](https://github.com/TRON-Private/tronmake-genome-lib-builder/blob/main/CONTRIBUTING.md).
+See
+[CONTRIBUTING.md](https://github.com/TRON-Private/tronmake-genome-lib-builder/blob/main/CONTRIBUTING.md).

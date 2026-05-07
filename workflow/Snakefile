@@ -22,7 +22,9 @@ from snakemake.utils import min_version
 min_version("8.5.4")
 timestamp = datetime.datetime.now().strftime("%Y-%m-%d_%H:%M:%S")
 
-configfile: workflow.source_path('../config/container_config.yaml')
+
+configfile: workflow.source_path("../config/container_config.yaml")
+
 
 default_build = "GRCh38"
 default_release = "46"
@@ -37,9 +39,7 @@ configfile: workflow.source_path("../config/default.yaml")
 
 # check if genome build is supported
 if config.get("genome-build", default_build) not in ["GRCh38", "GRCm38", "GRCm39"]:
-    sys.exit(
-        f"Genome build {config.get('genome-build', default_build)} not supported."
-    )
+    sys.exit(f"Genome build {config.get('genome-build', default_build)} not supported.")
 
 # set mouse specific variables
 if config.get("organism", default_organism) == "mouse":
@@ -99,7 +99,7 @@ onstart:
 
 
 rule all:
+    default_target: True
     input:
         resources=get_pull_resources_output,
         indices=get_build_indices_output,
-    default_target: True

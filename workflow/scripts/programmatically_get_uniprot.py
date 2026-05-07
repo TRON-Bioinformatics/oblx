@@ -106,9 +106,7 @@ def main():
     print("Fetching UniProt release:", release, "for", args.organism)
 
     # Write to TSV file
-    output_file = os.path.join(
-        args.outdir, f"uniprot_stream.tsv"
-    )
+    output_file = os.path.join(args.outdir, f"uniprot_stream.tsv")
 
     with open(output_file, "w", encoding="utf-8") as f:
         for line in response.iter_lines(decode_unicode=True):

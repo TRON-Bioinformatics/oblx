@@ -6,14 +6,14 @@ nav:
   - Configuration: configuration.md
   - Developer Guide: developer_guide.md
   - About: about.md
-theme: 
+theme:
   name: material
   features:
     - navigation.sections
     - navigation.tabs
     - toc.integrate
   palette:
-    # Palette toggle for light mode 
+    # Palette toggle for light mode
     - scheme: default
       primary: teal
       accent: teal
@@ -26,6 +26,6 @@ theme:
       accent: teal
       toggle:
         icon: material/weather-night
-        name: Switch to light mode 
+        name: Switch to light mode
 
 copyright: © TRON gGmbH, 2025. This work is licensed under MIT.
