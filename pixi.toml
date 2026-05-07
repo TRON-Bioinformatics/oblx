@@ -28,6 +28,49 @@ pytest-workflow = { channel = "conda-forge" }
 [feature.test.tasks]
 unittest = "pytest --tag unittest"
 
+[feature.style-md.dependencies]
+mdformat = ">=0.7.22,<0.8"
+mdformat-gfm = ">=1.0.0,<2"
+mdformat-shfmt = ">=0.2.0,<0.3"
+mdformat-tables = ">=1.0.0,<2"
+
+[feature.style-md.tasks]
+style-md = { cmd = "mdformat **/*.md", default-environment = "style-md" }
+
+[feature.style-python.dependencies]
+black = ">=26.3.1,<27"
+
+[feature.style-python.tasks]
+style-python = { cmd = "black **/*.py", default-environment = "style-python" }
+
+[feature.style-snakemake.dependencies]
+snakefmt = ">=1.1.0,<2"
+
+[feature.style-snakemake.tasks]
+style-snakemake = { cmd = "snakefmt workflow/", default-environment = "style-snakemake" }
+
+[feature.style-toml.dependencies]
+tombi = ">=0.10.5,<0.11"
+
+[feature.style-toml.tasks]
+style-toml = { cmd = "tombi format **/*.toml", default-environment = "style-toml" }
+
+[feature.style-yaml.dependencies]
+yamlfmt = ">=0.21.0,<0.22"
+
+[feature.style-yaml.tasks]
+style-yaml = { cmd = 'yamlfmt **/*.yaml **/*.yml', default-environment = "style-yaml" }
+
 [environments]
 docs = { features = ["docs"], no-default-feature = true }
 test = { features = ["test"] }
+style-md = { features = ["style-md"], no-default-feature = true }
+style-python = { features = ["style-python"], no-default-feature = true }
+style-snakemake = { features = ["style-snakemake"], no-default-feature = true }
+style-toml = { features = ["style-toml"], no-default-feature = true }
+style-yaml = { features = ["style-yaml"], no-default-feature = true }
+
+[tasks]
+# Order matters, these are laid out from most likely to fail during develompent
+# to least likely.
+style = { depends-on = ["style-snakemake", "style-python", "style-md", "style-yaml", "style-toml"] }
