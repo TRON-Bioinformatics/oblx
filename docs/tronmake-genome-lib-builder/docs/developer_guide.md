@@ -27,6 +27,11 @@ environments used to run and develop the pipeline. See
 make software environments available in environments where Pixi is not
 available.
 
+## Code styling
+
+To ensure code and docs are correctly formatted, run `pixi run style` (or, if
+you are only interested in certain filetypes, the subtasks).
+
 ## Contribute
 
 See [CONTRIBUTING.md](https://github.com/TRON-Private/tronmake-genome-lib-builder/blob/main/CONTRIBUTING.md).

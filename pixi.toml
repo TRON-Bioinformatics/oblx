@@ -1,5 +1,9 @@
 [workspace]
-authors = ["Jonas Freimuth <jonas.freimuth@tron-mainz.de>", "Johannes Hausmann <johannes.hausmann@tron-mainz.de>", "Luis Kress <luis.kress@tron-mainz.de>"]
+authors = [
+  "Jonas Freimuth <jonas.freimuth@tron-mainz.de>",
+  "Johannes Hausmann <johannes.hausmann@tron-mainz.de>",
+  "Luis Kress <luis.kress@tron-mainz.de>"
+]
 channels = ["conda-forge", "bioconda"]
 description = "Reproducible generation of references and resources for next generation sequencing pipelines."
 name = "tronmake-genome-lib-builder"
@@ -30,6 +34,74 @@ pytest-workflow = { channel = "conda-forge" }
 [feature.test.tasks]
 unittest = { cmd = "pytest --tag unittest", default-environment = "test" }
 
+[feature.style-md.dependencies]
+mdformat = ">=0.7.22,<0.8"
+mdformat-gfm = ">=1.0.0,<2"
+mdformat-shfmt = ">=0.2.0,<0.3"
+mdformat-tables = ">=1.0.0,<2"
+
+[feature.style-md.tasks]
+style-md = { cmd = "mdformat **/*.md", default-environment = "style-md" }
+
+[feature.style-python.dependencies]
+black = ">=26.3.1,<27"
+
+[feature.style-python.tasks]
+style-python = { cmd = "black **/*.py", default-environment = "style-python" }
+
+[feature.style-r.dependencies]
+r-base = ">=4.5.3,<4.6"
+r-styler = ">=1.11.0,<2"
+
+[feature.style-r.tasks]
+style-r = { cmd = """\
+    R -q --vanilla -e "styler::style_dir('workflow')"\
+    """, default-environment = "style-r" }
+
+[feature.style-sh.dependencies]
+go-shfmt = ">=3.13.1,<4"
+
+[feature.style-sh.tasks]
+style-sh = { cmd = "shfmt --write --indent 4 **/*.sh", default-environment = "style-sh" }
+
+[feature.style-snakemake.dependencies]
+snakefmt = ">=1.1.0,<2"
+
+[feature.style-snakemake.tasks]
+style-snakemake = { cmd = "snakefmt workflow/", default-environment = "style-snakemake" }
+
+[feature.style-toml.dependencies]
+tombi = ">=0.10.5,<0.11"
+
+[feature.style-toml.tasks]
+style-toml = { cmd = "tombi format **/*.toml", default-environment = "style-toml" }
+
+[feature.style-yaml.dependencies]
+yamlfmt = ">=0.21.0,<0.22"
+
+[feature.style-yaml.tasks]
+style-yaml = { cmd = "yamlfmt **/*.yaml **/*.yml", default-environment = "style-yaml" }
+
 [environments]
 docs = { features = ["docs"], no-default-feature = true }
 test = { features = ["test"] }
+style-md = { features = ["style-md"], no-default-feature = true }
+style-python = { features = ["style-python"], no-default-feature = true }
+style-r = { features = ["style-r"], no-default-feature = true }
+style-sh = { features = ["style-sh"], no-default-feature = true }
+style-snakemake = { features = ["style-snakemake"], no-default-feature = true }
+style-toml = { features = ["style-toml"], no-default-feature = true }
+style-yaml = { features = ["style-yaml"], no-default-feature = true }
+
+[tasks]
+# Order matters, these are laid out from most likely to fail during development
+# to least likely.
+style = { depends-on = [
+  "style-snakemake",
+  "style-python",
+  "style-r",
+  "style-md",
+  "style-sh",
+  "style-yaml",
+  "style-toml"
+] }
