@@ -15,6 +15,6 @@ dependencies:
   - conda-forge::mkdocs
   - conda-forge::mkdocs-material
   - conda-forge::mkdocs-table-reader-plugin
-  - bioconda::snakemake-minimal=9.13.7 # pin this exact version as later relative paths are bound in apptainer (can be unpinned as soon as https://github.com/snakemake/snakemake/pull/4142 is merged)
+  - bioconda::snakemake-minimal>=9.20.0
   - bioconda::snakemake-storage-plugin-http
   - bioconda::snakemake-executor-plugin-cluster-generic

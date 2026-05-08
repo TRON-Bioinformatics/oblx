@@ -19,7 +19,8 @@ import pandas as pd
 import datetime
 from snakemake.utils import min_version
 
-min_version("8.5.4")
+# Needs to be at least this for apptainer path bindings to work as we need them.
+min_version("9.20.0")
 timestamp = datetime.datetime.now().strftime("%Y-%m-%d_%H:%M:%S")
 
 configfile: workflow.source_path('../config/container_config.yaml')
