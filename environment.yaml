@@ -4,9 +4,8 @@ channels:
   - conda-forge
   - bioconda
 dependencies:
-  # Ensure compatability with requests. Else there may be
-  # errors along the lines of UNEXPECTED_EOF_WHILE_READING
-  # from SSL.
+  # Ensure compatibility with requests. Else there may be errors along the
+  # lines of UNEXPECTED_EOF_WHILE_READING from SSL.
   - conda-forge::openssl<=3.4.2
   - conda-forge::make
   - conda-forge::eido
