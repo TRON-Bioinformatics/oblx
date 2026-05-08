@@ -12,7 +12,7 @@ dependencies:
   - conda-forge::eido
   - conda-forge::peppy
   - conda-forge::pytest-workflow
-  - conda-forge::mkdocs
+  - conda-forge::mkdocs<2
   - conda-forge::mkdocs-material
   - conda-forge::mkdocs-table-reader-plugin
   - bioconda::snakemake-minimal>=9.20.0
