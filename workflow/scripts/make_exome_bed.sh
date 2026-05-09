@@ -17,8 +17,9 @@ exec 2>"${snakemake_log[0]}"
 
 TX_TAG="${snakemake_params[exome_transcript_definition]}"
 
+# Succeed even when no exons are found in the grep step.
 awk '{if ($3 == "exon") print $0}' "${snakemake_input[gtf]}" |
-    grep "tag \"${TX_TAG}\"" |
+    { grep "tag \"${TX_TAG}\"" || [[ $? -eq 1 ]]; } |
     bedtools sort |
     bedtools merge >"${TMPDIR}"/tmp.bed
 
