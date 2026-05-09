@@ -1,21 +1,29 @@
 #!/usr/bin/env bash
 #
-# SnakeMake wrapper script to variants for contamination
-# calculation with GATK's PileupSummaries
+# Prepare variants for contamination calculation with GATK's PileupSummaries
 #
 # Selects for variants with the following properties:
 # * biallelic
 # * on chromosome 1
 # * allele frequency > 5
 # * filter: PASS
+#
+# Usage: prepare_variants_for_contamination.sh <vcf_chr1> <vcf_header> <out_vcf> [log_file]
 
 set -euo pipefail
 
-exec >"${snakemake_log[0]}" 2>&1
+if [[ $# -lt 3 ]]; then
+    echo "Usage: $0 <vcf_chr1> <vcf_header> <out_vcf> [log_file]" >&2
+    exit 1
+fi
 
-input_vcf="${snakemake_input[vcf_chr1]}"
-vcf_header="${snakemake_input[minimal_gnomad_header]}"
-out_vcf="${snakemake_output[prep_vcf]}"
+input_vcf="$1"
+vcf_header="$2"
+out_vcf="$3"
+
+if [[ $# -ge 4 ]]; then
+    exec >"$4" 2>&1
+fi
 
 tmp_vcf="$(mktemp)"
 

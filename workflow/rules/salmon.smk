@@ -15,6 +15,7 @@ output:
             "transcriptome-fasta", "resources/ref_transcripts.fasta"
         ),
         genome="resources/ref_genome.fasta",
+        script=workflow.source_path("../scripts/salmon_decoy.sh"),
     output:
         gentrome="indices/salmon/gentrome.fasta",
         decoys="indices/salmon/decoys.txt",
@@ -24,8 +25,12 @@ output:
         "../envs/shellutils.yaml"
     container:
         config["container"].get("shell_utils")
-    script:
-        "../scripts/salmon_decoy.sh"
+    shell:
+        """
+        bash {input.script} \
+            {input.genome} {input.transcriptome} \
+            {output.decoys} {output.gentrome} {log}
+        """
 
 
 rule salmon_index_gentrome:

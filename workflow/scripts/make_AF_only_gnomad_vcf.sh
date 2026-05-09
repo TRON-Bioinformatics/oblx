@@ -1,16 +1,24 @@
 #!/usr/bin/env bash
 #
-# SnakeMake wrapper script to generate allele frequency (AF)
-# only VCF file required by MuTect2
+# Generate allele frequency (AF) only VCF file required by MuTect2
+#
+# Usage: make_AF_only_gnomad_vcf.sh <gnomad_vcf> <min_af> <vcf_header> <out_vcf> [log_file]
 
 set -euo pipefail
 
-exec >"${snakemake_log[0]}" 2>&1
+if [[ $# -lt 4 ]]; then
+    echo "Usage: $0 <gnomad_vcf> <min_af> <vcf_header> <out_vcf> [log_file]" >&2
+    exit 1
+fi
 
-gnomad_vcf="${snakemake_input[gnomad]}"
-min_af=${snakemake_params[minimum_allele_frequency]}
-vcf_header="${snakemake_input[minimal_gnomad_header]}"
-out_vcf="${snakemake_output[vcf_file]}"
+gnomad_vcf="$1"
+min_af="$2"
+vcf_header="$3"
+out_vcf="$4"
+
+if [[ $# -ge 5 ]]; then
+    exec >"$5" 2>&1
+fi
 
 tmp_vcf="$(mktemp)"
 
