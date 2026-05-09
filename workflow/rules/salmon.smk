@@ -29,7 +29,7 @@ output:
         """
         bash {input.script} \
             {input.genome} {input.transcriptome} \
-            {output.decoys} {output.gentrome} {log}
+            {output.decoys} {output.gentrome} > {log} 2>&1
         """
 
 
