@@ -49,13 +49,15 @@ output:
     container:
         config["container"].get("shell_utils")
     params:
-        genome_build=config.get("genome-build", default_build),
-        release=config.get("release", default_release),
+        genome_version=(
+            f"{config.get('genome-build', default_build)}."
+            f"{config.get('release', default_release)}"
+        ),
     shell:
         """
         cat {input.codon_mit_vertebrate} >> {output.config_file}
-        echo '{params.genome_build}.{params.release}.genome : {params.genome_build}.{params.release}' >> {output.config_file}
-        echo '    {params.genome_build}.{params.release}.chrM.codonTable : Vertebrate_Mitochondrial' >> {output.config_file}
+        echo '{params.genome_version}.genome : {params.genome_version}' >> {output.config_file}
+        echo '    {params.genome_version}.chrM.codonTable : Vertebrate_Mitochondrial' >> {output.config_file}
         """
 
 
@@ -82,7 +84,7 @@ Create the snpEff index.
     resources:
         mem_mb=16000,
     params:
-        data_dir=os.path.abspath(Path(rules.link_snpeff.output.fasta_link).parents[1]),
+        data_dir=subpath(subpath(output[0], parent=True), parent=True),
     shell:
         "snpEff -Xmx{resources.mem_mb}m build "
         "-gtf22 "
