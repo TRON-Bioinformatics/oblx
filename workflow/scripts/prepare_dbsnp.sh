@@ -9,7 +9,7 @@
 # @Version: 0.0.1
 # @Status: Development
 
-set -eo pipefail
+set -euo pipefail
 
 CHROMOSOMES="$(echo {1..22} | tr ' ' ',')"
 CHROMOSOMES="${CHROMOSOMES},X,Y"

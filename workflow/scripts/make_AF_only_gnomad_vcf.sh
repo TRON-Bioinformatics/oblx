@@ -10,6 +10,8 @@
 # @Version: 0.0.1
 # @Status: Development
 
+set -euo pipefail
+
 exec >"${snakemake_log[0]}" 2>&1
 
 gnomad_vcf="${snakemake_input[gnomad]}"

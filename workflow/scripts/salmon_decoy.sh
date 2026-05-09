@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 # This script is based on snakemake salmon decoy wrapper.
 
+set -euo pipefail
+
 # Gathering decoy sequences names
 # Sed command works as follow:
 # -n       = do not print all lines
