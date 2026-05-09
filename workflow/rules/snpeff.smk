@@ -85,6 +85,10 @@ Create the snpEff index.
         mem_mb=16000,
     params:
         data_dir=os.path.abspath(Path(rules.link_snpeff.output.fasta_link).parents[1]),
+        genome_version=(
+            f"{config.get('genome-build', default_build)}."
+            f"{config.get('release', default_release)}"
+        ),
     shell:
         "snpEff -Xmx{resources.mem_mb}m build "
         "-gtf22 "
@@ -93,5 +97,5 @@ Create the snpEff index.
         "-config {input.config_file} "
         "-noCheckCds "
         "-noCheckProtein "
-        f'{config.get("genome-build", default_build)}.{config.get("release", default_release)} '
+        "{params.genome_version} "
         "> {log}"
