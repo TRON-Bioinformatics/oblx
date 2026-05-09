@@ -110,6 +110,13 @@ style-yaml = { features = ["style-yaml"], no-default-feature = true }
 rule-env-pinning = { features = ["rule-env-pinning"], no-default-feature = true }
 
 [tasks]
+lint-workflow = """\
+    snakemake \
+        -s workflow/Snakefile \
+        --configfile config/default.yaml \
+        --software-deployment-method conda \
+        --lint\
+    """
 # Order matters, these are laid out from most likely to fail during development
 # to least likely.
 style = { depends-on = [
@@ -122,6 +129,7 @@ style = { depends-on = [
   "style-toml"
 ] }
 lint = { depends-on = [
+  "lint-workflow",
   "lint-snakemake",
   "lint-python",
   "lint-r",
