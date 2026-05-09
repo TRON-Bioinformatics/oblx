@@ -555,13 +555,11 @@ output:
         "../envs/bcftools.yaml"
     container:
         config["container"].get("bcftools")
-    params:
-        outdir=lambda wildcards, output: os.path.dirname(output.dbsnp_vcf),
     shell:
         """
         bash {input.script} \
             {input.chrom_mapping} {input.vcf} \
-            {params.outdir} {output.dbsnp_vcf} &> {log}
+            {output.dbsnp_vcf} &> {log}
         """
 
 
