@@ -79,13 +79,13 @@ params:
         outdir=lambda _, output: os.path.dirname(output.index_files[0]),
     shell:
         """
+        exec > {log} 2>&1
         salmon index \
         --transcripts {input.sequences} \
         --index {params.outdir} \
         --threads {threads} \
         {params.extra} \
-        --decoys {input.decoys} \
-        &> {log}
+        --decoys {input.decoys}
         """
 
 
@@ -123,8 +123,8 @@ params:
         extra="",
     shell:
         """
+        exec > {log} 2>&1
         gffread \
         -w {output.transcript_fasta} \
-        -g {input.fasta} {input.annotation} \
-        &> {log}
+        -g {input.fasta} {input.annotation}
         """

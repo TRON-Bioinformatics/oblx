@@ -23,7 +23,10 @@ output:
     container:
         config["container"].get("shell_utils")
     shell:
-        "ln -sr {input.fasta} {output.genome} &> {log}"
+        """
+        exec > {log} 2>&1
+        ln -sr {input.fasta} {output.genome}
+        """
 
 
 rule samtools_faidx_ref_genome:
@@ -47,5 +50,6 @@ output:
         config["container"].get("samtools")
     shell:
         """
-        samtools faidx {input.fasta} &> {log}
+        exec > {log} 2>&1
+        samtools faidx {input.fasta}
         """

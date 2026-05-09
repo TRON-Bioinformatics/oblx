@@ -19,7 +19,10 @@ output:
     container:
         config["container"].get("shell_utils")
     shell:
-        "ln -sr {input.fasta} {output.fasta_link} &> {log}"
+        """
+        exec > {log} 2>&1
+        ln -sr {input.fasta} {output.fasta_link}
+        """
 
 
 rule bwa_mem2_index:
@@ -52,7 +55,10 @@ output:
     resources:
         mem_mb=100000,
     shell:
-        "bwa-mem2 index -p {input.fasta} {input.fasta} &> {log}"
+        """
+        exec > {log} 2>&1
+        bwa-mem2 index -p {input.fasta} {input.fasta}
+        """
 
 
 rule samtools_faidx_bwa:
@@ -76,5 +82,6 @@ output:
         config["container"].get("samtools")
     shell:
         """
-        samtools faidx {input.fasta} &> {log}
+        exec > {log} 2>&1
+        samtools faidx {input.fasta}
         """

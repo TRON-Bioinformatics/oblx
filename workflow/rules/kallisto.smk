@@ -25,24 +25,27 @@ output:
         config["container"].get("kb_tools")
     threads: 2
     shell:
-        "kb ref --workflow=standard "
-        "-i {output.index} -g {output.tx2gene} -f1 {output.cdna} "
-        "--include-attribute gene_type:protein_coding "
-        "--include-attribute gene_type:lncRNA "
-        "--include-attribute gene_type:lincRNA "
-        "--include-attribute gene_type:antisense "
-        "--include-attribute gene_type:IG_LV_gene "
-        "--include-attribute gene_type:IG_V_gene "
-        "--include-attribute gene_type:IG_V_pseudogene "
-        "--include-attribute gene_type:IG_D_gene "
-        "--include-attribute gene_type:IG_J_gene "
-        "--include-attribute gene_type:IG_J_pseudogene "
-        "--include-attribute gene_type:IG_C_gene "
-        "--include-attribute gene_type:IG_C_pseudogene "
-        "--include-attribute gene_type:TR_V_gene "
-        "--include-attribute gene_type:TR_V_pseudogene "
-        "--include-attribute gene_type:TR_D_gene "
-        "--include-attribute gene_type:TR_J_gene "
-        "--include-attribute gene_type:TR_J_pseudogene "
-        "--include-attribute gene_type:TR_C_gene "
-        "{input.genome} {input.gtf} &> {log}"
+        """
+        exec > {log} 2>&1
+        kb ref --workflow=standard \
+        -i {output.index} -g {output.tx2gene} -f1 {output.cdna} \
+        --include-attribute gene_type:protein_coding \
+        --include-attribute gene_type:lncRNA \
+        --include-attribute gene_type:lincRNA \
+        --include-attribute gene_type:antisense \
+        --include-attribute gene_type:IG_LV_gene \
+        --include-attribute gene_type:IG_V_gene \
+        --include-attribute gene_type:IG_V_pseudogene \
+        --include-attribute gene_type:IG_D_gene \
+        --include-attribute gene_type:IG_J_gene \
+        --include-attribute gene_type:IG_J_pseudogene \
+        --include-attribute gene_type:IG_C_gene \
+        --include-attribute gene_type:IG_C_pseudogene \
+        --include-attribute gene_type:TR_V_gene \
+        --include-attribute gene_type:TR_V_pseudogene \
+        --include-attribute gene_type:TR_D_gene \
+        --include-attribute gene_type:TR_J_gene \
+        --include-attribute gene_type:TR_J_pseudogene \
+        --include-attribute gene_type:TR_C_gene \
+        {input.genome} {input.gtf}
+        """
