@@ -16,12 +16,14 @@ output:
         fasta=get_genome_for_index_building,
     output:
         genome="resources/ref_genome.fasta",
+    log:
+        "logs/faidx/set_genome.log",
     conda:
         "../envs/shellutils.yaml"
     container:
         config["container"].get("shell_utils")
     shell:
-        "ln -sr {input.fasta} {output.genome}"
+        "ln -sr {input.fasta} {output.genome} &> {log}"
 
 
 rule samtools_faidx_ref_genome:
@@ -37,11 +39,13 @@ output:
         fasta="resources/ref_genome.fasta",
     output:
         fai="resources/ref_genome.fasta.fai",
+    log:
+        "logs/faidx/samtools_faidx_ref_genome.log",
     conda:
         "../envs/samtools.yaml"
     container:
         config["container"].get("samtools")
     shell:
         """
-        samtools faidx {input.fasta}
+        samtools faidx {input.fasta} &> {log}
         """

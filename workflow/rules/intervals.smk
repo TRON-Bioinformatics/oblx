@@ -11,12 +11,17 @@ output:
         fasta_index="resources/ref_genome.fasta.fai",
     output:
         chrom_size_file="resources/chromosome_sizes.txt",
+    log:
+        "logs/intervals/chrom_sizes.log",
     conda:
         "../envs/shellutils.yaml"
     container:
         config["container"].get("shell_utils")
     shell:
-        "cut -f 1,2 {input.fasta_index} > {output.chrom_size_file}"
+        """
+        exec 2> {log}
+        cut -f 1,2 {input.fasta_index} > {output.chrom_size_file}
+        """
 
 
 rule gencode_exome_bed:

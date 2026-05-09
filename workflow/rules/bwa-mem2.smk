@@ -12,12 +12,14 @@ output:
         fasta=get_genome_for_index_building,
     output:
         fasta_link="indices/bwa/ref_genome.fasta",
+    log:
+        "logs/bwa/link_bwa_fasta.log",
     conda:
         "../envs/shellutils.yaml"
     container:
         config["container"].get("shell_utils")
     shell:
-        "ln -sr {input.fasta} {output.fasta_link}"
+        "ln -sr {input.fasta} {output.fasta_link} &> {log}"
 
 
 rule bwa_mem2_index:
@@ -66,11 +68,13 @@ output:
         fasta="indices/bwa/ref_genome.fasta",
     output:
         fai="indices/bwa/ref_genome.fasta.fai",
+    log:
+        "logs/bwa/samtools_faidx_bwa.log",
     conda:
         "../envs/samtools.yaml"
     container:
         config["container"].get("samtools")
     shell:
         """
-        samtools faidx {input.fasta}
+        samtools faidx {input.fasta} &> {log}
         """

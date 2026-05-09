@@ -13,11 +13,13 @@ output:
         genome_fasta="resources/ref_genome.fasta",
     output:
         genome_dict="resources/ref_genome.dict",
+    log:
+        "logs/sequence_dict/create_sequence_dict.log",
     conda:
         "../envs/gatk4.yaml"
     container:
         config["container"].get("gatk4")
     shell:
         """
-        gatk CreateSequenceDictionary --REFERENCE {input.genome_fasta} --OUTPUT {output.genome_dict}
+        gatk CreateSequenceDictionary --REFERENCE {input.genome_fasta} --OUTPUT {output.genome_dict} &> {log}
         """

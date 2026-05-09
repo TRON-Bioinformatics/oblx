@@ -135,6 +135,7 @@ output:
         config["container"].get("shell_utils")
     shell:
         """
+        exec 2> {log}
         cp {input.transcripts_remote} {output.transcripts}
         cp {input.gtf_remote} {output.gtf}
         cp {input.fasta_remote} {output.fasta}
@@ -181,6 +182,7 @@ output:
         config["container"].get("shell_utils")
     shell:
         """
+        exec 2> {log}
         gunzip -c {input.fasta_gzipped} > {output.fasta}
         gunzip -c {input.gtf_gzipped} > {output.gtf}
         gunzip -c {input.transcripts_gzipped} > {output.transcripts}
@@ -228,6 +230,7 @@ by default and a BED12 file of the reference transcripts.
         config["container"].get("shell_utils")
     shell:
         """
+        exec 2> {log}
         cp {input.encode_exclusion_remote} {output.encode_exclusion}
         cp {input.grc_exclusion_remote} {output.grc_exclusion}
         cp {input.ucsc_problematic_remote} {output.ucsc_problematic}
@@ -260,7 +263,10 @@ organism.
     container:
         config["container"].get("shell_utils")
     shell:
-        "cp {input.rmsk_remote} {output.rmsk_annot}"
+        """
+        exec 2> {log}
+        cp {input.rmsk_remote} {output.rmsk_annot}
+        """
 
 
 rule download_exome_probesets:
@@ -300,6 +306,7 @@ Here we download kits from Twist.
         config["container"].get("shell_utils")
     shell:
         """
+        exec 2> {log}
         cp {input.twist_refseq_remote} {output.twist_refseq}
         cp {input.twist_core_exome_remote} {output.twist_core_exome}
         cp {input.twist_comprehensive_exome_remote} {output.twist_comprehensive_exome}
@@ -337,6 +344,7 @@ Convert UCSC binary bigbed to ASCII bed files.
         config["container"].get("bigbedtobed")
     shell:
         """
+        exec 2> {log}
         bigBedToBed {input.encode_exclusion} {output.encode_exclusion}
         bigBedToBed {input.grc_exclusion} {output.grc_exclusion}
         bigBedToBed {input.ucsc_problematic} {output.ucsc_problematic}
@@ -364,6 +372,7 @@ Remove comment from UCSC big bed file
         config["container"].get("shell_utils")
     shell:
         """
+        exec 2> {log}
         cut -f 1-6 {input.ucsc_problematic} > {output.ucsc_problematic}
         """
 
@@ -416,6 +425,7 @@ Download resources from GATK bundle.
         gatk_dbsnp=lambda wildcards, output: os.path.splitext(output.gatk_dbsnp_gz)[0],
     shell:
         """
+        exec 2> {log}
         cp {input.mills_remote} {output.mills_vcf}
         tabix -p vcf {output.mills_vcf}
 
@@ -471,12 +481,15 @@ Download current dbSNP release from NCBI server.
     output:
         dbsnp_vcf=temp("resources/germline_variants/00-common_all.vcf.gz"),
         dbsnp_tbi=temp("resources/germline_variants/00-common_all.vcf.gz.tbi"),
+    log:
+        "logs/pull_resources/download_dbsnp_human.log",
     conda:
         "../envs/bcftools.yaml"
     container:
         config["container"].get("bcftools")
     shell:
         """
+        exec 2> {log}
         cp {input.dbsnp_remote} {output.dbsnp_vcf}
         tabix -p vcf {output.dbsnp_vcf}
         """
@@ -497,6 +510,8 @@ Download dbSNP from ENSEMBL and convert chromosome names to GENCODE.
         dbsnp_vcf="resources/germline_variants/dbSNP_mouse.vcf.gz",
         chromosome_mapping=temp("resources/germline_variants/chromosome_mapping.txt"),
         dbsnp_tbi="resources/germline_variants/dbSNP_mouse.vcf.gz.tbi",
+    log:
+        "logs/pull_resources/download_dbsnp_mouse.log",
     conda:
         "../envs/bcftools.yaml"
     container:
@@ -505,6 +520,7 @@ Download dbSNP from ENSEMBL and convert chromosome names to GENCODE.
         dbsnp_tmp=temp("resources/germline_variants/mus_musculus.vcf.gz"),
     shell:
         """
+        exec 2> {log}
         cp {input.dbsnp_remote} {params.dbsnp_tmp}
         cp {input.chromosome_mapping_remote} {output.chromosome_mapping}
         tabix -p vcf {params.dbsnp_tmp}
@@ -563,6 +579,8 @@ Download gnomAD population SNPs from Google Cloud Storage per chromosome.
             "resources/germline_variants/gnomAD/{gnomad_type}/"
             "gnomad_{chromosome}.vcf.tmp.bgz"
         ),
+    log:
+        "logs/pull_resources/download_gnomad/{gnomad_type}/{chromosome}.log",
     wildcard_constraints:
         # No other values are currently provided by GnomAD.
         gnomad_type="exomes|genomes",
@@ -572,6 +590,7 @@ Download gnomAD population SNPs from Google Cloud Storage per chromosome.
         config["container"].get("shell_utils")
     shell:
         """
+        exec 2> {log}
         cp {input.gnomad_remote} {output.vcf_file}
         """
 
@@ -597,6 +616,8 @@ allele frequency.
             "resources/germline_variants/gnomAD/{gnomad_type}/"
             "gnomad_{chromosome}.vcf.gz.tbi"
         ),
+    log:
+        "logs/pull_resources/af_only_gnomad/{gnomad_type}/{chromosome}.log",
     conda:
         "../envs/bcftools.yaml"
     container:
@@ -708,6 +729,8 @@ https://github.com/broadinstitute/gatk/tree/master/scripts/mutect2_wdl
             "resources/germline_variants/gnomAD/{gnomad_type}/"
             "common_biallelic_chr1.vcf.gz.tbi"
         ),
+    log:
+        "logs/pull_resources/prepare_variants_for_contamination/{gnomad_type}.log",
     conda:
         "../envs/bcftools.yaml"
     container:
@@ -729,6 +752,8 @@ Download common virus (as defined by TCGA) genomes from GenBank.
         tcga_virus=TCGA_VIRUS_FILE,
     output:
         tcga_virus="resources/viruses/tcga_virus_decoy.fasta",
+    log:
+        "logs/pull_resources/download_tcga_virus.log",
     conda:
         "../envs/efetch.yaml"
     container:
@@ -737,6 +762,7 @@ Download common virus (as defined by TCGA) genomes from GenBank.
         output_prefix=lambda wildcards, output: os.path.dirname(output.tcga_virus),
     shell:
         """
+        exec 2> {log}
         while IFS=$'\\t' read -r name abbv genbank
         do
             efetch -db nuccore -format fasta -id "${{genbank}}" >> {params.output_prefix}/tcga_virus_decoy.fasta

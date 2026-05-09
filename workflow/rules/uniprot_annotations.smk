@@ -19,5 +19,6 @@ rule merge_gencode_to_uniprot:
         --sp-mapping {input.sp_mapping} \
         --tr-mapping {input.tr_mapping} \
         --uniprot {input.uniprot_annotations} \
-        --outfile {output.uniprot_annotations_merged}
+        --outfile {output.uniprot_annotations_merged} \
+        &> {log}
         """
