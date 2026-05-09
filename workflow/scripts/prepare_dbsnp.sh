@@ -1,19 +1,33 @@
 #!/usr/bin/env bash
 #
-# SnakeMake wrapper script to prepare dbSNP VCF for genome lib
+# Prepare dbSNP VCF for genome lib
+#
+# Usage: prepare_dbsnp.sh <chrom_mapping> <vcf> <outdir> <dbsnp_vcf> [log_file]
 
 set -euo pipefail
+
+if [[ $# -lt 4 ]]; then
+    echo "Usage: $0 <chrom_mapping> <vcf> <outdir> <dbsnp_vcf> [log_file]" >&2
+    exit 1
+fi
+
+chrom_mapping="$1"
+vcf="$2"
+outdir="$3"
+dbsnp_vcf="$4"
 
 CHROMOSOMES="$(echo {1..22} | tr ' ' ',')"
 CHROMOSOMES="${CHROMOSOMES},X,Y"
 
-TMPDIR="$(mktemp -d -p ${snakemake_params[outdir]})"
+TMPDIR="$(mktemp -d -p "${outdir}")"
 
 trap 'rm -rf -- "$TMPDIR"' EXIT
 
-exec 2>"${snakemake_log[0]}"
+if [[ $# -ge 5 ]]; then
+    exec 2>"$5"
+fi
 
-bcftools view --regions "$CHROMOSOMES" "${snakemake_input[vcf]}" |
-    bcftools annotate --rename-chrs "${snakemake_input[chrom_mapping]}" | bgzip -c >"${snakemake_output[dbsnp_vcf]}"
+bcftools view --regions "$CHROMOSOMES" "${vcf}" |
+    bcftools annotate --rename-chrs "${chrom_mapping}" | bgzip -c >"${dbsnp_vcf}"
 
-tabix -p vcf "${snakemake_output[dbsnp_vcf]}"
+tabix -p vcf "${dbsnp_vcf}"

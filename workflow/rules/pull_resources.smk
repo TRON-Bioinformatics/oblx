@@ -546,6 +546,7 @@ output:
         chrom_mapping=GENCODE2ENSEMBL_CHROM_MAPPING,
         vcf=rules.download_dbsnp_human.output.dbsnp_vcf,
         tbi=rules.download_dbsnp_human.output.dbsnp_tbi,
+        script=workflow.source_path("../scripts/prepare_dbsnp.sh"),
     output:
         dbsnp_vcf="resources/germline_variants/dbSNP_151.vcf.gz",
     log:
@@ -556,8 +557,12 @@ output:
         config["container"].get("bcftools")
     params:
         outdir=lambda wildcards, output: os.path.dirname(output.dbsnp_vcf),
-    script:
-        "../scripts/prepare_dbsnp.sh"
+    shell:
+        """
+        bash {input.script} \
+            {input.chrom_mapping} {input.vcf} \
+            {params.outdir} {output.dbsnp_vcf} {log}
+        """
 
 
 rule download_gnomad:
@@ -608,6 +613,7 @@ allele frequency.
             "gnomad_{chromosome}.vcf.tmp.bgz"
         ),
         minimal_gnomad_header=MINIMAL_GNOMAD_HEADER_FILE,
+        script=workflow.source_path("../scripts/make_AF_only_gnomad_vcf.sh"),
     output:
         vcf_file=temp(
             "resources/germline_variants/gnomAD/{gnomad_type}/"
@@ -625,8 +631,12 @@ allele frequency.
         config["container"].get("bcftools")
     params:
         minimum_allele_frequency=config.get("minimum_allele_frequency", 0),
-    script:
-        "../scripts/make_AF_only_gnomad_vcf.sh"
+    shell:
+        """
+        bash {input.script} \
+            {input.gnomad} {params.minimum_allele_frequency} \
+            {input.minimal_gnomad_header} {output.vcf_file} {log}
+        """
 
 
 rule bcftools_concat_gnomad:
@@ -719,6 +729,7 @@ https://github.com/broadinstitute/gatk/tree/master/scripts/mutect2_wdl
             "gnomad_chr1.vcf.gz.tbi"
         ),
         minimal_gnomad_header=MINIMAL_GNOMAD_HEADER_FILE,
+        script=workflow.source_path("../scripts/prepare_variants_for_contamination.sh"),
     output:
         prep_vcf=(
             "resources/germline_variants/gnomAD/{gnomad_type}/"
@@ -734,8 +745,12 @@ https://github.com/broadinstitute/gatk/tree/master/scripts/mutect2_wdl
         "../envs/bcftools.yaml"
     container:
         config["container"].get("bcftools")
-    script:
-        "../scripts/prepare_variants_for_contamination.sh"
+    shell:
+        """
+        bash {input.script} \
+            {input.vcf_chr1} {input.minimal_gnomad_header} \
+            {output.prep_vcf} {log}
+        """
 
 
 rule download_tcga_virus:

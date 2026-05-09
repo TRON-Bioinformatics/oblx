@@ -42,6 +42,7 @@ output:
     input:
         gtf=config.get("genome-gtf", "resources/ref_annot.gtf"),
         chrom_sizes=rules.chrom_sizes.output,
+        script=workflow.source_path("../scripts/make_exome_bed.sh"),
     output:
         exome_interval="resources/exome_definition/ref_exome.bed",
     log:
@@ -53,5 +54,10 @@ output:
     params:
         intron_slop=config.get("intron-slop", 20),
         exome_transcript_definition=config.get("exome_transcript_definition", "basic"),
-    script:
-        "../scripts/make_exome_bed.sh"
+    shell:
+        """
+        bash {input.script} \
+            {input.gtf} {input.chrom_sizes} \
+            {params.exome_transcript_definition} {params.intron_slop} \
+            {output.exome_interval} {log}
+        """

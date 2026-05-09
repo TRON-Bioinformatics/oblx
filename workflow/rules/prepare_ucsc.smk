@@ -4,6 +4,7 @@ Convert UCSC database dump of repeatmasker annotation into BED.
 """
     input:
         rmsk="resources/ucsc_repeatmasker_dump.txt.gz",
+        script=workflow.source_path("../scripts/make_RMSK_bed.sh"),
     output:
         rmsk_bed="resources/ref_genome_repeatmasker.bed",
     log:
@@ -12,5 +13,7 @@ Convert UCSC database dump of repeatmasker annotation into BED.
         "../envs/bedtools.yaml"
     container:
         config["container"].get("bedtools")
-    script:
-        "../scripts/make_RMSK_bed.sh"
+    shell:
+        """
+        bash {input.script} {input.rmsk} {output.rmsk_bed} {log}
+        """
