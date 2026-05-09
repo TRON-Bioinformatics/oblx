@@ -26,9 +26,9 @@ output:
     threads: 2
     shell:
         """
-        exec &> {log}
+        exec &> "{log}"
         kb ref --workflow=standard \
-        -i {output.index} -g {output.tx2gene} -f1 {output.cdna} \
+        -i "{output.index}" -g "{output.tx2gene}" -f1 "{output.cdna}" \
         --include-attribute gene_type:protein_coding \
         --include-attribute gene_type:lncRNA \
         --include-attribute gene_type:lincRNA \
@@ -47,5 +47,5 @@ output:
         --include-attribute gene_type:TR_J_gene \
         --include-attribute gene_type:TR_J_pseudogene \
         --include-attribute gene_type:TR_C_gene \
-        {input.genome} {input.gtf}
+        "{input.genome}" "{input.gtf}"
         """

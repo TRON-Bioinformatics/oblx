@@ -20,8 +20,8 @@ output:
         config["container"].get("shell_utils")
     shell:
         """
-        exec &> {log}
-        ln -sr {input.fasta} {output.fasta_link}
+        exec &> "{log}"
+        ln -sr "{input.fasta}" "{output.fasta_link}"
         """
 
 
@@ -56,8 +56,8 @@ output:
         mem_mb=100000,
     shell:
         """
-        exec &> {log}
-        bwa-mem2 index -p {input.fasta} {input.fasta}
+        exec &> "{log}"
+        bwa-mem2 index -p "{input.fasta}" "{input.fasta}"
         """
 
 
@@ -82,6 +82,6 @@ output:
         config["container"].get("samtools")
     shell:
         """
-        exec &> {log}
-        samtools faidx {input.fasta}
+        exec &> "{log}"
+        samtools faidx "{input.fasta}"
         """

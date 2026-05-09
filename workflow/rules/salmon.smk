@@ -27,9 +27,9 @@ output:
         config["container"].get("shell_utils")
     shell:
         """
-        bash {input.script} \
-            {input.genome} {input.transcriptome} \
-            {output.decoys} {output.gentrome} &> {log}
+        bash "{input.script}" \
+            "{input.genome}" "{input.transcriptome}" \
+            "{output.decoys}" "{output.gentrome}" &> "{log}"
         """
 
 
@@ -84,13 +84,13 @@ params:
         outdir=lambda _, output: os.path.dirname(output.index_files[0]),
     shell:
         """
-        exec &> {log}
+        exec &> "{log}"
         salmon index \
-        --transcripts {input.sequences} \
-        --index {params.outdir} \
-        --threads {threads} \
+        --transcripts "{input.sequences}" \
+        --index "{params.outdir}" \
+        --threads "{threads}" \
         {params.extra} \
-        --decoys {input.decoys}
+        --decoys "{input.decoys}"
         """
 
 
@@ -128,8 +128,8 @@ params:
         extra="",
     shell:
         """
-        exec &> {log}
+        exec &> "{log}"
         gffread \
-        -w {output.transcript_fasta} \
-        -g {input.fasta} {input.annotation}
+        -w "{output.transcript_fasta}" \
+        -g "{input.fasta}" "{input.annotation}"
         """

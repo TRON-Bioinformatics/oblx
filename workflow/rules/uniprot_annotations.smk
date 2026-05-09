@@ -15,10 +15,10 @@ rule merge_gencode_to_uniprot:
     threads: 1
     shell:
         """
-        exec &> {log}
-        python {input.script} \
-        --sp-mapping {input.sp_mapping} \
-        --tr-mapping {input.tr_mapping} \
-        --uniprot {input.uniprot_annotations} \
-        --outfile {output.uniprot_annotations_merged}
+        exec &> "{log}"
+        python "{input.script}" \
+        --sp-mapping "{input.sp_mapping}" \
+        --tr-mapping "{input.tr_mapping}" \
+        --uniprot "{input.uniprot_annotations}" \
+        --outfile "{output.uniprot_annotations_merged}"
         """

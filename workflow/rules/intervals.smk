@@ -19,8 +19,8 @@ output:
         config["container"].get("shell_utils")
     shell:
         """
-        exec &> {log}
-        cut -f 1,2 {input.fasta_index} > {output.chrom_size_file}
+        exec &> "{log}"
+        cut -f 1,2 "{input.fasta_index}" > "{output.chrom_size_file}"
         """
 
 
@@ -56,8 +56,8 @@ output:
         exome_transcript_definition=config.get("exome_transcript_definition", "basic"),
     shell:
         """
-        bash {input.script} \
-            {input.gtf} {input.chrom_sizes} \
-            {params.exome_transcript_definition} {params.intron_slop} \
-            {output.exome_interval} &> {log}
+        bash "{input.script}" \
+            "{input.gtf}" "{input.chrom_sizes}" \
+            "{params.exome_transcript_definition}" "{params.intron_slop}" \
+            "{output.exome_interval}" &> "{log}"
         """

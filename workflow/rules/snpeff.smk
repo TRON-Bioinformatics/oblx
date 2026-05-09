@@ -24,9 +24,9 @@ Create symlinks to the reference and GTF for snpEff index build.
         config["container"].get("shell_utils")
     shell:
         """
-        exec &> {log}
-        ln -sr {input.fasta} {output.fasta_link}
-        ln -sr $(realpath {input.gtf}) {output.gtf_link}
+        exec &> "{log}"
+        ln -sr "{input.fasta}" "{output.fasta_link}"
+        ln -sr "$(realpath "{input.gtf}")" "{output.gtf_link}"
         """
 
 
@@ -60,10 +60,10 @@ output:
         ),
     shell:
         """
-        exec &> {log}
-        cat {input.codon_mit_vertebrate} >> {output.config_file}
-        echo '{params.genome_version}.genome : {params.genome_version}' >> {output.config_file}
-        echo '    {params.genome_version}.chrM.codonTable : Vertebrate_Mitochondrial' >> {output.config_file}
+        exec &> "{log}"
+        cat "{input.codon_mit_vertebrate}" >> "{output.config_file}"
+        echo '{params.genome_version}.genome : {params.genome_version}' >> "{output.config_file}"
+        echo '    {params.genome_version}.chrM.codonTable : Vertebrate_Mitochondrial' >> "{output.config_file}"
         """
 
 
@@ -95,9 +95,9 @@ Create the snpEff index.
         "snpEff -Xmx{resources.mem_mb}m build "
         "-gtf22 "
         "-verbose "
-        "-dataDir {params.data_dir} "
-        "-config {input.config_file} "
+        "-dataDir '{params.data_dir}' "
+        "-config '{input.config_file}' "
         "-noCheckCds "
         "-noCheckProtein "
-        "{wildcards.genome_version} "
-        "&> {log}"
+        "'{wildcards.genome_version}' "
+        "&> '{log}'"
