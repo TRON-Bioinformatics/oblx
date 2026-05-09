@@ -16,14 +16,16 @@ Create symlinks to the reference and GTF for snpEff index build.
             f'{config.get("genome-build", default_build)}.{config.get("release", default_release)}',
             "genes.gtf",
         ),
+    log:
+        "logs/snpeff/link_snpeff.log",
     conda:
         "../envs/shellutils.yaml"
     container:
         config["container"].get("shell_utils")
     shell:
         """
-        ln -sr {input.fasta} {output.fasta_link}
-        ln -sr $(realpath {input.gtf}) {output.gtf_link}
+        ln -sr {input.fasta} {output.fasta_link} > {log} 2>&1
+        ln -sr $(realpath {input.gtf}) {output.gtf_link} >> {log} 2>&1
         """
 
 
@@ -44,6 +46,8 @@ output:
         ),
     output:
         config_file=f"indices/snpeff/snpeff.config",
+    log:
+        "logs/snpeff/prepare_snpEff_config.log",
     conda:
         "../envs/shellutils.yaml"
     container:
@@ -55,9 +59,9 @@ output:
         ),
     shell:
         """
-        cat {input.codon_mit_vertebrate} >> {output.config_file}
-        echo '{params.genome_version}.genome : {params.genome_version}' >> {output.config_file}
-        echo '    {params.genome_version}.chrM.codonTable : Vertebrate_Mitochondrial' >> {output.config_file}
+        cat {input.codon_mit_vertebrate} >> {output.config_file} 2> {log}
+        echo '{params.genome_version}.genome : {params.genome_version}' >> {output.config_file} 2>> {log}
+        echo '    {params.genome_version}.chrM.codonTable : Vertebrate_Mitochondrial' >> {output.config_file} 2>> {log}
         """
 
 

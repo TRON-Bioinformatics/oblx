@@ -18,6 +18,8 @@ output:
         grc_exclusion_bed="resources/mappability/grcExclusions.bed",
     output:
         masked_genome="resources/ref_genome_grc_masked.fasta",
+    log:
+        "logs/genome_masking/mask_GRC_assembly_errors.log",
     conda:
         "../envs/bedtools.yaml"
     container:
@@ -27,6 +29,7 @@ output:
         "-fi {input.genome} "
         "-bed {input.grc_exclusion_bed} "
         "-fo {output.masked_genome} "
+        "&> {log}"
 
 
 rule mask_pseudoautosomal:
@@ -44,6 +47,8 @@ output:
         pseudoautosomal_regions_bed=PA_REGION_BED_PATH,
     output:
         masked_genome="resources/ref_genome_masked_final.fasta",
+    log:
+        "logs/genome_masking/mask_pseudoautosomal.log",
     conda:
         "../envs/bedtools.yaml"
     container:
@@ -53,3 +58,4 @@ output:
         "-fi {input.genome} "
         "-bed {input.pseudoautosomal_regions_bed} "
         "-fo {output.masked_genome} "
+        "&> {log}"

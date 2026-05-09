@@ -10,6 +10,8 @@
 # @Version: 0.0.1
 # @Status: Development
 
+exec >"${snakemake_log[0]}" 2>&1
+
 gnomad_vcf="${snakemake_input[gnomad]}"
 min_af=${snakemake_params[minimum_allele_frequency]}
 vcf_header="${snakemake_input[minimal_gnomad_header]}"
