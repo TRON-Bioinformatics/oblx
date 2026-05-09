@@ -70,13 +70,11 @@ Create the snpEff index.
     output:
         os.path.abspath(
             os.path.join(
-                "indices/snpeff/data/",
-                f'{config.get("genome-build", default_build)}.{config.get("release", default_release)}',
-                "snpEffectPredictor.bin",
+                "indices/snpeff/data/{genome_version}/snpEffectPredictor.bin",
             )
         ),
     log:
-        "logs/snpeff/snpeff-build-db.log",
+        "logs/snpeff/{genome_version}/snpeff-build-db.log",
     conda:
         "../envs/snpeff.yaml"
     container:
@@ -85,10 +83,6 @@ Create the snpEff index.
         mem_mb=16000,
     params:
         data_dir=os.path.abspath(Path(rules.link_snpeff.output.fasta_link).parents[1]),
-        genome_version=(
-            f"{config.get('genome-build', default_build)}."
-            f"{config.get('release', default_release)}"
-        ),
     shell:
         "snpEff -Xmx{resources.mem_mb}m build "
         "-gtf22 "
@@ -97,5 +91,5 @@ Create the snpEff index.
         "-config {input.config_file} "
         "-noCheckCds "
         "-noCheckProtein "
-        "{params.genome_version} "
+        "{wildcards.genome_version} "
         "> {log}"
