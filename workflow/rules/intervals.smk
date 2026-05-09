@@ -19,7 +19,7 @@ output:
         config["container"].get("shell_utils")
     shell:
         """
-        exec 2> {log}
+        exec > {log} 2>&1
         cut -f 1,2 {input.fasta_index} > {output.chrom_size_file}
         """
 

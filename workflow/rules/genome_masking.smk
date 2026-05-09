@@ -25,11 +25,13 @@ output:
     container:
         config["container"].get("bedtools")
     shell:
-        "maskFastaFromBed "
-        "-fi {input.genome} "
-        "-bed {input.grc_exclusion_bed} "
-        "-fo {output.masked_genome} "
-        "&> {log}"
+        """
+        exec > {log} 2>&1
+        maskFastaFromBed \
+        -fi {input.genome} \
+        -bed {input.grc_exclusion_bed} \
+        -fo {output.masked_genome}
+        """
 
 
 rule mask_pseudoautosomal:
@@ -54,8 +56,10 @@ output:
     container:
         config["container"].get("bedtools")
     shell:
-        "maskFastaFromBed "
-        "-fi {input.genome} "
-        "-bed {input.pseudoautosomal_regions_bed} "
-        "-fo {output.masked_genome} "
-        "&> {log}"
+        """
+        exec > {log} 2>&1
+        maskFastaFromBed \
+        -fi {input.genome} \
+        -bed {input.pseudoautosomal_regions_bed} \
+        -fo {output.masked_genome}
+        """

@@ -21,5 +21,6 @@ output:
         config["container"].get("gatk4")
     shell:
         """
-        gatk CreateSequenceDictionary --REFERENCE {input.genome_fasta} --OUTPUT {output.genome_dict} &> {log}
+        exec > {log} 2>&1
+        gatk CreateSequenceDictionary --REFERENCE {input.genome_fasta} --OUTPUT {output.genome_dict}
         """
