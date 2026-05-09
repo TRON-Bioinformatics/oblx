@@ -10,6 +10,8 @@
 # @Version: 0.0.1
 # @Status: Development
 
+set -euo pipefail
+
 TMPDIR="$(mktemp -d)"
 trap 'rm -rf -- "$TMPDIR"' EXIT
 
