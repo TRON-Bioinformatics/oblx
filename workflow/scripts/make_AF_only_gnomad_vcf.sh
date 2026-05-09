@@ -19,6 +19,8 @@ out_vcf="${snakemake_output[vcf_file]}"
 
 tmp_vcf="$(mktemp)"
 
+trap 'rm -f -- "$tmp_vcf"' EXIT
+
 bcftools query \
     -i "AF>${min_af} & FILTER == 'PASS'" \
     -f '%CHROM\t%POS\t%ID\t%REF\t%ALT\t%QUAL\t%FILTER\tAF=%INFO/AF\n' \
@@ -27,5 +29,3 @@ bcftools query \
 cat $vcf_header $tmp_vcf | bgzip -c >$out_vcf
 
 tabix -p vcf $out_vcf
-
-rm $tmp_vcf

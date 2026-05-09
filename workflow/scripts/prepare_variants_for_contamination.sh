@@ -26,6 +26,8 @@ out_vcf="${snakemake_output[prep_vcf]}"
 
 tmp_vcf="$(mktemp)"
 
+trap 'rm -f -- "$tmp_vcf"' EXIT
+
 bcftools view \
     --max-alleles 2 \
     --regions chr1 \
@@ -38,5 +40,3 @@ bcftools view \
 cat $vcf_header $tmp_vcf | bgzip -c >$out_vcf
 
 tabix -p vcf $out_vcf
-
-rm $tmp_vcf
