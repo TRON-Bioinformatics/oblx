@@ -26,7 +26,7 @@ output:
     threads: 2
     shell:
         """
-        exec > {log} 2>&1
+        exec &> {log}
         kb ref --workflow=standard \
         -i {output.index} -g {output.tx2gene} -f1 {output.cdna} \
         --include-attribute gene_type:protein_coding \

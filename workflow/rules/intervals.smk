@@ -19,7 +19,7 @@ output:
         config["container"].get("shell_utils")
     shell:
         """
-        exec > {log} 2>&1
+        exec &> {log}
         cut -f 1,2 {input.fasta_index} > {output.chrom_size_file}
         """
 
@@ -59,5 +59,5 @@ output:
         bash {input.script} \
             {input.gtf} {input.chrom_sizes} \
             {params.exome_transcript_definition} {params.intron_slop} \
-            {output.exome_interval} > {log} 2>&1
+            {output.exome_interval} &> {log}
         """

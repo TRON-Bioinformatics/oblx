@@ -15,7 +15,7 @@ rule merge_gencode_to_uniprot:
     threads: 1
     shell:
         """
-        exec > {log} 2>&1
+        exec &> {log}
         python {input.script} \
         --sp-mapping {input.sp_mapping} \
         --tr-mapping {input.tr_mapping} \

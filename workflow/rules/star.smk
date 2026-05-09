@@ -46,4 +46,4 @@ output:
         "--sjdbGTFfile {input.gtf} "
         "--sjdbOverhang {params.sjdb_overhang} "
         "--genomeSAindexNbases {params.genomesaindexnbases} "
-        "> {log}"
+        "&> {log}"

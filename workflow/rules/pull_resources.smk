@@ -135,7 +135,7 @@ output:
         config["container"].get("shell_utils")
     shell:
         """
-        exec > {log} 2>&1
+        exec &> {log}
         cp {input.transcripts_remote} {output.transcripts}
         cp {input.gtf_remote} {output.gtf}
         cp {input.fasta_remote} {output.fasta}
@@ -182,7 +182,7 @@ output:
         config["container"].get("shell_utils")
     shell:
         """
-        exec > {log} 2>&1
+        exec &> {log}
         gunzip -c {input.fasta_gzipped} > {output.fasta}
         gunzip -c {input.gtf_gzipped} > {output.gtf}
         gunzip -c {input.transcripts_gzipped} > {output.transcripts}
@@ -230,7 +230,7 @@ by default and a BED12 file of the reference transcripts.
         config["container"].get("shell_utils")
     shell:
         """
-        exec > {log} 2>&1
+        exec &> {log}
         cp {input.encode_exclusion_remote} {output.encode_exclusion}
         cp {input.grc_exclusion_remote} {output.grc_exclusion}
         cp {input.ucsc_problematic_remote} {output.ucsc_problematic}
@@ -264,7 +264,7 @@ organism.
         config["container"].get("shell_utils")
     shell:
         """
-        exec > {log} 2>&1
+        exec &> {log}
         cp {input.rmsk_remote} {output.rmsk_annot}
         """
 
@@ -306,7 +306,7 @@ Here we download kits from Twist.
         config["container"].get("shell_utils")
     shell:
         """
-        exec > {log} 2>&1
+        exec &> {log}
         cp {input.twist_refseq_remote} {output.twist_refseq}
         cp {input.twist_core_exome_remote} {output.twist_core_exome}
         cp {input.twist_comprehensive_exome_remote} {output.twist_comprehensive_exome}
@@ -344,7 +344,7 @@ Convert UCSC binary bigbed to ASCII bed files.
         config["container"].get("bigbedtobed")
     shell:
         """
-        exec > {log} 2>&1
+        exec &> {log}
         bigBedToBed {input.encode_exclusion} {output.encode_exclusion}
         bigBedToBed {input.grc_exclusion} {output.grc_exclusion}
         bigBedToBed {input.ucsc_problematic} {output.ucsc_problematic}
@@ -372,7 +372,7 @@ Remove comment from UCSC big bed file
         config["container"].get("shell_utils")
     shell:
         """
-        exec > {log} 2>&1
+        exec &> {log}
         cut -f 1-6 {input.ucsc_problematic} > {output.ucsc_problematic}
         """
 
@@ -425,7 +425,7 @@ Download resources from GATK bundle.
         gatk_dbsnp=lambda wildcards, output: os.path.splitext(output.gatk_dbsnp_gz)[0],
     shell:
         """
-        exec > {log} 2>&1
+        exec &> {log}
         cp {input.mills_remote} {output.mills_vcf}
         tabix -p vcf {output.mills_vcf}
 
@@ -466,7 +466,7 @@ Download UniProt data.
         organism=lambda wildcards: config.get("organism", default_organism),
     shell:
         """
-        exec > {log} 2>&1
+        exec &> {log}
         python {input.script} --outdir {params.outdir} --organism {params.organism}
         """
 
@@ -490,7 +490,7 @@ Download current dbSNP release from NCBI server.
         config["container"].get("bcftools")
     shell:
         """
-        exec > {log} 2>&1
+        exec &> {log}
         cp {input.dbsnp_remote} {output.dbsnp_vcf}
         tabix -p vcf {output.dbsnp_vcf}
         """
@@ -521,7 +521,7 @@ Download dbSNP from ENSEMBL and convert chromosome names to GENCODE.
         dbsnp_tmp=temp("resources/germline_variants/mus_musculus.vcf.gz"),
     shell:
         """
-        exec > {log} 2>&1
+        exec &> {log}
         cp {input.dbsnp_remote} {params.dbsnp_tmp}
         cp {input.chromosome_mapping_remote} {output.chromosome_mapping}
         tabix -p vcf {params.dbsnp_tmp}
@@ -561,7 +561,7 @@ output:
         """
         bash {input.script} \
             {input.chrom_mapping} {input.vcf} \
-            {params.outdir} {output.dbsnp_vcf} > {log} 2>&1
+            {params.outdir} {output.dbsnp_vcf} &> {log}
         """
 
 
@@ -596,7 +596,7 @@ Download gnomAD population SNPs from Google Cloud Storage per chromosome.
         config["container"].get("shell_utils")
     shell:
         """
-        exec > {log} 2>&1
+        exec &> {log}
         cp {input.gnomad_remote} {output.vcf_file}
         """
 
@@ -635,7 +635,7 @@ allele frequency.
         """
         bash {input.script} \
             {input.gnomad} {params.minimum_allele_frequency} \
-            {input.minimal_gnomad_header} {output.vcf_file} > {log} 2>&1
+            {input.minimal_gnomad_header} {output.vcf_file} &> {log}
         """
 
 
@@ -669,7 +669,7 @@ Concatenate chromosome-level gnomAD VCFs into a unified AF-only VCF.
         extra="",  # optional parameters for bcftools concat (except -o)
     shell:
         """
-        exec > {log} 2>&1
+        exec &> {log}
         bcftools concat --threads {threads} \
         --output {output.af_only_gnomad} {params.extra} {input.calls} \
         --output-type z
@@ -700,7 +700,7 @@ Create index for the AF-only gnomAD VCF.
         extra="-p vcf",
     shell:
         """
-        exec > {log} 2>&1
+        exec &> {log}
         tabix {params.extra} {input.af_only_vcf}
         """
 
@@ -749,7 +749,7 @@ https://github.com/broadinstitute/gatk/tree/master/scripts/mutect2_wdl
         """
         bash {input.script} \
             {input.vcf_chr1} {input.minimal_gnomad_header} \
-            {output.prep_vcf} > {log} 2>&1
+            {output.prep_vcf} &> {log}
         """
 
 
@@ -771,7 +771,7 @@ Download common virus (as defined by TCGA) genomes from GenBank.
         output_prefix=lambda wildcards, output: os.path.dirname(output.tcga_virus),
     shell:
         """
-        exec > {log} 2>&1
+        exec &> {log}
         while IFS=$'\\t' read -r name abbv genbank
         do
             efetch -db nuccore -format fasta -id "${{genbank}}" >> {params.output_prefix}/tcga_virus_decoy.fasta
@@ -799,7 +799,7 @@ Generate a TSV file mapping Ensembl transcript ids to gene ids.
         mem_mb=16000,
     shell:
         """
-        Rscript {input.script} {input.gtf} {output.tx2gene} > {log} 2>&1
+        Rscript {input.script} {input.gtf} {output.tx2gene} &> {log}
         """
 
 
@@ -822,7 +822,7 @@ Generate a TSV file mapping Ensembl gene ids to HGNC gene symbols.
         mem_mb=16000,
     shell:
         """
-        exec > {log} 2>&1
+        exec &> {log}
         python {input.script} --gtf {input.gtf} --outfile {output.mapping_table}
         """
 
@@ -846,5 +846,5 @@ Extract canoncial splice junctions from GENCODE reference transcripts.
         mem_mb=16000,
     shell:
         """
-        Rscript {input.script} {input.gtf} {output.canonical_juncs} > {log} 2>&1
+        Rscript {input.script} {input.gtf} {output.canonical_juncs} &> {log}
         """

@@ -29,7 +29,7 @@ output:
         """
         bash {input.script} \
             {input.genome} {input.transcriptome} \
-            {output.decoys} {output.gentrome} > {log} 2>&1
+            {output.decoys} {output.gentrome} &> {log}
         """
 
 
@@ -84,7 +84,7 @@ params:
         outdir=lambda _, output: os.path.dirname(output.index_files[0]),
     shell:
         """
-        exec > {log} 2>&1
+        exec &> {log}
         salmon index \
         --transcripts {input.sequences} \
         --index {params.outdir} \
@@ -128,7 +128,7 @@ params:
         extra="",
     shell:
         """
-        exec > {log} 2>&1
+        exec &> {log}
         gffread \
         -w {output.transcript_fasta} \
         -g {input.fasta} {input.annotation}
