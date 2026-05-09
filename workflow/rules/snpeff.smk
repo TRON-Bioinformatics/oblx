@@ -93,5 +93,5 @@ Create the snpEff index.
         "-config {input.config_file} "
         "-noCheckCds "
         "-noCheckProtein "
-        f'-v {config.get("genome-build", default_build)}.{config.get("release", default_release)} '
+        f'{config.get("genome-build", default_build)}.{config.get("release", default_release)} '
         "> {log}"
