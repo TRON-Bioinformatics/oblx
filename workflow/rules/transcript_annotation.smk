@@ -41,5 +41,5 @@ output:
             {input.gtf} {input.fasta} \
             {output.txdb} {output.twobit_genome} \
             {output.serialized_transcripts} {output.serialized_transcript_ranges} \
-            {output.serialized_cds} {log}
+            {output.serialized_cds} > {log} 2>&1
         """

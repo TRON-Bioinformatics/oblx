@@ -561,7 +561,7 @@ output:
         """
         bash {input.script} \
             {input.chrom_mapping} {input.vcf} \
-            {params.outdir} {output.dbsnp_vcf} {log}
+            {params.outdir} {output.dbsnp_vcf} > {log} 2>&1
         """
 
 
@@ -635,7 +635,7 @@ allele frequency.
         """
         bash {input.script} \
             {input.gnomad} {params.minimum_allele_frequency} \
-            {input.minimal_gnomad_header} {output.vcf_file} {log}
+            {input.minimal_gnomad_header} {output.vcf_file} > {log} 2>&1
         """
 
 
@@ -749,7 +749,7 @@ https://github.com/broadinstitute/gatk/tree/master/scripts/mutect2_wdl
         """
         bash {input.script} \
             {input.vcf_chr1} {input.minimal_gnomad_header} \
-            {output.prep_vcf} {log}
+            {output.prep_vcf} > {log} 2>&1
         """
 
 
@@ -799,7 +799,7 @@ Generate a TSV file mapping Ensembl transcript ids to gene ids.
         mem_mb=16000,
     shell:
         """
-        Rscript {input.script} {input.gtf} {output.tx2gene} {log}
+        Rscript {input.script} {input.gtf} {output.tx2gene} > {log} 2>&1
         """
 
 
@@ -846,5 +846,5 @@ Extract canoncial splice junctions from GENCODE reference transcripts.
         mem_mb=16000,
     shell:
         """
-        Rscript {input.script} {input.gtf} {output.canonical_juncs} {log}
+        Rscript {input.script} {input.gtf} {output.canonical_juncs} > {log} 2>&1
         """

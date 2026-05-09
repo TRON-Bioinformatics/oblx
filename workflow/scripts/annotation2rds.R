@@ -8,7 +8,7 @@ if (length(args) < 7) {
   stop(paste(
     "Usage: annotation2rds.R <gtf> <fasta> <txdb> <twobit_genome>",
     "<serialized_transcripts> <serialized_transcript_ranges>",
-    "<serialized_cds> [log_file]"
+    "<serialized_cds>"
   ))
 }
 
@@ -19,12 +19,6 @@ twobit_genome <- args[4]
 serialized_transcripts <- args[5]
 serialized_transcript_ranges <- args[6]
 serialized_cds <- args[7]
-
-if (length(args) >= 8) {
-  log_file <- file(args[8], open = "wt")
-  sink(log_file)
-  sink(log_file, type = "message")
-}
 
 # Horrible hack that is necessary because there's currently no functional
 # container image for splice2neo>0.6.13 (the first version using txdbmaker),

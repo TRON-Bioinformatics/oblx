@@ -15,5 +15,5 @@ Convert UCSC database dump of repeatmasker annotation into BED.
         config["container"].get("bedtools")
     shell:
         """
-        bash {input.script} {input.rmsk} {output.rmsk_bed} {log}
+        bash {input.script} {input.rmsk} {output.rmsk_bed} > {log} 2>&1
         """

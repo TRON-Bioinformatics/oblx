@@ -8,22 +8,18 @@
 # * allele frequency > 5
 # * filter: PASS
 #
-# Usage: prepare_variants_for_contamination.sh <vcf_chr1> <vcf_header> <out_vcf> [log_file]
+# Usage: prepare_variants_for_contamination.sh <vcf_chr1> <vcf_header> <out_vcf>
 
 set -euo pipefail
 
 if [[ $# -lt 3 ]]; then
-    echo "Usage: $0 <vcf_chr1> <vcf_header> <out_vcf> [log_file]" >&2
+    echo "Usage: $0 <vcf_chr1> <vcf_header> <out_vcf>" >&2
     exit 1
 fi
 
 input_vcf="$1"
 vcf_header="$2"
 out_vcf="$3"
-
-if [[ $# -ge 4 ]]; then
-    exec >"$4" 2>&1
-fi
 
 tmp_vcf="$(mktemp)"
 

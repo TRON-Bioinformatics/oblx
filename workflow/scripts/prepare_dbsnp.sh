@@ -2,12 +2,12 @@
 #
 # Prepare dbSNP VCF for genome lib
 #
-# Usage: prepare_dbsnp.sh <chrom_mapping> <vcf> <outdir> <dbsnp_vcf> [log_file]
+# Usage: prepare_dbsnp.sh <chrom_mapping> <vcf> <outdir> <dbsnp_vcf>
 
 set -euo pipefail
 
 if [[ $# -lt 4 ]]; then
-    echo "Usage: $0 <chrom_mapping> <vcf> <outdir> <dbsnp_vcf> [log_file]" >&2
+    echo "Usage: $0 <chrom_mapping> <vcf> <outdir> <dbsnp_vcf>" >&2
     exit 1
 fi
 
@@ -22,10 +22,6 @@ CHROMOSOMES="${CHROMOSOMES},X,Y"
 TMPDIR="$(mktemp -d -p "${outdir}")"
 
 trap 'rm -rf -- "$TMPDIR"' EXIT
-
-if [[ $# -ge 5 ]]; then
-    exec 2>"$5"
-fi
 
 bcftools view --regions "$CHROMOSOMES" "${vcf}" |
     bcftools annotate --rename-chrs "${chrom_mapping}" | bgzip -c >"${dbsnp_vcf}"

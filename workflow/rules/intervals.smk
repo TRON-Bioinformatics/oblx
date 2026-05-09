@@ -59,5 +59,5 @@ output:
         bash {input.script} \
             {input.gtf} {input.chrom_sizes} \
             {params.exome_transcript_definition} {params.intron_slop} \
-            {output.exome_interval} {log}
+            {output.exome_interval} > {log} 2>&1
         """

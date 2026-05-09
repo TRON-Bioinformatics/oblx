@@ -2,12 +2,12 @@
 #
 # Generate exome interval file based on GENCODE basic transcript definition
 #
-# Usage: make_exome_bed.sh <gtf> <chrom_sizes> <tx_tag> <intron_slop> <exome_interval> [log_file]
+# Usage: make_exome_bed.sh <gtf> <chrom_sizes> <tx_tag> <intron_slop> <exome_interval>
 
 set -euo pipefail
 
 if [[ $# -lt 5 ]]; then
-    echo "Usage: $0 <gtf> <chrom_sizes> <tx_tag> <intron_slop> <exome_interval> [log_file]" >&2
+    echo "Usage: $0 <gtf> <chrom_sizes> <tx_tag> <intron_slop> <exome_interval>" >&2
     exit 1
 fi
 
@@ -19,10 +19,6 @@ exome_interval="$5"
 
 TMPDIR="$(mktemp -d)"
 trap 'rm -rf -- "$TMPDIR"' EXIT
-
-if [[ $# -ge 6 ]]; then
-    exec 2>"$6"
-fi
 
 # Succeed even when no exons are found in the grep step.
 awk '{if ($3 == "exon") print $0}' "${gtf}" |

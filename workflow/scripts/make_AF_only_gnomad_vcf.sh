@@ -2,12 +2,12 @@
 #
 # Generate allele frequency (AF) only VCF file required by MuTect2
 #
-# Usage: make_AF_only_gnomad_vcf.sh <gnomad_vcf> <min_af> <vcf_header> <out_vcf> [log_file]
+# Usage: make_AF_only_gnomad_vcf.sh <gnomad_vcf> <min_af> <vcf_header> <out_vcf>
 
 set -euo pipefail
 
 if [[ $# -lt 4 ]]; then
-    echo "Usage: $0 <gnomad_vcf> <min_af> <vcf_header> <out_vcf> [log_file]" >&2
+    echo "Usage: $0 <gnomad_vcf> <min_af> <vcf_header> <out_vcf>" >&2
     exit 1
 fi
 
@@ -15,10 +15,6 @@ gnomad_vcf="$1"
 min_af="$2"
 vcf_header="$3"
 out_vcf="$4"
-
-if [[ $# -ge 5 ]]; then
-    exec >"$5" 2>&1
-fi
 
 tmp_vcf="$(mktemp)"
 
