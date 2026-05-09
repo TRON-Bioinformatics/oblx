@@ -21,9 +21,10 @@ set -euo pipefail
 exec >"${snakemake_log[0]}" 2>&1
 
 input_vcf="${snakemake_input[vcf_chr1]}"
-tmp_vcf="${snakemake_params[tmp_vcf]}"
 vcf_header="${snakemake_input[minimal_gnomad_header]}"
 out_vcf="${snakemake_output[prep_vcf]}"
+
+tmp_vcf="$(mktemp)"
 
 bcftools view \
     --max-alleles 2 \

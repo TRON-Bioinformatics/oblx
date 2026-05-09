@@ -15,8 +15,9 @@ exec >"${snakemake_log[0]}" 2>&1
 gnomad_vcf="${snakemake_input[gnomad]}"
 min_af=${snakemake_params[minimum_allele_frequency]}
 vcf_header="${snakemake_input[minimal_gnomad_header]}"
-tmp_vcf="${snakemake_params[tmp_vcf]}"
 out_vcf="${snakemake_output[vcf_file]}"
+
+tmp_vcf="$(mktemp)"
 
 bcftools query \
     -i "AF>${min_af} & FILTER == 'PASS'" \

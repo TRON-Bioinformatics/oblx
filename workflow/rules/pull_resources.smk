@@ -625,10 +625,6 @@ allele frequency.
         config["container"].get("bcftools")
     params:
         minimum_allele_frequency=config.get("minimum_allele_frequency", 0),
-        tmp_vcf=(
-            "resources/germline_variants/gnomAD/{gnomad_type}/"
-            "gnomad_{chromosome}.vcf.tmp"
-        ),
     script:
         "../scripts/make_AF_only_gnomad_vcf.sh"
 
@@ -738,11 +734,6 @@ https://github.com/broadinstitute/gatk/tree/master/scripts/mutect2_wdl
         "../envs/bcftools.yaml"
     container:
         config["container"].get("bcftools")
-    params:
-        tmp_vcf=(
-            "resources/germline_variants/gnomAD/{gnomad_type}/"
-            "common_biallelic_chr1.vcf"
-        ),
     script:
         "../scripts/prepare_variants_for_contamination.sh"
 
