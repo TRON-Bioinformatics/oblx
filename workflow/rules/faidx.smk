@@ -24,7 +24,7 @@ output:
         config["container"].get("shell_utils")
     shell:
         """
-        exec > {log} 2>&1
+        exec &> {log}
         ln -sr {input.fasta} {output.genome}
         """
 
@@ -50,6 +50,6 @@ output:
         config["container"].get("samtools")
     shell:
         """
-        exec > {log} 2>&1
+        exec &> {log}
         samtools faidx {input.fasta}
         """

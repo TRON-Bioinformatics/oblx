@@ -26,7 +26,7 @@ output:
         config["container"].get("bedtools")
     shell:
         """
-        exec > {log} 2>&1
+        exec &> {log}
         maskFastaFromBed \
         -fi {input.genome} \
         -bed {input.grc_exclusion_bed} \
@@ -57,7 +57,7 @@ output:
         config["container"].get("bedtools")
     shell:
         """
-        exec > {log} 2>&1
+        exec &> {log}
         maskFastaFromBed \
         -fi {input.genome} \
         -bed {input.pseudoautosomal_regions_bed} \
