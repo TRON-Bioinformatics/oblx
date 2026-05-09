@@ -41,8 +41,8 @@ mdformat-shfmt = ">=0.2.0,<0.3"
 mdformat-tables = ">=1.0.0,<2"
 
 [feature.style-md.tasks]
-style-md = { cmd = "mdformat **/*.md", default-environment = "style-md" }
-lint-md = { cmd = "mdformat --check **/*.md", default-environment = "style-md" }
+style-md = { cmd = "mdformat **/*.md .github/**/*.md", default-environment = "style-md" }
+lint-md = { cmd = "mdformat --check **/*.md .github/**/*.md", default-environment = "style-md" }
 
 [feature.style-python.dependencies]
 black = ">=26.3.1,<27"
@@ -88,8 +88,8 @@ lint-toml = { cmd = "tombi format --check **/*.toml", default-environment = "sty
 yamlfmt = ">=0.21.0,<0.22"
 
 [feature.style-yaml.tasks]
-style-yaml = { cmd = "yamlfmt **/*.yaml **/*.yml", default-environment = "style-yaml" }
-lint-yaml = { cmd = "yamlfmt -lint **/*.yaml **/*.yml", default-environment = "style-yaml" }
+style-yaml = { cmd = "yamlfmt **/*.yaml **/*.yml .github/**/*.yaml .github/**/*.yml", default-environment = "style-yaml" }
+lint-yaml = { cmd = "yamlfmt -lint **/*.yaml **/*.yml .github/**/*.yaml .github/**/*.yml", default-environment = "style-yaml" }
 
 [feature.rule-env-pinning.dependencies]
 snakedeploy = ">=0.16.0,<0.17"
