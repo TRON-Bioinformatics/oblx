@@ -6,12 +6,19 @@ library(tibble)
 library(magrittr)
 library(splice2neo)
 
-log_file <- file(snakemake@log[[1]], open = "wt")
-sink(log_file)
-sink(log_file, type = "message")
+args <- commandArgs(trailingOnly = TRUE)
+if (length(args) < 2) {
+  stop("Usage: canonical_splice_junctions.R <gtf> <canonical_juncs> [log_file]")
+}
 
-gtf <- snakemake@input[["gtf"]]
-canonical_juncs <- snakemake@output[["canonical_juncs"]]
+gtf <- args[1]
+canonical_juncs <- args[2]
+
+if (length(args) >= 3) {
+  log_file <- file(args[3], open = "wt")
+  sink(log_file)
+  sink(log_file, type = "message")
+}
 
 ref_juncs <- splice2neo::canonical_junctions(splice2neo::parse_gtf(gtf))
 ref_juncs <- tibble(junc_id = ref_juncs)
