@@ -4,12 +4,19 @@ library(AnnotationDbi)
 library(readr)
 library(magrittr)
 
-log_file <- file(snakemake@log[[1]], open = "wt")
-sink(log_file)
-sink(log_file, type = "message")
+args <- commandArgs(trailingOnly = TRUE)
+if (length(args) < 2) {
+  stop("Usage: tx2gene.R <gtf> <tx2gene> [log_file]")
+}
 
-gtf <- snakemake@input[["gtf"]]
-tx2gene <- snakemake@output[["tx2gene"]]
+gtf <- args[1]
+tx2gene <- args[2]
+
+if (length(args) >= 3) {
+  log_file <- file(args[3], open = "wt")
+  sink(log_file)
+  sink(log_file, type = "message")
+}
 
 # Horrible hack that is necessary because there's currently no functional
 # container image for splice2neo>0.6.13 (the first version using txdbmaker),

@@ -18,6 +18,7 @@ output:
     input:
         fasta="resources/ref_genome.fasta",
         gtf="resources/ref_annot.gtf",
+        script=workflow.source_path("../scripts/annotation2rds.R"),
     output:
         txdb="indices/R/ref_annot_txdb.sqlite",
         twobit_genome="indices/R/ref_genome.2bit",
@@ -34,5 +35,11 @@ output:
         config["container"].get("splice2neo")
     resources:
         mem_mb=32000,
-    script:
-        "../scripts/annotation2rds.R"
+    shell:
+        """
+        Rscript {input.script} \
+            {input.gtf} {input.fasta} \
+            {output.txdb} {output.twobit_genome} \
+            {output.serialized_transcripts} {output.serialized_transcript_ranges} \
+            {output.serialized_cds} {log}
+        """

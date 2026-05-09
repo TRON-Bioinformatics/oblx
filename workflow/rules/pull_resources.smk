@@ -786,6 +786,7 @@ Generate a TSV file mapping Ensembl transcript ids to gene ids.
 """
     input:
         gtf="resources/ref_annot.gtf",
+        script=workflow.source_path("../scripts/tx2gene.R"),
     output:
         tx2gene="resources/ref_annot_transcript2gene.tsv",
     log:
@@ -796,8 +797,10 @@ Generate a TSV file mapping Ensembl transcript ids to gene ids.
         config["container"].get("splice2neo")
     resources:
         mem_mb=16000,
-    script:
-        "../scripts/tx2gene.R"
+    shell:
+        """
+        Rscript {input.script} {input.gtf} {output.tx2gene} {log}
+        """
 
 
 rule gene_to_hgnc_mapping:
@@ -830,6 +833,7 @@ Extract canoncial splice junctions from GENCODE reference transcripts.
 """
     input:
         gtf="resources/ref_annot.gtf",
+        script=workflow.source_path("../scripts/canonical_splice_junctions.R"),
     output:
         canonical_juncs="resources/ref_annot_splice_sites.tsv",
     log:
@@ -840,5 +844,7 @@ Extract canoncial splice junctions from GENCODE reference transcripts.
         config["container"].get("splice2neo")
     resources:
         mem_mb=16000,
-    script:
-        "../scripts/canonical_splice_junctions.R"
+    shell:
+        """
+        Rscript {input.script} {input.gtf} {output.canonical_juncs} {log}
+        """
