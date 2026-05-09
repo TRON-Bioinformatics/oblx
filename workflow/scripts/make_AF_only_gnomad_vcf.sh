@@ -2,13 +2,6 @@
 #
 # SnakeMake wrapper script to generate allele frequency (AF)
 # only VCF file required by MuTect2
-#
-# @Author: Johannes Hausmann, Luis Kress
-# @Date: 2024-11-01
-# @Copyright: Copyright 2024, TRON gGmbH, Mainz, Germany
-# @License: MIT
-# @Version: 0.0.1
-# @Status: Development
 
 set -euo pipefail
 

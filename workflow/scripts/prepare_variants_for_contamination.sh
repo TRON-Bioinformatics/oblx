@@ -8,13 +8,6 @@
 # * on chromosome 1
 # * allele frequency > 5
 # * filter: PASS
-#
-# @Author: Luis Kress, Johannes Hausmann
-# @Date: 2024-11-08
-# @Copyright: Copyright 2024, TRON gGmbH, Mainz, Germany
-# @License: MIT
-# @Version: 0.0.1
-# @Status: Development
 
 set -euo pipefail
 
