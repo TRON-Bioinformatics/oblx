@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 # This script is based on snakemake salmon decoy wrapper.
 
 # Gathering decoy sequences names
