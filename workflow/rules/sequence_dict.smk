@@ -22,5 +22,7 @@ output:
     shell:
         """
         exec &> "{log}"
-        gatk CreateSequenceDictionary --REFERENCE "{input.genome_fasta}" --OUTPUT "{output.genome_dict}"
+        gatk CreateSequenceDictionary \
+            --REFERENCE "{input.genome_fasta}" \
+            --OUTPUT "{output.genome_dict}"
         """

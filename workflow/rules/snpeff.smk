@@ -61,9 +61,14 @@ output:
     shell:
         """
         exec &> "{log}"
-        cat "{input.codon_mit_vertebrate}" >> "{output.config_file}"
-        echo '{params.genome_version}.genome : {params.genome_version}' >> "{output.config_file}"
-        echo '    {params.genome_version}.chrM.codonTable : Vertebrate_Mitochondrial' >> "{output.config_file}"
+        cat "{input.codon_mit_vertebrate}" \
+            >> "{output.config_file}"
+        echo '{params.genome_version}.genome :' \
+            '{params.genome_version}' \
+            >> "{output.config_file}"
+        echo '    {params.genome_version}.chrM.codonTable :' \
+            'Vertebrate_Mitochondrial' \
+            >> "{output.config_file}"
         """
 
 

@@ -40,6 +40,7 @@ output:
         Rscript "{input.script}" \
             "{input.gtf}" "{input.fasta}" \
             "{output.txdb}" "{output.twobit_genome}" \
-            "{output.serialized_transcripts}" "{output.serialized_transcript_ranges}" \
+            "{output.serialized_transcripts}" \
+            "{output.serialized_transcript_ranges}" \
             "{output.serialized_cds}" &> "{log}"
         """
