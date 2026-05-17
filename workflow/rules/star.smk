@@ -37,13 +37,15 @@ output:
         genomesaindexnbases=config.get("star-genome-sa-index-n-bases", "14"),
         sjdb_overhang=config.get("star-sjdb-overhang", 100),
     shell:
-        "STAR "
-        "--runMode genomeGenerate "
-        "--runThreadN {threads} "
-        "--limitGenomeGenerateRAM {params.ram_byte} "
-        "--genomeDir '{params.genome_dir}' "
-        "--genomeFastaFiles '{input.fasta}' "
-        "--sjdbGTFfile '{input.gtf}' "
-        "--sjdbOverhang {params.sjdb_overhang} "
-        "--genomeSAindexNbases {params.genomesaindexnbases} "
-        "&> '{log}'"
+        """
+        STAR \
+            --runMode genomeGenerate \
+            --runThreadN {threads} \
+            --limitGenomeGenerateRAM {params.ram_byte} \
+            --genomeDir "{params.genome_dir}" \
+            --genomeFastaFiles "{input.fasta}" \
+            --sjdbGTFfile "{input.gtf}" \
+            --sjdbOverhang {params.sjdb_overhang} \
+            --genomeSAindexNbases {params.genomesaindexnbases} \
+            &> "{log}"
+        """
