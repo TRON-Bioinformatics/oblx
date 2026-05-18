@@ -43,6 +43,8 @@ def get_pull_resources_output(wildcards):
                 "resources/mappability/grcExclusions.bed",
                 "resources/mappability/ucsc_problematic.bed",
                 "resources/ref_annot.bed",
+                "resources/ref_annot.bed.gz",
+                "resources/ref_annot.bed.gz.tbi",
                 "resources/exome_definition/twist_refseq.bed",
                 "resources/exome_definition/twist_core_exome.bed",
                 "resources/exome_definition/twist_comprehensive_exome.bed",
