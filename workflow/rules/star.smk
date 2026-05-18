@@ -29,10 +29,14 @@ output:
         config["container"].get("star")
     threads: 16
     resources:
-        mem_mb=64 * 1000,  # higher than actual memory usage to consider container overhead
+        # The job itself will reserve 2GB of the memory to account for
+        # memory overhead in the case of container usage.
+        mem_mb=64 * 1e3,
     params:
         genome_dir=lambda wildcards, output: os.path.dirname(output.genome_file),
-        ram_byte=48 * 1000000000,
+        # Reserve 2GB for the container overhead, and, just to be safe, ensure
+        # this can't become negative.
+        ram_byte=lambda wc, resources: int(max(((resources.mem_mb - 2 * 1e3) * 1e6), 0)),
         # see STAR parameter genomeSAindexNbases
         genomesaindexnbases=config.get("star-genome-sa-index-n-bases", "14"),
         sjdb_overhang=config.get("star-sjdb-overhang", 100),
