@@ -61,3 +61,28 @@ output:
             "{params.exome_transcript_definition}" "{params.intron_slop}" \
             "{output.exome_interval}" &> "{log}"
         """
+
+
+rule gencode_cds_bed:
+    """
+Generate generic CDS definition based on GENCODE transcripts.
+CDS regions are merged. Based on DeepVariant RNA-seq variant calling
+tutorial.
+"""
+    input:
+        gtf=config.get("genome-gtf", "resources/ref_annot.gtf"),
+        script=workflow.source_path("../scripts/make_cds_bed.sh"),
+    output:
+        cds_interval="resources/exome_definition/ref_cds.bed",
+    log:
+        "logs/cds_creation.log",
+    conda:
+        "../envs/bedtools.yaml"
+    container:
+        config["container"].get("bedtools")
+    shell:
+        """
+        bash "{input.script}" \
+            "{input.gtf}" \
+            "{output.cds_interval}" &> "{log}"
+        """
