@@ -154,5 +154,31 @@ def get_build_indices_output(wildcards):
             "indices/bowtie2/genome.rev.2.bt2",
         ]
     )
+    # hisat2 files
+    final_files.extend(
+        [
+            "indices/hisat2/genome.1.ht2",
+            "indices/hisat2/genome.2.ht2",
+            "indices/hisat2/genome.3.ht2",
+            "indices/hisat2/genome.4.ht2",
+            "indices/hisat2/genome.5.ht2",
+            "indices/hisat2/genome.6.ht2",
+            "indices/hisat2/genome.7.ht2",
+            "indices/hisat2/genome.8.ht2",
+        ]
+    )
 
     return final_files
+
+
+def get_organism_germline_variants(wildcards):
+    """
+    Get germline variants VCF file depending on organism
+    """
+    organism = config.get("organism", "human")
+    if organism == "human":
+        return "resources/germline_variants/dbSNP_151.vcf.gz"
+    elif organism == "mouse":
+        return "resources/germline_variants/dbSNP_mouse.vcf.gz"
+    else:
+        raise ValueError(f"Unsupported organism: {organism}")

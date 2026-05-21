@@ -90,6 +90,7 @@ include: "rules/salmon.smk"
 include: "rules/kallisto.smk"
 include: "rules/snpeff.smk"
 include: "rules/transcript_annotation.smk"
+include: "rules/hisat2.smk"
 
 
 onstart:

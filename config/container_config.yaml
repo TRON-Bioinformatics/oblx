@@ -15,3 +15,4 @@ container:
   salmon: docker://quay.io/biocontainers/salmon:1.10.1--h7e5ed60_1
   gffread: docker://quay.io/biocontainers/gffread:0.12.7--h077b44d_6
   bowtie2: docker://quay.io/biocontainers/bowtie2:2.5.5--ha27dd3b_0
+  hisat2: docker://quay.io/biocontainers/hisat2:2.2.2--h503566f_0
