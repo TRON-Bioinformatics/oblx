@@ -143,4 +143,16 @@ def get_build_indices_output(wildcards):
     # kallisto files
     final_files.append("indices/kallisto/ref_transcript.idx")
 
+    # Bowtie2 files
+    final_files.extend(
+        [
+            "indices/bowtie2/genome.1.bt2",
+            "indices/bowtie2/genome.2.bt2",
+            "indices/bowtie2/genome.3.bt2",
+            "indices/bowtie2/genome.4.bt2",
+            "indices/bowtie2/genome.rev.1.bt2",
+            "indices/bowtie2/genome.rev.2.bt2",
+        ]
+    )
+
     return final_files

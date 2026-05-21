@@ -85,6 +85,7 @@ include: "rules/uniprot_annotations.smk"
 # For building indices.
 include: "rules/bwa-mem2.smk"
 include: "rules/star.smk"
+include: "rules/bowtie2.smk"
 include: "rules/salmon.smk"
 include: "rules/kallisto.smk"
 include: "rules/snpeff.smk"
