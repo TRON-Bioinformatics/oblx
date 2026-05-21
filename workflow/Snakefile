@@ -5,7 +5,7 @@ indices all in one go.
 Make sure to specify a yaml config via --configfile containing the following keys:
 * organism: 'human' or 'mouse'
 * release: The gencode release (e.g. 45 for human or M35 for mouse)
-* genome-build: The genome build name (e.g. GRCh38 for human or GRCm39 for mouse)
+* genome_build: The genome build name (e.g. GRCh38 for human or GRCm39 for mouse)
 * resource-dir: Path to the resources, pulled with pull_resources.smk
 
 @author: Luis Kress (TRON), Johannes Hausmann (TRON)
@@ -37,10 +37,9 @@ ucsc_genome_build = "hg38"
 
 configfile: workflow.source_path("../config/default.yaml")
 
-
 # check if genome build is supported
-if config.get("genome-build", default_build) not in ["GRCh38", "GRCm38", "GRCm39"]:
-    sys.exit(f"Genome build {config.get('genome-build', default_build)} not supported.")
+if config.get("genome_build", default_build) not in ["GRCh38", "GRCm38", "GRCm39"]:
+    sys.exit(f"Genome build {config.get('genome_build', default_build)} not supported.")
 
 # set mouse specific variables
 if config.get("organism", default_organism) == "mouse":
@@ -48,8 +47,8 @@ if config.get("organism", default_organism) == "mouse":
         sys.exit(
             'When running with non human organism, "release" has to be specified in the config'
         )
-    gencode_or_ucsc = "gencode" if config["genome-build"] < "GRCm39" else "UCSC"
-    ucsc_genome_build = "mm39" if config["genome-build"] == "GRCm39" else "mm10"
+    gencode_or_ucsc = "gencode" if config["genome_build"] < "GRCm39" else "UCSC"
+    ucsc_genome_build = "mm39" if config["genome_build"] == "GRCm39" else "mm10"
     gencode2ensembl_file = "resources/gencode2ensembl_mouse.tsv"
 
 # translate the gencode version to ensembl version for ensembl specific resources

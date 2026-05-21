@@ -140,7 +140,7 @@ def get_build_indices_output(wildcards):
         os.path.abspath(
             os.path.join(
                 "indices/snpeff/data/",
-                f'{config.get("genome-build", default_build)}.{config.get("release", default_release)}',
+                f'{config.get("genome_build", default_build)}.{config.get("release", default_release)}',
                 "snpEffectPredictor.bin",
             )
         )

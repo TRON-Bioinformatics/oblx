@@ -1,14 +1,14 @@
 organism: human
 release: "46"
-genome-build: GRCh38
-gnomad-release: 4.1
+genome_build: GRCh38
+gnomad_release: 4.1
 
-# adds the defined slop to the generic exome definition (+/- intron-slop bp of intronic sequence)
-intron-slop: 20
+# adds the defined slop to the generic exome definition (+/- intron_slop bp of intronic sequence)
+intron_slop: 20
 
 # Paramter for STAR index creation. Adapt to the read size if necessary
-star-sjdb-overhang: 100
-star-genome-sa-index-n-bases: 14 # see STAR parameter genomeSAindexNbases
+star_sjdb_overhang: 100
+star_genome_sa_index_n_bases: 14 # see STAR parameter genomeSAindexNbases
 
 # Remove variants from gnomad VCF with poplutation allele frequency <= this cutoff
 minimum_allele_frequency: 0.001
@@ -16,13 +16,13 @@ minimum_allele_frequency: 0.001
 # GENCODE transcript definition for exome bed (pre v48 basic after v48 basic or GENCODE_Primary)
 exome_transcript_definition: "basic"
 
-GENCODE_URL: "https://ftp.ebi.ac.uk/pub/databases/gencode"
-UCSC_URL: "https://hgdownload.soe.ucsc.edu/gbdb/hg38"
-UCSC_GOLDEN_PATH_URL: "https://hgdownload.soe.ucsc.edu/goldenPath"
-GATK_URL: "https://storage.googleapis.com/gcp-public-data--broad-references/hg38/v0"
-GNOMAD_URL: "https://storage.googleapis.com/gcp-public-data--gnomad/release"
+gencode_url: "https://ftp.ebi.ac.uk/pub/databases/gencode"
+ucsc_url: "https://hgdownload.soe.ucsc.edu/gbdb/hg38"
+ucsc_golden_path_url: "https://hgdownload.soe.ucsc.edu/goldenPath"
+gatk_url: "https://storage.googleapis.com/gcp-public-data--broad-references/hg38/v0"
+gnomad_url: "https://storage.googleapis.com/gcp-public-data--gnomad/release"
 
-chrom-filter:
+chrom_filter:
   - chr1
   - chr2
   - chr3

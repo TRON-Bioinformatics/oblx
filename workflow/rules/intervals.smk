@@ -52,7 +52,7 @@ output:
     container:
         config["container"].get("bedtools")
     params:
-        intron_slop=config.get("intron-slop", 20),
+        intron_slop=config.get("intron_slop", 20),
         exome_transcript_definition=config.get("exome_transcript_definition", "basic"),
     shell:
         """

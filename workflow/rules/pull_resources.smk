@@ -4,7 +4,7 @@ Snakemake workflow to pull all reqiured reference files for GENCODE.
 Make sure to specify a yaml config via --configfile containing the following keys:
 * organism: 'human' or 'mouse'
 * release: The gencode release (e.g. 45 for human or M35 for mouse)
-* genome-build: The genome build name (e.g. GRCh38 for human or GRCm39 for mouse)
+* genome_build: The genome build name (e.g. GRCh38 for human or GRCm39 for mouse)
 
 @author: Luis Kress (TRON), Johannes Hausmann (TRON)
 @version: 20240522
@@ -33,15 +33,15 @@ output:
     input:
         fasta_remote=storage(
             "{}/Gencode_{}/release_{}/{}.primary_assembly.genome.fa.gz".format(
-                config["GENCODE_URL"],
+                config["gencode_url"],
                 config.get("organism", default_organism),
                 config.get("release", default_release),
-                config.get("genome-build", default_build),
+                config.get("genome_build", default_build),
             )
         ),
         gtf_remote=storage(
             "{}/Gencode_{}/release_{}/gencode.v{}.primary_assembly.annotation.gtf.gz".format(
-                config["GENCODE_URL"],
+                config["gencode_url"],
                 config.get("organism", default_organism),
                 config.get("release", default_release),
                 config.get("release", default_release),
@@ -49,7 +49,7 @@ output:
         ),
         transcripts_remote=storage(
             "{}/Gencode_{}/release_{}/gencode.v{}.transcripts.fa.gz".format(
-                config["GENCODE_URL"],
+                config["gencode_url"],
                 config.get("organism", default_organism),
                 config.get("release", default_release),
                 config.get("release", default_release),
@@ -57,7 +57,7 @@ output:
         ),
         swissprot_remote=storage(
             "{}/Gencode_{}/release_{}/gencode.v{}.metadata.SwissProt.gz".format(
-                config["GENCODE_URL"],
+                config["gencode_url"],
                 config.get("organism", default_organism),
                 config.get("release", default_release),
                 config.get("release", default_release),
@@ -65,7 +65,7 @@ output:
         ),
         trembl_remote=storage(
             "{}/Gencode_{}/release_{}/gencode.v{}.metadata.TrEMBL.gz".format(
-                config["GENCODE_URL"],
+                config["gencode_url"],
                 config.get("organism", default_organism),
                 config.get("release", default_release),
                 config.get("release", default_release),
@@ -79,7 +79,7 @@ output:
                     if config.get("organism", default_organism) == default_organism
                     else "m"
                 ),
-                config.get("genome-build", default_build),
+                config.get("genome_build", default_build),
                 config.get("release", default_release),
             )
         ),
@@ -90,7 +90,7 @@ output:
                     if config.get("organism", default_organism) == default_organism
                     else "m"
                 ),
-                config.get("genome-build", default_build),
+                config.get("genome_build", default_build),
                 config.get("release", default_release),
             )
         ),
@@ -101,7 +101,7 @@ output:
                     if config.get("organism", default_organism) == default_organism
                     else "m"
                 ),
-                config.get("genome-build", default_build),
+                config.get("genome_build", default_build),
                 config.get("release", default_release),
             )
         ),
@@ -112,7 +112,7 @@ output:
                     if config.get("organism", default_organism) == default_organism
                     else "m"
                 ),
-                config.get("genome-build", default_build),
+                config.get("genome_build", default_build),
                 config.get("release", default_release),
             )
         ),
@@ -123,7 +123,7 @@ output:
                     if config.get("organism", default_organism) == default_organism
                     else "m"
                 ),
-                config.get("genome-build", default_build),
+                config.get("genome_build", default_build),
                 config.get("release", default_release),
             )
         ),
@@ -201,20 +201,20 @@ by default and a BED12 file of the reference transcripts.
     input:
         # https://hgdownload.soe.ucsc.edu/gbdb/hg38/problematic/encBlacklist.bb
         encode_exclusion_remote=storage(
-            "{}/problematic/encBlacklist.bb".format(config["UCSC_URL"])
+            "{}/problematic/encBlacklist.bb".format(config["ucsc_url"])
         ),
         # https://hgdownload.soe.ucsc.edu/gbdb/hg38/problematic/grcExclusions.bb
         grc_exclusion_remote=storage(
-            "{}/problematic/grcExclusions.bb".format(config["UCSC_URL"])
+            "{}/problematic/grcExclusions.bb".format(config["ucsc_url"])
         ),
         # https://hgdownload.soe.ucsc.edu/gbdb/hg38/problematic/comments.bb
         ucsc_problematic_remote=storage(
-            "{}/problematic/comments.bb".format(config["UCSC_URL"])
+            "{}/problematic/comments.bb".format(config["ucsc_url"])
         ),
         # https://hgdownload.soe.ucsc.edu/gbdb/hg38/gencode/gencodeV46.bb
         gencode_bed12_remote=storage(
             "{}/gencode/gencodeV{}.bb".format(
-                config["UCSC_URL"], config.get("release", default_release)
+                config["ucsc_url"], config.get("release", default_release)
             )
         ),
     output:
@@ -246,7 +246,7 @@ organism.
     input:
         rmsk_remote=storage(
             "{}/{}/database/rmsk.txt.gz".format(
-                config["UCSC_GOLDEN_PATH_URL"],
+                config["ucsc_golden_path_url"],
                 (
                     "hg38"
                     if config.get("organism", default_organism) == "human"
@@ -277,19 +277,19 @@ Here we download kits from Twist.
     input:
         twist_refseq_remote=storage(
             "{}/exomeProbesets/Twist_Exome_RefSeq_targets_hg38.bb".format(
-                config["UCSC_URL"]
+                config["ucsc_url"]
             )
         ),
         twist_core_exome_remote=storage(
-            "{}/exomeProbesets/Twist_Exome_Target_hg38.bb".format(config["UCSC_URL"])
+            "{}/exomeProbesets/Twist_Exome_Target_hg38.bb".format(config["ucsc_url"])
         ),
         twist_comprehensive_exome_remote=storage(
             "{}/exomeProbesets/Twist_ComprehensiveExome_targets_hg38.bb".format(
-                config["UCSC_URL"]
+                config["ucsc_url"]
             )
         ),
         twist_exome2_remote=storage(
-            "{}/exomeProbesets/TwistExome21.bb".format(config["UCSC_URL"])
+            "{}/exomeProbesets/TwistExome21.bb".format(config["ucsc_url"])
         ),
     output:
         twist_refseq=temp("resources/exome_definition/twist_refseq.bb"),
@@ -421,29 +421,29 @@ Download resources from GATK bundle.
         # Mills and 1000G gold standard
         mills_remote=storage(
             "{}/Mills_and_1000G_gold_standard.indels.hg38.vcf.gz".format(
-                config["GATK_URL"]
+                config["gatk_url"]
             )
         ),
         # HG38 known indels Homo_sapiens_assembly38.known_indels.vcf.gz
         known_indels_remote=storage(
-            "{}/Homo_sapiens_assembly38.known_indels.vcf.gz".format(config["GATK_URL"])
+            "{}/Homo_sapiens_assembly38.known_indels.vcf.gz".format(config["gatk_url"])
         ),
         # dbSNP release used by GATK (138)
         dbsnp_remote=storage(
-            "{}/Homo_sapiens_assembly38.dbsnp138.vcf".format(config["GATK_URL"])
+            "{}/Homo_sapiens_assembly38.dbsnp138.vcf".format(config["gatk_url"])
         ),
         # 1000G high confidence SNPs
         thousand_genome_hc_remote=storage(
             "{}/1000G_phase1.snps.high_confidence.hg38.vcf.gz".format(
-                config["GATK_URL"]
+                config["gatk_url"]
             )
         ),
         # 1000G Omni SNPs
         thousand_genome_omni_remote=storage(
-            "{}/1000G_omni2.5.hg38.vcf.gz".format(config["GATK_URL"])
+            "{}/1000G_omni2.5.hg38.vcf.gz".format(config["gatk_url"])
         ),
         # HapMap germline SNPs
-        hapmap_remote=storage("{}/hapmap_3.3.hg38.vcf.gz".format(config["GATK_URL"])),
+        hapmap_remote=storage("{}/hapmap_3.3.hg38.vcf.gz".format(config["gatk_url"])),
     output:
         mills_vcf="resources/gatk_bundle/Mills_and_1000G_gold_standard.indels.hg38.vcf.gz",
         known_indels_vcf="resources/gatk_bundle/Homo_sapiens_assembly38.known_indels.vcf.gz",
@@ -549,7 +549,7 @@ Download dbSNP from ENSEMBL and convert chromosome names to GENCODE.
             f"https://ftp.ensembl.org/pub/release-{ENSEMBL_VERSION}/variation/vcf/mus_musculus/mus_musculus.vcf.gz"
         ),
         chromosome_mapping_remote=storage(
-            f"https://raw.githubusercontent.com/dpryan79/ChromosomeMappings/refs/heads/master/{config['genome-build']}_ensembl2{gencode_or_ucsc}.txt"
+            f"https://raw.githubusercontent.com/dpryan79/ChromosomeMappings/refs/heads/master/{config['genome_build']}_ensembl2{gencode_or_ucsc}.txt"
         ),
     output:
         dbsnp_vcf="resources/germline_variants/dbSNP_mouse.vcf.gz",
@@ -620,9 +620,9 @@ Download gnomAD population SNPs from Google Cloud Storage per chromosome.
                 "{}/{}/vcf/{{gnomad_type}}/gnomad.{{gnomad_type}}.v{}.sites."
                 "{{chromosome}}.vcf.bgz"
             ).format(
-                config["GNOMAD_URL"],
-                config["gnomad-release"],
-                config["gnomad-release"],
+                config["gnomad_url"],
+                config["gnomad_release"],
+                config["gnomad_release"],
             )
         ),
     output:
@@ -694,7 +694,7 @@ Concatenate chromosome-level gnomAD VCFs into a unified AF-only VCF.
                 f"resources/germline_variants/gnomAD/{wildcards.gnomad_type}/"
                 f"gnomad_{x}.vcf.gz"
             )
-            for x in config["chrom-filter"]
+            for x in config["chrom_filter"]
         ],
     output:
         af_only_gnomad=(

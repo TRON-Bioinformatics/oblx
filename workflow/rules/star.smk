@@ -38,8 +38,8 @@ output:
         # this can't become negative.
         ram_byte=lambda wc, resources: int(max(((resources.mem_mb - 2 * 1e3) * 1e6), 0)),
         # see STAR parameter genomeSAindexNbases
-        genomesaindexnbases=config.get("star-genome-sa-index-n-bases", "14"),
-        sjdb_overhang=config.get("star-sjdb-overhang", 100),
+        genomesaindexnbases=config.get("star_genome_sa_index_n_bases", "14"),
+        sjdb_overhang=config.get("star_sjdb_overhang", 100),
     shell:
         """
         STAR \
