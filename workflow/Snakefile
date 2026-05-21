@@ -17,7 +17,7 @@ import sys
 import yaml
 import pandas as pd
 import datetime
-from snakemake.utils import min_version
+from snakemake.utils import min_version, validate
 
 # Needs to be at least this for apptainer path bindings to work as we need them.
 min_version("9.20.0")
@@ -36,6 +36,9 @@ ucsc_genome_build = "hg38"
 
 
 configfile: workflow.source_path("../config/default.yaml")
+
+
+validate(config, workflow.source_path("schemas/config_validation.yaml"))
 
 # check if genome build is supported
 if config.get("genome_build", default_build) not in ["GRCh38", "GRCm38", "GRCm39"]:

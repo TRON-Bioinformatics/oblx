@@ -1,0 +1,129 @@
+$schema: "https://json-schema.org/draft/2020-12/schema"
+description: >-
+  Validation & defaults for the config of the TRONMake-Genome-Lib-Builder.
+properties:
+  organism:
+    description: >-
+      Trivial name of the organism for which the genomelib should be
+      built.
+    default: human
+    enum:
+      - human
+      - mouse
+    type: string
+  genome_build:
+    description: >-
+      GRC reference genome build for which the genomelib should be built.
+    default: GRCh38
+    type: string
+  release:
+    description: >-
+      Release number of the GENCODE annotation for the corresponding reference
+      genome_build.
+    default: "46"
+    type: string
+  gnomad_release:
+    description: >-
+      Release number of the gnomAD resources to be used.
+    default: "4.1"
+    type: string
+  intron_slop:
+    description: >-
+      Number of intronic bases that should extend the exome definition
+      `ref_exome.bed`.
+    default: 20
+    type: integer
+  exome_transcript_definition:
+    description: >-
+      Define which GENCODE transcripts should be used to create the exome
+      definition. The default is the `"basic"` tag. Please note that GENCODE
+      basic definitions were deprecated in version 48 and replaced by the tag
+      `"GENCODE_Primary"`. These are not the same sets of transcripts. For now,
+      we recommend continuing to use basic transcripts.
+    default: basic
+    type: string
+  star_sjdb_overhang:
+    description: >-
+      `--sjdbOverhang` parameter for STAR index generation (should be read
+      length - 1, in most cases `100` should be sufficient).
+    default: 100
+    type: integer
+  star_genome_sa_index_n_bases:
+    description: >-
+      Defines the STAR parameter `genomeSAindexNbases`. The lower the value,
+      the smaller the index. This can be useful, when creating test data for CI
+      tests to keep the file small.
+    default: 14
+    type: integer
+  minimum_allele_frequency:
+    description: >-
+      `af_only_gnomad_hg38.vcf.gz` variants are filtered for population allele
+      frequency above this cutoff. Only needed when organism is "human".
+    default: 0.001
+    type: number
+  gencode_url:
+    description: >-
+      URL from which GENCODE resources can be downloaded. Expected to point to
+      the root of a FTP directory (accessed via HTTPS) under which the general
+      GENCODE dir structure can be found, i.e.,
+      <URL>/Gencode_<organism>/release_<release>/<annotation files>.
+    default: https://ftp.ebi.ac.uk/pub/databases/gencode
+    type: string
+  ucsc_url:
+    description: >-
+      URL from which UCSC resources can be downloaded. Expected to point to the
+      root of a directory (accessed via HTTPS) under which the UCSC
+      "problematic", "exomeProbesets", and "gencode" bigBed resource files may
+      be found. Only needed when organism is "human".
+    default: https://hgdownload.soe.ucsc.edu/gbdb/hg38
+    type: string
+  ucsc_golden_path_url:
+    description: >-
+      URL from which the UCSC golden path resources (i.e. the repeatmasking
+      resource file) can be downloaded for a given assembly. Only needed when
+      organism is "human".
+    default: https://hgdownload.soe.ucsc.edu/goldenPath
+    type: string
+  gatk_url:
+    description: >-
+      URL from which the GATK resources may be downloaded. Only needed when
+      organism is "human".
+    default: https://storage.googleapis.com/gcp-public-data--broad-references/hg38/v0
+    type: string
+  gnomad_url:
+    description: >-
+      URL from which the gnomAD population SNP VCF files may be downloaded. Only
+      needed when organism is "human".
+    default: https://storage.googleapis.com/gcp-public-data--gnomad/release
+    type: string
+  chrom_filter:
+    description:
+
+    default:
+      - chr1
+      - chr2
+      - chr3
+      - chr4
+      - chr5
+      - chr6
+      - chr7
+      - chr8
+      - chr9
+      - chr10
+      - chr11
+      - chr12
+      - chr13
+      - chr14
+      - chr15
+      - chr16
+      - chr17
+      - chr18
+      - chr19
+      - chr20
+      - chr21
+      - chr22
+      - chrX
+      - chrY
+    type: array
+    items:
+      type: string
