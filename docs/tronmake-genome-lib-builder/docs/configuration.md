@@ -1,6 +1,8 @@
 # Configuration
 
-The configuration file defines the following parameters:
+The configuration file defines the parameters below. They are checked and
+defaults set via the schema file at
+[`workflow/schemas/config_validation.yaml`](/workflow/schemas/config_validation.yaml).
 
 - `organism`: Takes `human` or `mouse`
 - `release`: Gencode release version (starts with `M` for mouse)
