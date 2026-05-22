@@ -41,7 +41,9 @@ defaults set via the schema file at
 
 ## Example Human
 
-An example config file for human mode:
+An example config file for human mode. For human data, unless you know for a
+fact that it is needed, you may leave out filling out and specifying a config
+file entirely.
 
 ```
 organism: human
