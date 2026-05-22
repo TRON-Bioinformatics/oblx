@@ -1,11 +1,6 @@
 """
 Snakemake workflow to pull all reqiured reference files for GENCODE.
 
-Make sure to specify a yaml config via --configfile containing the following keys:
-* organism: 'human' or 'mouse'
-* release: The gencode release (e.g. 45 for human or M35 for mouse)
-* genome_build: The genome build name (e.g. GRCh38 for human or GRCm39 for mouse)
-
 @author: Luis Kress (TRON), Johannes Hausmann (TRON)
 @version: 20240522
 """
@@ -34,97 +29,77 @@ output:
         fasta_remote=storage(
             "{}/Gencode_{}/release_{}/{}.primary_assembly.genome.fa.gz".format(
                 config["gencode_url"],
-                config.get("organism", default_organism),
-                config.get("release", default_release),
-                config.get("genome_build", default_build),
+                config["organism"],
+                config["release"],
+                config["genome_build"],
             )
         ),
         gtf_remote=storage(
             "{}/Gencode_{}/release_{}/gencode.v{}.primary_assembly.annotation.gtf.gz".format(
                 config["gencode_url"],
-                config.get("organism", default_organism),
-                config.get("release", default_release),
-                config.get("release", default_release),
+                config["organism"],
+                config["release"],
+                config["release"],
             )
         ),
         transcripts_remote=storage(
             "{}/Gencode_{}/release_{}/gencode.v{}.transcripts.fa.gz".format(
                 config["gencode_url"],
-                config.get("organism", default_organism),
-                config.get("release", default_release),
-                config.get("release", default_release),
+                config["organism"],
+                config["release"],
+                config["release"],
             )
         ),
         swissprot_remote=storage(
             "{}/Gencode_{}/release_{}/gencode.v{}.metadata.SwissProt.gz".format(
                 config["gencode_url"],
-                config.get("organism", default_organism),
-                config.get("release", default_release),
-                config.get("release", default_release),
+                config["organism"],
+                config["release"],
+                config["release"],
             )
         ),
         trembl_remote=storage(
             "{}/Gencode_{}/release_{}/gencode.v{}.metadata.TrEMBL.gz".format(
                 config["gencode_url"],
-                config.get("organism", default_organism),
-                config.get("release", default_release),
-                config.get("release", default_release),
+                config["organism"],
+                config["release"],
+                config["release"],
             )
         ),
     output:
         fasta=temp(
             "resources/GENCODE_GRC{}{}v{}_dna.fasta.gz".format(
-                (
-                    "h"
-                    if config.get("organism", default_organism) == default_organism
-                    else "m"
-                ),
-                config.get("genome_build", default_build),
-                config.get("release", default_release),
+                ("h" if config["organism"] == "human" else "m"),
+                config["genome_build"],
+                config["release"],
             )
         ),
         gtf=temp(
             "resources/GENCODE_GRC{}{}v{}_annot.gtf.gz".format(
-                (
-                    "h"
-                    if config.get("organism", default_organism) == default_organism
-                    else "m"
-                ),
-                config.get("genome_build", default_build),
-                config.get("release", default_release),
+                ("h" if config["organism"] == "human" else "m"),
+                config["genome_build"],
+                config["release"],
             )
         ),
         transcripts=temp(
             "resources/GENCODE_GRC{}{}v{}_transcripts.fasta.gz".format(
-                (
-                    "h"
-                    if config.get("organism", default_organism) == default_organism
-                    else "m"
-                ),
-                config.get("genome_build", default_build),
-                config.get("release", default_release),
+                ("h" if config["organism"] == "human" else "m"),
+                config["genome_build"],
+                config["release"],
             )
         ),
         swissprot=temp(
             "resources/GENCODE_GRC{}{}v{}_metadata.SwissProt.gz".format(
-                (
-                    "h"
-                    if config.get("organism", default_organism) == default_organism
-                    else "m"
-                ),
-                config.get("genome_build", default_build),
-                config.get("release", default_release),
+                ("h" if config["organism"] == "human" else "m"),
+                config["genome_build"],
+                config["release"],
             )
         ),
         trembl=temp(
             "resources/GENCODE_GRC{}{}v{}_metadata.TrEMBL.gz".format(
-                (
-                    "h"
-                    if config.get("organism", default_organism) == default_organism
-                    else "m"
-                ),
-                config.get("genome_build", default_build),
-                config.get("release", default_release),
+                ("h" if config["organism"] == "human" else "m"),
+                config["genome_build"],
+                config["release"],
             )
         ),
     log:
@@ -213,9 +188,7 @@ by default and a BED12 file of the reference transcripts.
         ),
         # https://hgdownload.soe.ucsc.edu/gbdb/hg38/gencode/gencodeV46.bb
         gencode_bed12_remote=storage(
-            "{}/gencode/gencodeV{}.bb".format(
-                config["ucsc_url"], config.get("release", default_release)
-            )
+            "{}/gencode/gencodeV{}.bb".format(config["ucsc_url"], config["release"])
         ),
     output:
         encode_exclusion=temp("resources/mappability/encode_exclusion.bb"),
@@ -247,11 +220,7 @@ organism.
         rmsk_remote=storage(
             "{}/{}/database/rmsk.txt.gz".format(
                 config["ucsc_golden_path_url"],
-                (
-                    "hg38"
-                    if config.get("organism", default_organism) == "human"
-                    else "mm39"
-                ),
+                ("hg38" if config["organism"] == "human" else "mm39"),
             )
         ),
     output:
@@ -505,7 +474,7 @@ Download UniProt data.
         config["container"].get("scipy-notebook")
     params:
         outdir=lambda wildcards, output: os.path.dirname(output.uniprot_annotations),
-        organism=lambda wildcards: config.get("organism", default_organism),
+        organism=lambda wildcards: config["organism"],
     shell:
         """
         exec &> "{log}"

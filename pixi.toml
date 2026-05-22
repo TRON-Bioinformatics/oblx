@@ -113,7 +113,6 @@ rule-env-pinning = { features = ["rule-env-pinning"], no-default-feature = true 
 lint-workflow = """\
     snakemake \
         -s workflow/Snakefile \
-        --configfile config/default.yaml \
         --software-deployment-method conda \
         --lint\
     """

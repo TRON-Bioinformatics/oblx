@@ -4,6 +4,5 @@
   command: >-
     snakemake
       -s workflow/Snakefile
-      --configfile config/default.yaml
       --software-deployment-method conda
       -n

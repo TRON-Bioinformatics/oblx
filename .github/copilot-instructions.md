@@ -50,7 +50,8 @@ All shell scripts must start with `#!/usr/bin/env bash` and use
 - Rules should specify both `conda:` (environment YAML in `workflow/envs/`) and
   `container:` (from `config/container_config.yaml`) directives for software
   deployment. Access container URIs via `config["container"].get("<tool>")`
-- Use `config.get("key", default_value)` to access configuration with defaults
+- Use `config["key"]` to access configuration. Defaults are set in
+  `workflow/schemas/config_validation.yaml`.
 - Log files go under `logs/`. Prefer the pattern `logs/<tool>/<rule-name>.log`
   for new rules, but existing top-level `logs/<rule-name>.log` paths are also
   accepted where appropriate
@@ -80,6 +81,7 @@ workflow/
   rules/             # Snakemake rule definitions (.smk)
     common.smk       # Shared helper functions and output collectors
   scripts/           # Python, R, and shell helper scripts
+  schemas/           # Validation schemas.
   envs/              # Conda environment definitions per tool
   profiles/          # Snakemake execution profiles
   resources/         # Static data files shipped with the workflow
@@ -89,8 +91,8 @@ docs/                # MkDocs documentation source
 
 ## Configuration
 
-- `config/default.yaml`: Default workflow parameters (organism, release, genome
-  build, URLs, chromosome filters)
+- `workflow/schemas/config_validation.yaml`: Default workflow parameters
+  (organism, release, genome build, URLs, chromosome filters) and validation.
 - `config/container_config.yaml`: Docker/Apptainer container URIs per tool,
   accessed in rules as `config["container"].get("<tool>")`
 - Supports human (GRCh38) and mouse (GRCm38, GRCm39) organisms

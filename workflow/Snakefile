@@ -2,12 +2,6 @@
 Unified Snakemake workflow to pull the required resources and build required
 indices all in one go.
 
-Make sure to specify a yaml config via --configfile containing the following keys:
-* organism: 'human' or 'mouse'
-* release: The gencode release (e.g. 45 for human or M35 for mouse)
-* genome_build: The genome build name (e.g. GRCh38 for human or GRCm39 for mouse)
-* resource-dir: Path to the resources, pulled with pull_resources.smk
-
 @author: Luis Kress (TRON), Johannes Hausmann (TRON)
 @version: 20241002
 """
@@ -27,26 +21,20 @@ timestamp = datetime.datetime.now().strftime("%Y-%m-%d_%H:%M:%S")
 configfile: workflow.source_path("../config/container_config.yaml")
 
 
-default_build = "GRCh38"
-default_release = "46"
-default_organism = "human"
 gencode_or_ucsc = None
 gencode2ensembl_file = "resources/gencode2ensembl_human.tsv"
 ucsc_genome_build = "hg38"
 
 
-configfile: workflow.source_path("../config/default.yaml")
-
-
 validate(config, workflow.source_path("schemas/config_validation.yaml"))
 
 # check if genome build is supported
-if config.get("genome_build", default_build) not in ["GRCh38", "GRCm38", "GRCm39"]:
-    sys.exit(f"Genome build {config.get('genome_build', default_build)} not supported.")
+if config["genome_build"] not in ["GRCh38", "GRCm38", "GRCm39"]:
+    sys.exit(f"Genome build {config['genome_build']} not supported.")
 
 # set mouse specific variables
-if config.get("organism", default_organism) == "mouse":
-    if not config.get("release", None):
+if config["organism"] == "mouse":
+    if not config["release"]:
         sys.exit(
             'When running with non human organism, "release" has to be specified in the config'
         )

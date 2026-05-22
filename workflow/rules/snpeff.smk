@@ -8,12 +8,12 @@ Create symlinks to the reference and GTF for snpEff index build.
     output:
         fasta_link=os.path.join(
             "indices/snpeff/data/",
-            f'{config.get("genome_build", default_build)}.{config.get("release", default_release)}',
+            f'{config["genome_build"]}.{config["release"]}',
             "sequences.fa",
         ),
         gtf_link=os.path.join(
             "indices/snpeff/data/",
-            f'{config.get("genome_build", default_build)}.{config.get("release", default_release)}',
+            f'{config["genome_build"]}.{config["release"]}',
             "genes.gtf",
         ),
     log:
@@ -54,10 +54,7 @@ output:
     container:
         config["container"].get("shell_utils")
     params:
-        genome_version=(
-            f"{config.get('genome_build', default_build)}."
-            f"{config.get('release', default_release)}"
-        ),
+        genome_version=f"{config['genome_build']}.{config['release']}",
     shell:
         """
         exec &> "{log}"

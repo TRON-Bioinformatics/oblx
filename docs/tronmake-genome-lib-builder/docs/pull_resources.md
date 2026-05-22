@@ -37,8 +37,7 @@ snakemake --until pull_resources \
 - `--latency-wait`: Wait for e.g. 60 seconds for files to be created due to IO
   latency
 - `--configfile` (optional): Defines e.g. the reference genome version that
-  should be used, see [Configuration](configuration.md) (default:
-  `config/default.yaml`)
+  should be used, see [Configuration](configuration.md)
 - `--conda-prefix` (optional): Specify a path where conda environments should be
   stored (to reduce redundancy)
 - `--profile` (optional): Specify cluster profile to submit jobs e.g. to a HPC
