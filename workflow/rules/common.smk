@@ -88,11 +88,29 @@ def get_build_indices_output(wildcards):
     """
     organism = config.get("organism", "human")
 
-    # bwa index files
+    # bwa-mem2 index files
     final_files = multiext(
-        "indices/bwa/ref_genome.fasta", ".0123", ".amb", ".ann", ".bwt.2bit.64", ".pac"
+        "indices/bwa_mem2/ref_genome.fasta",
+        ".0123",
+        ".amb",
+        ".ann",
+        ".bwt.2bit.64",
+        ".pac",
     )
-    final_files.append("indices/bwa/ref_genome.fasta.fai")
+    final_files.append("indices/bwa_mem2/ref_genome.fasta.fai")
+
+    # bwa index files
+    final_files.extend(
+        multiext(
+            "indices/bwa_mem/ref_genome.fasta",
+            ".amb",
+            ".ann",
+            ".bwt",
+            ".pac",
+            ".sa",
+        )
+    )
+    final_files.append("indices/bwa_mem/ref_genome.fasta.fai")
 
     # salmon files
     final_files.extend(
