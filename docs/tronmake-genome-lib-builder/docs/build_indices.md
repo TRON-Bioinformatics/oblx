@@ -11,6 +11,7 @@ tools. It builds the tool indices based on the previously
 > respective environment yaml file in `workflow/envs`.
 
 - [STAR](https://github.com/alexdobin/STAR)
+- [bwa](https://github.com/lh3/bwa)
 - [bwa-mem2](https://github.com/bwa-mem2/bwa-mem2)
 - [snpEff](https://github.com/pcingola/SnpEff)
 - [salmon](https://combine-lab.github.io/salmon/)
@@ -61,7 +62,15 @@ workflow. The following directory structure is being created:
 ```
 </path/to/output/directory>
 ├── indices
-│   ├── bwa
+│   ├── bwa_mem
+│   │   ├── ref_genome.fasta -> ../../resources/ref_genome_grc_masked.fasta
+│   │   ├── ref_genome.fasta.amb
+│   │   ├── ref_genome.fasta.ann
+│   │   ├── ref_genome.fasta.bwt
+│   │   ├── ref_genome.fasta.fai
+│   │   ├── ref_genome.fasta.pac
+│   │   └── ref_genome.fasta.sa
+│   ├── bwa_mem2
 │   │   ├── ref_genome.fasta -> ../../resources/ref_genome_grc_masked.fasta
 │   │   ├── ref_genome.fasta.0123
 │   │   ├── ref_genome.fasta.amb
@@ -110,11 +119,11 @@ workflow. The following directory structure is being created:
 └── resources
 ```
 
-### bwa
+### bwa_mem / bwa_mem2
 
-The bwa directory contains the bwa-mem2 index and a symlink to the reference
-genome fasta file (if the genome is masked, in case of human, this symlink
-points to the masked reference genome fasta).
+The bwa_mem and bwa_mem2 directories contain the respective indices and a
+symlink to the reference genome fasta file (if the genome is masked, in case of
+human, this symlink points to the masked reference genome fasta).
 
 ### snpEff
 

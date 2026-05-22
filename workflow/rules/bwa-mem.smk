@@ -1,20 +1,19 @@
-rule link_bwa_mem2_fasta:
+rule link_bwa_mem_fasta:
     """
-Create a symlink of the reference fasta into the bwa-mem2 index directory.
+Create a symlink of the reference fasta into the bwa index directory.
 
 input:
     fasta (str): Path to the fasta file that should be symlinked (either
         masked for human or default for mouse).
 output:
-    fasta_link (str): Path to symlink reference fasta file in bwa-mem2
-        directory.
+    fasta_link (str): Path to symlink reference fasta file in bwa directory.
 """
     input:
         fasta=get_genome_for_index_building,
     output:
-        fasta_link="indices/bwa_mem2/ref_genome.fasta",
+        fasta_link="indices/bwa_mem/ref_genome.fasta",
     log:
-        "logs/bwa_mem2/link_bwa_mem2_fasta.log",
+        "logs/bwa_mem/link_bwa_mem_fasta.log",
     conda:
         "../envs/shellutils.yaml"
     container:
@@ -26,43 +25,43 @@ output:
         """
 
 
-rule bwa_mem2_index:
+rule bwa_mem_index:
     """
-Create a bwa-mem2 index from the reference genome file.
+Create a bwa index from the reference genome file.
 
 input:
     fasta (str): Path to DNA fasta file.
 output:
-    index_files (list): List of bwa-mem2 index files.
+    index_files (list): List of bwa index files.
 """
     input:
-        fasta=rules.link_bwa_mem2_fasta.output.fasta_link,
+        fasta=rules.link_bwa_mem_fasta.output.fasta_link,
     output:
         index_files=multiext(
-            "indices/bwa_mem2/ref_genome.fasta",
-            ".0123",
+            "indices/bwa_mem/ref_genome.fasta",
             ".amb",
             ".ann",
-            ".bwt.2bit.64",
+            ".bwt",
             ".pac",
+            ".sa",
         ),
     log:
-        "logs/bwa_mem2/bwa-mem2-index.log",
+        "logs/bwa_mem/bwa-index.log",
     conda:
-        "../envs/bwa_mem2.yaml"
+        "../envs/bwa.yaml"
     container:
-        config["container"].get("bwa_mem2")
+        config["container"].get("bwa")
     threads: 16
     resources:
         mem_mb=100000,
     shell:
         """
         exec &> "{log}"
-        bwa-mem2 index -p "{input.fasta}" "{input.fasta}"
+        bwa index -p "{input.fasta}" "{input.fasta}"
         """
 
 
-rule samtools_faidx_bwa_mem2:
+rule samtools_faidx_bwa_mem:
     """
 Generate FASTA index of reference genome in bwa index dir.
 
@@ -72,11 +71,11 @@ output:
     fai (str): Path to FASTA index file.
 """
     input:
-        fasta="indices/bwa_mem2/ref_genome.fasta",
+        fasta="indices/bwa_mem/ref_genome.fasta",
     output:
-        fai="indices/bwa_mem2/ref_genome.fasta.fai",
+        fai="indices/bwa_mem/ref_genome.fasta.fai",
     log:
-        "logs/bwa_mem2/samtools_faidx_bwa_mem2.log",
+        "logs/bwa_mem/samtools_faidx_bwa_mem.log",
     conda:
         "../envs/samtools.yaml"
     container:
