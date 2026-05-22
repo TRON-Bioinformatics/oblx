@@ -1,0 +1,1 @@
+../docs/tronmake-genome-lib-builder/docs/configuration.md
