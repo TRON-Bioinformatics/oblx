@@ -63,7 +63,7 @@ workflow. The following directory structure is being created:
 </path/to/output/directory>
 ├── indices
 │   ├── bwa_mem
-│   │   ├── ref_genome.fasta -> ../../resources/ref_genome_grc_masked.fasta
+│   │   ├── ref_genome.fasta -> ../../resources/ref_genome_masked_final.fasta
 │   │   ├── ref_genome.fasta.amb
 │   │   ├── ref_genome.fasta.ann
 │   │   ├── ref_genome.fasta.bwt
@@ -71,7 +71,7 @@ workflow. The following directory structure is being created:
 │   │   ├── ref_genome.fasta.pac
 │   │   └── ref_genome.fasta.sa
 │   ├── bwa_mem2
-│   │   ├── ref_genome.fasta -> ../../resources/ref_genome_grc_masked.fasta
+│   │   ├── ref_genome.fasta -> ../../resources/ref_genome_masked_final.fasta
 │   │   ├── ref_genome.fasta.0123
 │   │   ├── ref_genome.fasta.amb
 │   │   ├── ref_genome.fasta.ann
@@ -96,7 +96,7 @@ workflow. The following directory structure is being created:
 │   │   ├── data
 │   │   │   └── GRCh38.46
 │   │   │       ├── genes.gtf -> ../../../../resources/ref_annot.gtf
-│   │   │       ├── sequences.fa -> ../../../../resources/ref_genome_grc_masked.fasta
+│   │   │       ├── sequences.fa -> ../../../../resources/ref_genome_masked_final.fasta
 │   │   │       └── snpEffectPredictor.bin
 │   │   └── snpeff.config
 │   └── star
