@@ -52,9 +52,12 @@ output:
         "../envs/bwa_mem2.yaml"
     container:
         config["container"].get("bwa_mem2")
-    threads: 16
+    threads: 1
     resources:
-        mem_mb=100000,
+        # https://github.com/bwa-mem2/bwa-mem2
+        # Indexing the reference sequence (Requires 28N GB memory 
+        # where N is the size of the reference sequence).
+        mem_mb=100_000,
     shell:
         """
         exec &> "{log}"

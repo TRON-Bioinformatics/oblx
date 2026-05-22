@@ -51,9 +51,9 @@ output:
         "../envs/bwa.yaml"
     container:
         config["container"].get("bwa")
-    threads: 16
+    threads: 1
     resources:
-        mem_mb=100000,
+        mem_mb=100_000,
     shell:
         """
         exec &> "{log}"
