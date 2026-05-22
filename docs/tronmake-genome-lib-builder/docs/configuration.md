@@ -39,6 +39,10 @@ defaults set via the schema file at
 - `chrom_filter`: List of chromosome names that should be contained in the
   `af_only_gnomad_hg38.vcf.gz` file
 
+On top of that, we use the
+[`config/container_config.yaml`](/config/container_config.yaml) file to specify
+URLs for the apptainer/docker containers to be used for `--sdm apptainer`.
+
 ## Example Human
 
 An example config file for human mode. For human data, unless you know for a
