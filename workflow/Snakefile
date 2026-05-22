@@ -34,10 +34,6 @@ if config["genome_build"] not in ["GRCh38", "GRCm38", "GRCm39"]:
 
 # set mouse specific variables
 if config["organism"] == "mouse":
-    if not config["release"]:
-        sys.exit(
-            'When running with non human organism, "release" has to be specified in the config'
-        )
     gencode_or_ucsc = "gencode" if config["genome_build"] < "GRCm39" else "UCSC"
     ucsc_genome_build = "mm39" if config["genome_build"] == "GRCm39" else "mm10"
     gencode2ensembl_file = "resources/gencode2ensembl_mouse.tsv"
