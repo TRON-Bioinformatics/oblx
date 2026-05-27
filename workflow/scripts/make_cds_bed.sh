@@ -13,6 +13,6 @@ fi
 gtf="$1"
 cds_interval="$2"
 
-awk -v OFS='\t' '{if ($3 == "CDS") print $1, $4, $5, "CDS", $6, $7}' "${gtf}" |
+awk -v OFS='\t' '{if ($3 == "CDS") print $1, $4-1, $5, "CDS", $6, $7}' "${gtf}" |
     awk '!dup[$0]++' |
     bedtools sort >"${cds_interval}"
