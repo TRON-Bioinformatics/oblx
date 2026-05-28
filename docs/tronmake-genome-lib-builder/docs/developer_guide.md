@@ -2,11 +2,10 @@
 
 ## Release
 
-Before creating a new release make sure to do the following steps:
-
-- If new resources are pulled or new indices are created: Add the description to
-  the documentation
-- Update CHANGELOG.md
+Before creating a new release, make sure to update the docs if new resources are
+pulled or new indices are created. The rest should be handled via
+`release-please`. To make that work, ensure that commits follow the
+[conventional commits standard](https://www.conventionalcommits.org).
 
 ## Tests
 
