@@ -11,14 +11,10 @@ platforms = ["linux-64"]
 version = "0.0.3"  # x-release-please-version
 
 [dependencies]
-# Ensure compatibility with requests. Else there may be errors along the lines
-# of UNEXPECTED_EOF_WHILE_READING from SSL.
-openssl = { version = "<=3.4.2", channel = "conda-forge" }
-eido = { channel = "conda-forge" }
-peppy = { channel = "conda-forge" }
 snakemake-minimal = { version = ">=9.20,<10", channel = "bioconda" }
 snakemake-storage-plugin-http = { channel = "bioconda" }
 snakemake-executor-plugin-cluster-generic = { channel = "bioconda" }
+pandas = ">=3.0.3,<4"
 
 [feature.docs.dependencies]
 mkdocs = { version = "<2", channel = "conda-forge" }
