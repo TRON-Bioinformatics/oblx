@@ -28,7 +28,6 @@ def get_pull_resources_output(wildcards):
         "resources/ref_annot_metadata_SwissProt.tsv",
         "resources/ref_annot_metadata_TrEMBL.tsv",
         "resources/ref_genome_repeatmasker.bed",
-        "resources/ucsc_repeatmasker_dump.txt.gz",
         "resources/ref_genome.dict",
         "resources/ref_genome.fasta.fai",
         "resources/exome_definition/ref_exome.bed",
