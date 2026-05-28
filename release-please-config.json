@@ -1,0 +1,33 @@
+{
+    "include-v-in-tag": true,
+    "include-component-in-tag": false,
+    "bump-minor-pre-major": true,
+    "bump-patch-for-minor-pre-major": true,
+    "changelog-sections": [
+      { "type": "feat", "section": "Features"},
+      { "type": "feature", "section": "Features"},
+      { "type": "fix", "section": "BugFixes"},
+      { "type": "perf", "section": "PerformanceImprovements"},
+      { "type": "revert", "section": "Reverts"},
+      { "type": "deps", "section": "Dependencies"},
+      { "type": "docs", "section": "Documentation"},
+      { "type": "style", "section": "Styles", "hidden": true},
+      { "type": "chore", "section": "MiscellaneousChores", "hidden": true},
+      { "type": "refactor", "section": "CodeRefactoring", "hidden": true},
+      { "type": "test", "section": "Tests", "hidden": true},
+      { "type": "build", "section": "BuildSystem", "hidden": true},
+      { "type": "ci", "section": "ContinuousIntegration", "hidden": true}
+    ],
+    "packages": {
+        ".": {
+            "package-name": "TRONMake-Genome-Lib-Builder",
+            "changelog-path": "CHANGELOG.md",
+             "extra-files": [
+                 {
+                     "type": "generic",
+                     "path": "pixi.toml"
+                 }
+             ]
+        }
+    }
+}
