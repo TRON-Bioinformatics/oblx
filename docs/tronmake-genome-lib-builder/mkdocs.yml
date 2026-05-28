@@ -28,4 +28,8 @@ theme:
         icon: material/weather-night
         name: Switch to light mode
 
-copyright: © TRON gGmbH, 2025. This work is licensed under MIT.
+copyright: © TRON gGmbH, 2026. This work is licensed under MIT.
+
+plugins:
+  - search
+  - table-reader
