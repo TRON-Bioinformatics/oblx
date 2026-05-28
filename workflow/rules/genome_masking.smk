@@ -20,6 +20,8 @@ output:
         masked_genome="resources/ref_genome_grc_masked.fasta",
     log:
         "logs/genome_masking/mask_GRC_assembly_errors.log",
+    benchmark:
+        "benchmarks/genome_masking/mask_GRC_assembly_errors.txt"
     conda:
         "../envs/bedtools.yaml"
     container:
@@ -51,6 +53,8 @@ output:
         masked_genome="resources/ref_genome_masked_final.fasta",
     log:
         "logs/genome_masking/mask_pseudoautosomal.log",
+    benchmark:
+        "benchmarks/genome_masking/mask_pseudoautosomal.txt"
     conda:
         "../envs/bedtools.yaml"
     container:

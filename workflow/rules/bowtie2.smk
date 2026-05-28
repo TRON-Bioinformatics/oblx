@@ -21,6 +21,8 @@ output:
         ),
     log:
         "logs/bowtie2/bowtie2-index.log",
+    benchmark:
+        "benchmarks/bowtie2/bowtie2-index.txt"
     conda:
         "../envs/bowtie2.yaml"
     container:

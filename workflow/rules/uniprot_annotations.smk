@@ -8,6 +8,8 @@ rule merge_gencode_to_uniprot:
         uniprot_annotations_merged="resources/uniprot/uniprot_annotations.tsv",
     log:
         "logs/uniprot/merge_gencode_to_uniprot.log",
+    benchmark:
+        "benchmarks/uniprot/merge_gencode_to_uniprot.txt"
     conda:
         "../envs/pandas.yaml"
     container:

@@ -15,6 +15,8 @@ output:
         fasta_link="indices/bwa_mem2/ref_genome.fasta",
     log:
         "logs/bwa_mem2/link_bwa_mem2_fasta.log",
+    benchmark:
+        "benchmarks/bwa_mem2/link_bwa_mem2_fasta.txt"
     conda:
         "../envs/shellutils.yaml"
     container:
@@ -48,6 +50,8 @@ output:
         ),
     log:
         "logs/bwa_mem2/bwa-mem2-index.log",
+    benchmark:
+        "benchmarks/bwa_mem2/bwa-mem2-index.txt"
     conda:
         "../envs/bwa_mem2.yaml"
     container:
@@ -80,6 +84,8 @@ output:
         fai="indices/bwa_mem2/ref_genome.fasta.fai",
     log:
         "logs/bwa_mem2/samtools_faidx_bwa_mem2.log",
+    benchmark:
+        "benchmarks/bwa_mem2/samtools_faidx_bwa_mem2.txt"
     conda:
         "../envs/samtools.yaml"
     container:

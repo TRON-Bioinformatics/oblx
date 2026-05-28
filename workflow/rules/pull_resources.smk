@@ -104,6 +104,8 @@ output:
         ),
     log:
         "logs/pull_resources/download_gencode_data.log",
+    benchmark:
+        "benchmarks/pull_resources/download_gencode_data.txt"
     conda:
         "../envs/shellutils.yaml"
     container:
@@ -151,6 +153,8 @@ output:
         trembl="resources/ref_annot_metadata_TrEMBL.tsv",
     log:
         "logs/pull_resources/gunzip_annotation_data.log",
+    benchmark:
+        "benchmarks/pull_resources/gunzip_annotation_data.txt"
     conda:
         "../envs/shellutils.yaml"
     container:
@@ -197,6 +201,8 @@ by default and a BED12 file of the reference transcripts.
         gencode_bed=temp("resources/ref_annot.bb"),
     log:
         "logs/pull_resources/download_ucsc_data.log",
+    benchmark:
+        "benchmarks/pull_resources/download_ucsc_data.txt"
     conda:
         "../envs/shellutils.yaml"
     container:
@@ -227,6 +233,8 @@ organism.
         rmsk_annot="resources/ucsc_repeatmasker_dump.txt.gz",
     log:
         "logs/pull_resources/download_repeat_masker.log",
+    benchmark:
+        "benchmarks/pull_resources/download_repeat_masker.txt"
     conda:
         "../envs/shellutils.yaml"
     container:
@@ -269,6 +277,8 @@ Here we download kits from Twist.
         twist_exome2=temp("resources/exome_definition/twist_exome2.bb"),
     log:
         "logs/pull_resources/download_exome_probesets.log",
+    benchmark:
+        "benchmarks/pull_resources/download_exome_probesets.txt"
     conda:
         "../envs/shellutils.yaml"
     container:
@@ -311,6 +321,8 @@ Convert UCSC binary bigbed to ASCII bed files.
         twist_exome2="resources/exome_definition/twist_exome2.bed",
     log:
         "logs/pull_resources/bb_to_bed.log",
+    benchmark:
+        "benchmarks/pull_resources/bb_to_bed.txt"
     conda:
         "../envs/bigbedtobed.yaml"
     container:
@@ -349,6 +361,8 @@ This is required e.g. for Strelka2.
         gencode_bed_gz_tbi="resources/exome_definition/ref_exome.bed.gz.tbi",
     log:
         "logs/pull_resources/zip_and_index_exome_bed.log",
+    benchmark:
+        "benchmarks/pull_resources/zip_and_index_exome_bed.txt"
     conda:
         "../envs/bcftools.yaml"
     container:
@@ -371,6 +385,8 @@ Remove comment from UCSC big bed file
         ucsc_problematic="resources/mappability/ucsc_problematic.bed",
     log:
         "logs/pull_resources/ucsc_problematic_bed_format.log",
+    benchmark:
+        "benchmarks/pull_resources/ucsc_problematic_bed_format.txt"
     conda:
         "../envs/shellutils.yaml"
     container:
@@ -422,6 +438,8 @@ Download resources from GATK bundle.
         hapmap_vcf="resources/gatk_bundle/hapmap_3.3.hg38.vcf.gz",
     log:
         "logs/pull_resources/download_gatk_bundle.log",
+    benchmark:
+        "benchmarks/pull_resources/download_gatk_bundle.txt"
     conda:
         "../envs/bcftools.yaml"
     container:
@@ -468,6 +486,8 @@ Download UniProt data.
         uniprot_annotations=temp("resources/uniprot/uniprot_stream.tsv"),
     log:
         "logs/pull_resources/download_uniprot.log",
+    benchmark:
+        "benchmarks/pull_resources/download_uniprot.txt"
     conda:
         "../envs/pull_uniprot.yaml"
     container:
@@ -497,6 +517,8 @@ Download current dbSNP release from NCBI server.
         dbsnp_tbi=temp("resources/germline_variants/00-common_all.vcf.gz.tbi"),
     log:
         "logs/pull_resources/download_dbsnp_human.log",
+    benchmark:
+        "benchmarks/pull_resources/download_dbsnp_human.txt"
     conda:
         "../envs/bcftools.yaml"
     container:
@@ -526,6 +548,8 @@ Download dbSNP from ENSEMBL and convert chromosome names to GENCODE.
         dbsnp_tbi="resources/germline_variants/dbSNP_mouse.vcf.gz.tbi",
     log:
         "logs/pull_resources/download_dbsnp_mouse.log",
+    benchmark:
+        "benchmarks/pull_resources/download_dbsnp_mouse.txt"
     conda:
         "../envs/bcftools.yaml"
     container:
@@ -567,6 +591,8 @@ output:
         dbsnp_vcf="resources/germline_variants/dbSNP_151.vcf.gz",
     log:
         "logs/pull_resources/prepare_dbsnp.log",
+    benchmark:
+        "benchmarks/pull_resources/prepare_dbsnp.txt"
     conda:
         "../envs/bcftools.yaml"
     container:
@@ -601,6 +627,8 @@ Download gnomAD population SNPs from Google Cloud Storage per chromosome.
         ),
     log:
         "logs/pull_resources/download_gnomad/{gnomad_type}/{chromosome}.log",
+    benchmark:
+        "benchmarks/pull_resources/download_gnomad/{gnomad_type}/{chromosome}.txt"
     wildcard_constraints:
         # No other values are currently provided by GnomAD.
         gnomad_type="exomes|genomes",
@@ -639,6 +667,8 @@ allele frequency.
         ),
     log:
         "logs/pull_resources/af_only_gnomad/{gnomad_type}/{chromosome}.log",
+    benchmark:
+        "benchmarks/pull_resources/af_only_gnomad/{gnomad_type}/{chromosome}.txt"
     conda:
         "../envs/bcftools.yaml"
     container:
@@ -672,6 +702,8 @@ Concatenate chromosome-level gnomAD VCFs into a unified AF-only VCF.
         ),
     log:
         "logs/bcftools_concat_gnomad/{gnomad_type}.log",
+    benchmark:
+        "benchmarks/bcftools_concat_gnomad/{gnomad_type}.txt"
     conda:
         "../envs/bcftools.yaml"
     container:
@@ -707,6 +739,8 @@ Create index for the AF-only gnomAD VCF.
         ),
     log:
         "logs/tabix/af_only_gnomad_{gnomad_type}_tbi.log",
+    benchmark:
+        "benchmarks/tabix/af_only_gnomad_{gnomad_type}_tbi.txt"
     conda:
         "../envs/bcftools.yaml"
     container:
@@ -756,6 +790,8 @@ https://github.com/broadinstitute/gatk/tree/master/scripts/mutect2_wdl
         ),
     log:
         "logs/pull_resources/prepare_variants_for_contamination/{gnomad_type}.log",
+    benchmark:
+        "benchmarks/pull_resources/prepare_variants_for_contamination/{gnomad_type}.txt"
     conda:
         "../envs/bcftools.yaml"
     container:
@@ -778,6 +814,8 @@ Download common virus (as defined by TCGA) genomes from GenBank.
         tcga_virus="resources/viruses/tcga_virus_decoy.fasta",
     log:
         "logs/pull_resources/download_tcga_virus.log",
+    benchmark:
+        "benchmarks/pull_resources/download_tcga_virus.txt"
     conda:
         "../envs/efetch.yaml"
     container:
@@ -808,6 +846,8 @@ Generate a TSV file mapping Ensembl transcript ids to gene ids.
         tx2gene="resources/ref_annot_transcript2gene.tsv",
     log:
         "logs/pull_resources/transcript_to_gene_mapping.log",
+    benchmark:
+        "benchmarks/pull_resources/transcript_to_gene_mapping.txt"
     conda:
         "../envs/renv.yaml"
     container:
@@ -832,6 +872,8 @@ Generate a TSV file mapping Ensembl gene ids to HGNC gene symbols.
         mapping_table="resources/ref_annot_gene2symbol.tsv",
     log:
         "logs/pull_resources/gene_to_hgnc_mapping.log",
+    benchmark:
+        "benchmarks/pull_resources/gene_to_hgnc_mapping.txt"
     conda:
         "../envs/pandas.yaml"
     container:
@@ -858,6 +900,8 @@ Extract canoncial splice junctions from GENCODE reference transcripts.
         canonical_juncs="resources/ref_annot_splice_sites.tsv",
     log:
         "logs/pull_resources/canonical_junction_list.log",
+    benchmark:
+        "benchmarks/pull_resources/canonical_junction_list.txt"
     conda:
         "../envs/renv.yaml"
     container:

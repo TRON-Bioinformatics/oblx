@@ -15,6 +15,8 @@ output:
         genome_dict="resources/ref_genome.dict",
     log:
         "logs/sequence_dict/create_sequence_dict.log",
+    benchmark:
+        "benchmarks/sequence_dict/create_sequence_dict.txt"
     conda:
         "../envs/gatk4.yaml"
     container:
