@@ -70,7 +70,6 @@ params:
         ),
     log:
         "logs/salmon/transcriptome_index.log",
-    cache: True
     conda:
         "../envs/salmon.yaml"
     container:
@@ -115,7 +114,6 @@ params:
         transcript_fasta="indices/salmon/requant_index/transcripts.fa",
     log:
         "logs/salmon/requant_transcriptome.log",
-    cache: True
     conda:
         "../envs/gffread.yaml"
     container:
