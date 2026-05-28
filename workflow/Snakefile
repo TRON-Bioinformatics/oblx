@@ -26,7 +26,7 @@ gencode2ensembl_file = "resources/gencode2ensembl_human.tsv"
 ucsc_genome_build = "hg38"
 
 
-validate(config, workflow.source_path("schemas/config_validation.yaml"))
+validate(config, workflow.source_path("schemas/config.schema.yaml"))
 
 # check if genome build is supported
 if config["genome_build"] not in ["GRCh38", "GRCm38", "GRCm39"]:
