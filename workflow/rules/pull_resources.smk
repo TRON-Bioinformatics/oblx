@@ -337,18 +337,18 @@ Convert UCSC binary bigbed to ASCII bed files.
         """
 
 
-rule zip_and_index_bed:
+rule zip_and_index_exome_bed:
     """Compress and index bed files with bgzip and tabix.
 
 This is required e.g. for Strelka2.
 """
     input:
-        gencode_bed=rules.bb_to_bed.output.gencode_bed,
+        gencode_bed="resources/exome_definition/ref_exome.bed",
     output:
-        gencode_bed_gz="resources/ref_annot.bed.gz",
-        gencode_bed_gz_tbi="resources/ref_annot.bed.gz.tbi",
+        gencode_bed_gz="resources/exome_definition/ref_exome.bed.gz",
+        gencode_bed_gz_tbi="resources/exome_definition/ref_exome.bed.gz.tbi",
     log:
-        "logs/pull_resources/zip_and_index_bed.log",
+        "logs/pull_resources/zip_and_index_exome_bed.log",
     conda:
         "../envs/bcftools.yaml"
     container:
