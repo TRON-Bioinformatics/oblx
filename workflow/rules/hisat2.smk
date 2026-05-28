@@ -11,6 +11,8 @@ Generate hisat2 snp and haplotype files for genome indexing.
         snp="indices/hisat2/genome.snp",
     log:
         "logs/hisat2/hisat2_snps_haplotypes.log",
+    benchmark:
+        "benchmarks/hisat2/hisat2_snps_haplotypes.txt"
     conda:
         "../envs/hisat2.yaml"
     container:
@@ -38,6 +40,8 @@ Generate hisat2 splice site file for genome indexing.
         ss="indices/hisat2/genome.ss",
     log:
         "logs/hisat2/hisat2_ss.log",
+    benchmark:
+        "benchmarks/hisat2/hisat2_ss.txt"
     conda:
         "../envs/hisat2.yaml"
     container:
@@ -61,6 +65,8 @@ Generate hisat2 exon file for genome indexing.
         exons="indices/hisat2/genome.exon",
     log:
         "logs/hisat2/hisat2_exons.log",
+    benchmark:
+        "benchmarks/hisat2/hisat2_exons.txt"
     conda:
         "../envs/hisat2.yaml"
     container:
@@ -98,6 +104,8 @@ Generate hisat2 HGFM index including SNPs and splice-sites.
         ),
     log:
         "logs/hisat2/hisat2_index.log",
+    benchmark:
+        "benchmarks/hisat2/hisat2_index.txt"
     conda:
         "../envs/hisat2.yaml"
     container:

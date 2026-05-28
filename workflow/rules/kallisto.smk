@@ -19,6 +19,8 @@ output:
         cdna="indices/kallisto/ref_cdna.fa",
     log:
         "logs/kallisto/kallisto_index.log",
+    benchmark:
+        "benchmarks/kallisto/kallisto_index.txt"
     conda:
         "../envs/kb_tools.yaml"
     container:

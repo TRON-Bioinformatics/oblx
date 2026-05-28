@@ -9,6 +9,8 @@ Convert UCSC database dump of repeatmasker annotation into BED.
         rmsk_bed="resources/ref_genome_repeatmasker.bed",
     log:
         "logs/rmsk_creation.log",
+    benchmark:
+        "benchmarks/rmsk_creation.txt"
     conda:
         "../envs/bedtools.yaml"
     container:

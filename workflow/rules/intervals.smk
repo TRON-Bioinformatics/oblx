@@ -13,6 +13,8 @@ output:
         chrom_size_file="resources/chromosome_sizes.txt",
     log:
         "logs/intervals/chrom_sizes.log",
+    benchmark:
+        "benchmarks/intervals/chrom_sizes.txt"
     conda:
         "../envs/shellutils.yaml"
     container:
@@ -47,6 +49,8 @@ output:
         exome_interval="resources/exome_definition/ref_exome.bed",
     log:
         "logs/exome_creation.log",
+    benchmark:
+        "benchmarks/exome_creation.txt"
     conda:
         "../envs/bedtools.yaml"
     container:
@@ -76,6 +80,8 @@ tutorial.
         cds_interval="resources/exome_definition/ref_cds.bed",
     log:
         "logs/cds_creation.log",
+    benchmark:
+        "benchmarks/cds_creation.txt"
     conda:
         "../envs/bedtools.yaml"
     container:

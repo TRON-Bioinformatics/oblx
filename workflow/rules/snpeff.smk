@@ -18,6 +18,8 @@ Create symlinks to the reference and GTF for snpEff index build.
         ),
     log:
         "logs/snpeff/link_snpeff.log",
+    benchmark:
+        "benchmarks/snpeff/link_snpeff.txt"
     conda:
         "../envs/shellutils.yaml"
     container:
@@ -49,6 +51,8 @@ output:
         config_file=f"indices/snpeff/snpeff.config",
     log:
         "logs/snpeff/prepare_snpEff_config.log",
+    benchmark:
+        "benchmarks/snpeff/prepare_snpEff_config.txt"
     conda:
         "../envs/shellutils.yaml"
     container:
@@ -85,6 +89,8 @@ Create the snpEff index.
         ),
     log:
         "logs/snpeff/{genome_version}/snpeff-build-db.log",
+    benchmark:
+        "benchmarks/snpeff/{genome_version}/snpeff-build-db.txt"
     conda:
         "../envs/snpeff.yaml"
     container:

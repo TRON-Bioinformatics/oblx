@@ -23,6 +23,8 @@ output:
         genome_file="indices/star/Genome",
     log:
         "logs/star/star-index.log",
+    benchmark:
+        "benchmarks/star/star-index.txt"
     conda:
         "../envs/star.yaml"
     container:

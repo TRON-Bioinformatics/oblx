@@ -18,6 +18,8 @@ output:
         genome="resources/ref_genome.fasta",
     log:
         "logs/faidx/set_genome.log",
+    benchmark:
+        "benchmarks/faidx/set_genome.txt"
     conda:
         "../envs/shellutils.yaml"
     container:
@@ -44,6 +46,8 @@ output:
         fai="resources/ref_genome.fasta.fai",
     log:
         "logs/faidx/samtools_faidx_ref_genome.log",
+    benchmark:
+        "benchmarks/faidx/samtools_faidx_ref_genome.txt"
     conda:
         "../envs/samtools.yaml"
     container:
