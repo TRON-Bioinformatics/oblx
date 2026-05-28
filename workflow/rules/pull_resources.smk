@@ -230,7 +230,7 @@ organism.
             )
         ),
     output:
-        rmsk_annot="resources/ucsc_repeatmasker_dump.txt.gz",
+        rmsk_annot=temp("resources/ucsc_repeatmasker_dump.txt.gz"),
     log:
         "logs/pull_resources/download_repeat_masker.log",
     benchmark:
