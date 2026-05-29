@@ -1,40 +1,83 @@
 # Developer Guide
 
-## Release
+## Software environment
 
-Before creating a new release, make sure to update the docs if new resources are
-pulled or new indices are created. The rest should be handled via
-`release-please`. To make that work, ensure that commits follow the
-[conventional commits standard](https://www.conventionalcommits.org).
+The project uses [Pixi](https://pixi.prefix.dev/latest/) to manage all
+development and runtime environments. After installing Pixi, enter the project
+shell with:
+
+```
+pixi shell
+```
+
+This provides Snakemake and all dependencies needed to run the pipeline. For
+deployments to systems without internet access or without Pixi, see
+[Pixi pack](https://pixi.prefix.dev/latest/deployment/pixi_pack/).
+
+The available Pixi environments and tasks are defined in
+[`pixi.toml`](https://github.com/TRON-Private/tronmake-genome-lib-builder/blob/dev/pixi.toml).
+The most relevant tasks are:
+
+| Task                     | Description                                                          |
+| ------------------------ | -------------------------------------------------------------------- |
+| `pixi run unittest`      | Run the test suite (see [Tests](#tests)).                            |
+| `pixi run lint`          | Run all linters (Snakemake, Python, R, Markdown, shell, YAML, TOML). |
+| `pixi run style`         | Auto-format all files (same scope as `lint`).                        |
+| `pixi run lint-workflow` | Snakemake `--lint` of `workflow/Snakefile`.                          |
+| `pixi run documentation` | Build the MkDocs site under `docs/tronmake-genome-lib-builder/`.     |
+| `pixi run pin-rule-envs` | Pin conda environments in `workflow/envs/*.yaml` with snakedeploy.   |
 
 ## Tests
 
-Currently, CI tests include dry-runs of the pull_resources and build_indices
-workflow. These tests check, if the syntax is correct but do not detect errors
-that occur during runtime.
+CI currently includes dry-runs of the `pull_resources` and `build_indices`
+workflows. These verify workflow syntax and rule wiring but do **not** detect
+runtime errors of the underlying tools.
 
-To run the tests locally execute (in the pixi shell):
+Run the tests locally with:
 
 ```
 pixi run unittest
 ```
 
-## Software environment
+## Adding a new index or resource
 
-Currently we use [Pixi](https://pixi.prefix.dev/latest/) to manage the software
-environments used to run and develop the pipeline. See
-[Pixi pack](https://pixi.prefix.dev/latest/deployment/pixi_pack/) on how to make
-software environments available in environments where Pixi is not available.
+The workflow's final output is collected by two helpers in
+[`workflow/rules/common.smk`](https://github.com/TRON-Private/tronmake-genome-lib-builder/blob/dev/workflow/rules/common.smk):
+`get_pull_resources_output` and `get_build_indices_output`. To extend the
+pipeline:
+
+1. Add a rule to the appropriate file under `workflow/rules/` (e.g. a new
+   `<tool>.smk` for an index, or an addition to `pull_resources.smk` for a new
+   resource).
+1. Register the new output file(s) in `get_build_indices_output` or
+   `get_pull_resources_output` so they are produced by the default target.
+1. Define the required conda environment (if not already present), add it under
+   `workflow/envs/` and run `pixi run pin-rule-envs` to pin its dependencies.
+1. Define the required container (if not already present) and add it to
+   [`config/container_config.yaml`](https://github.com/TRON-Private/tronmake-genome-lib-builder/blob/dev/config/container_config.yaml).
+1. Document the new output in `pull_resources.md` / `build_indices.md` and add a
+   row to the matching `docs/.../resources/*.tsv` table.
 
 ## Code styling
 
-To ensure code and docs are correctly formatted, run `pixi run style` (or, if
-you are only interested in certain filetypes, the subtasks). Running
-`pixi run lint` will in turn check if all files are correctly formatted without
-changing anything, but rather exit with a non-zero exit code in that case. It is
-mainly used for CI tasks.
+Run `pixi run style` to auto-format code and docs. `pixi run lint` performs the
+same checks without modifying files and exits non-zero on failure; it is used in
+CI. Sub-tasks (`style-python`, `lint-snakemake`, ...) are available for
+individual file types — see
+[`pixi.toml`](https://github.com/TRON-Private/tronmake-genome-lib-builder/blob/dev/pixi.toml).
+
+## Release
+
+Before creating a new release:
+
+- If new resources are pulled or new indices are created, ensure they are
+  documented (including the matching row in
+  `docs/tronmake-genome-lib-builder/docs/resources/{human,mouse}_resources.tsv`
+  or `supported_tools.tsv`).
+- Update `CHANGELOG.md`.
+- Bump the version in
+  [`pixi.toml`](https://github.com/TRON-Private/tronmake-genome-lib-builder/blob/dev/pixi.toml).
 
 ## Contribute
 
-See
 [CONTRIBUTING.md](https://github.com/TRON-Private/tronmake-genome-lib-builder/blob/main/CONTRIBUTING.md).

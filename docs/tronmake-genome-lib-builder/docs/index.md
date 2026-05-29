@@ -14,22 +14,22 @@ Documentation: https://urban-guacamole-qmm473j.pages.github.io/
 <img src="resources/workflow_graph.png" width="60%">
 
 The **TronMake Genome Lib Builder** is a Snakemake (Mölder et al., 2021)
-pipeline which downloads reference genomes, genome annotations as well as
-further resources and generates based on these indexes required for various
+pipeline which downloads reference genomes, genome annotations and further
+resources, and generates from these the indices required for various
 bioinformatics tools and pipelines. The pipeline consists of two independently
 executable stages: [*Download Resources*](pull_resources.md#download-resources)
 and [*Build Indices*](build_indices.md#build-indices). *Download Resources*
 retrieves the reference genome, genome annotation and other resources and
 prepares the data for bioinformatics index generation. The reference genome and
-genome annotation is downloaded from [GENCODE](https://www.gencodegenes.org/)
-and the preferred genome assembly version, GENCODE release and organism can be
-specified. Furthermore, resources from GATK, UCSC and GnomAD are retrieved (for
-details see [*Download Resources*](pull_resources.md#download-resources)
-section). *Build Indices* generates bioinformatics tool specific indices. The
-generated genome library is consistent with respect to the chromosome,
-transcript and gene naming and supports an extensive set of bioinformatics
-tools. All supported tools are listed in
-[Supported Tools](supported_tools.md#supported-tools).
+genome annotation are downloaded from [GENCODE](https://www.gencodegenes.org/);
+the preferred genome assembly version, GENCODE release and organism can be
+specified via the [config file](configuration.md). Additional resources from
+GATK, UCSC and gnomAD are retrieved (see
+[*Download Resources*](pull_resources.md#download-resources) for details).
+*Build Indices* then generates tool-specific indices. The resulting genome
+library is consistent with respect to chromosome, transcript and gene naming and
+supports an extensive set of bioinformatics tools, all listed in
+[Supported Tools](supported_tools.md#supported-bioinformatics-tools).
 
 ## Installation
 
@@ -46,45 +46,45 @@ https://snakemake.readthedocs.io/en/stable/getting_started/installation.html).
 
 The stages [*Download Resources*](pull_resources.md#download-resources) and
 [*Build Indices*](build_indices.md#build-indices) are run consecutively when
-executing (to run them independently check the respective section):
+executing (to run them independently, see the respective section):
 
 ```
 snakemake -s workflow/Snakefile \
   --directory </path/to/output/directory> \
   --software-deployment-method [conda|apptainer] \
-  --latency-wait 60 \ # to account for writing latency of large files
+  --latency-wait 60 \
   [--configfile <path/to/config/file>] \
   [--profile </path/to/cluster/profile/>]
 ```
 
-- `--directory`: Specifies the directory where the results of the workflow
-  should be stored.
-- `--software-deployment-method`: Can be either `conda` or `apptainer`.
-- `--latency-wait`: Wait for e.g. 60 seconds for files to be created due to IO
-  latency.
-- `--configfile` (optional): Defines e.g. the reference genome version that
-  should be used, see [Configuration](configuration.md)
-- `--conda-prefix` (optional): Specify a path where conda environments should be
-  stored (to reduce redundancy)
-- `--profile` (optional): Specify cluster profile to submit jobs e.g. to a HPC
+- `--directory`: Directory where the results of the workflow should be stored.
+- `--software-deployment-method`: Either `conda` or `apptainer`. Container
+  images for apptainer are configured in
+  [`config/container_config.yaml`](configuration.md).
+- `--latency-wait`: Seconds to wait for files to appear (recommended `60` to
+  account for IO latency of large files).
+- `--configfile` (optional): Override default configuration, e.g. organism or
+  reference genome version. See [Configuration](configuration.md).
+- `--profile` (optional): Snakemake cluster profile, e.g. to submit jobs to an
+  HPC scheduler.
 
 ## Input
 
-The TronMake Genome Lib Builder does not require any input. You just have to
-specify the output directory and, if non default settings are desired, adapt the
-[Configuration](configuration.md#configuration).
+The TronMake Genome Lib Builder does not require any user-provided input. You
+only specify the output directory and, if non-default settings are desired,
+adapt the [configuration](configuration.md#configuration).
 
 ## Output
 
 The output of the pipeline is written to the directory specified with
-`--directory`. Descriptions of the resulting genome resources can be found in
-the [*Download Resources*](pull_resources.md#download-resources) documentation
-while description of generated indices is provided in the
-[*Build Indices*](build_indices.md#build-indices) documentation.
+`--directory`. Descriptions of the downloaded genome resources are documented in
+[*Download Resources*](pull_resources.md#download-resources); descriptions of
+the generated indices are documented in
+[*Build Indices*](build_indices.md#build-indices).
 
 ## Supported bioinformatics tools
 
-See [Supported Tools](supported_tools.md#supported-tools).
+See [Supported Tools](supported_tools.md#supported-bioinformatics-tools).
 
 ## About
 
