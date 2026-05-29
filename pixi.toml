@@ -22,13 +22,13 @@ mkdocs-material = { channel = "conda-forge" }
 mkdocs-table-reader-plugin = { channel = "conda-forge" }
 
 [feature.docs.tasks]
-documentation = { cmd = "mkdocs build -f docs/tronmake-genome-lib-builder/mkdocs.yml", default-environment = "docs" }
+documentation = { cmd = "mkdocs build -f docs/tronmake-genome-lib-builder/mkdocs.yml", default-environment = "docs", description = "Build the MkDocs site under `docs/tronmake-genome-lib-builder/`." }
 
 [feature.test.dependencies]
 pytest-workflow = { channel = "conda-forge" }
 
 [feature.test.tasks]
-unittest = { cmd = "pytest --tag unittest", default-environment = "test" }
+unittest = { cmd = "pytest --tag unittest", default-environment = "test", description = "Run the test suite" }
 
 [feature.style-md.dependencies]
 mdformat = ">=0.7.22,<0.8"
@@ -37,15 +37,15 @@ mdformat-shfmt = ">=0.2.0,<0.3"
 mdformat-tables = ">=1.0.0,<2"
 
 [feature.style-md.tasks]
-style-md = { cmd = "mdformat **/*.md .github/**/*.md", default-environment = "style-md" }
-lint-md = { cmd = "mdformat --check **/*.md .github/**/*.md", default-environment = "style-md" }
+style-md = { cmd = "mdformat **/*.md .github/**/*.md", default-environment = "style-md", description = "Auto-format markdown files" }
+lint-md = { cmd = "mdformat --check **/*.md .github/**/*.md", default-environment = "style-md", description = "Lint markdown files" }
 
 [feature.style-python.dependencies]
 black = ">=26.3.1,<27"
 
 [feature.style-python.tasks]
-style-python = { cmd = "black **/*.py", default-environment = "style-python" }
-lint-python = { cmd = "black --check **/*.py", default-environment = "style-python" }
+style-python = { cmd = "black **/*.py", default-environment = "style-python", description = "Auto-format python files" }
+lint-python = { cmd = "black --check **/*.py", default-environment = "style-python", description = "Lint python files" }
 
 [feature.style-r.dependencies]
 r-base = ">=4.5.3,<4.6"
@@ -63,35 +63,35 @@ lint-r = { cmd = """\
 go-shfmt = ">=3.13.1,<4"
 
 [feature.style-sh.tasks]
-style-sh = { cmd = "shfmt --write --indent 4 **/*.sh", default-environment = "style-sh" }
-lint-sh = { cmd = "shfmt --diff --indent 4 **/*.sh", default-environment = "style-sh" }
+style-sh = { cmd = "shfmt --write --indent 4 **/*.sh", default-environment = "style-sh", description = "Auto-format shell files" }
+lint-sh = { cmd = "shfmt --diff --indent 4 **/*.sh", default-environment = "style-sh", description = "Lint shell files" }
 
 [feature.style-snakemake.dependencies]
 snakefmt = ">=1.1.0,<2"
 
 [feature.style-snakemake.tasks]
-style-snakemake = { cmd = "snakefmt workflow/", default-environment = "style-snakemake" }
-lint-snakemake = { cmd = "snakefmt --check workflow/", default-environment = "style-snakemake" }
+style-snakemake = { cmd = "snakefmt workflow/", default-environment = "style-snakemake", description = "Auto-format Snakemake files" }
+lint-snakemake = { cmd = "snakefmt --check workflow/", default-environment = "style-snakemake", description = "Lint Snakemake files" }
 
 [feature.style-toml.dependencies]
 tombi = ">=0.10.5,<0.11"
 
 [feature.style-toml.tasks]
-style-toml = { cmd = "tombi format **/*.toml", default-environment = "style-toml" }
-lint-toml = { cmd = "tombi format --check **/*.toml", default-environment = "style-toml" }
+style-toml = { cmd = "tombi format **/*.toml", default-environment = "style-toml", description = "Auto-format toml files" }
+lint-toml = { cmd = "tombi format --check **/*.toml", default-environment = "style-toml", description = "Lint toml files" }
 
 [feature.style-yaml.dependencies]
 yamlfmt = ">=0.21.0,<0.22"
 
 [feature.style-yaml.tasks]
-style-yaml = { cmd = "yamlfmt **/*.yaml **/*.yml .github/**/*.yaml .github/**/*.yml", default-environment = "style-yaml" }
-lint-yaml = { cmd = "yamlfmt -lint **/*.yaml **/*.yml .github/**/*.yaml .github/**/*.yml", default-environment = "style-yaml" }
+style-yaml = { cmd = "yamlfmt **/*.yaml **/*.yml .github/**/*.yaml .github/**/*.yml", default-environment = "style-yaml", description = "Auto-format yaml files" }
+lint-yaml = { cmd = "yamlfmt -lint **/*.yaml **/*.yml .github/**/*.yaml .github/**/*.yml", default-environment = "style-yaml", description = "Lint yaml files" }
 
 [feature.rule-env-pinning.dependencies]
 snakedeploy = ">=0.16.0,<0.17"
 
 [feature.rule-env-pinning.tasks]
-pin-rule-envs = { cmd = "snakedeploy pin-conda-envs workflow/envs/*.yaml", default-environment = "rule-env-pinning" }
+pin-rule-envs = { cmd = "snakedeploy pin-conda-envs workflow/envs/*.yaml", default-environment = "rule-env-pinning", description = "Pin conda environments in `workflow/envs/*.yaml` with snakedeploy." }
 
 [environments]
 docs = { features = ["docs"], no-default-feature = true }
@@ -105,16 +105,19 @@ style-toml = { features = ["style-toml"], no-default-feature = true }
 style-yaml = { features = ["style-yaml"], no-default-feature = true }
 rule-env-pinning = { features = ["rule-env-pinning"], no-default-feature = true }
 
-[tasks]
-lint-workflow = """\
+[tasks.lint-workflow]
+cmd = """\
     snakemake \
         -s workflow/Snakefile \
         --software-deployment-method conda \
         --lint\
     """
+description = "Snakemake `--lint` of `workflow/Snakefile`."
+
 # Order matters, these are laid out from most likely to fail during development
 # to least likely.
-style = { depends-on = [
+[tasks.style]
+depends-on = [
   "style-snakemake",
   "style-python",
   "style-r",
@@ -122,8 +125,11 @@ style = { depends-on = [
   "style-sh",
   "style-yaml",
   "style-toml"
-] }
-lint = { depends-on = [
+]
+description = "Auto-format all files (Snakemake, Python, R, Markdown, shell, YAML, TOML)."
+
+[tasks.lint]
+depends-on = [
   "lint-workflow",
   "lint-snakemake",
   "lint-python",
@@ -132,4 +138,5 @@ lint = { depends-on = [
   "lint-sh",
   "lint-yaml",
   "lint-toml"
-] }
+]
+description = "Run all linters (Snakemake, Python, R, Markdown, shell, YAML, TOML)."
