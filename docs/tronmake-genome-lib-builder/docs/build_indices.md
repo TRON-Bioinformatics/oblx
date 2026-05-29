@@ -2,7 +2,8 @@
 
 The build indices workflow generates indices for the following bioinformatics
 tools. It builds the tool indices based on the previously
-[pulled resources](pull_resources.md).
+[pulled resources](pull_resources.md). An extensive list of all supported
+bioinformatics tools can be found [here](supported_tools.md)
 
 > Note: When using the generated indices, it is essential to ensure that the
 > versions of the tools used in your analysis match the versions of the tools
@@ -11,12 +12,13 @@ tools. It builds the tool indices based on the previously
 > respective environment yaml file in `workflow/envs`.
 
 - [STAR](https://github.com/alexdobin/STAR)
-- [bwa](https://github.com/lh3/bwa)
+- [bwa-mem](https://github.com/lh3/bwa)
 - [bwa-mem2](https://github.com/bwa-mem2/bwa-mem2)
 - [snpEff](https://github.com/pcingola/SnpEff)
 - [salmon](https://combine-lab.github.io/salmon/)
 - [kallisto](https://pachterlab.github.io/kallisto/)
-- more will follow soon ...
+- [bowtie2](https://github.com/benlangmead/bowtie2)
+- [hisat2](https://github.com/daehwankimlab/hisat2)
 
 ## Input
 
@@ -33,23 +35,21 @@ To run the build indices workflow run the following command.
 ```
 snakemake --until build_indices \
     --directory </path/to/output/directory> \
-    --software-deployment-method conda \
+    --software-deployment-method [conda|apptainer] \
     --latency-wait 60 \
     [--configfile <path/to/config/file>] \
-    [--conda-prefix </path/to/shared/conda/>] \
     [--profile </path/to/cluster/profile/>]
 ```
 
-- `--directory`: Path to the directory that was created using
-  [pull_resources](pull_resources.md) workflow
-- `--software-deployment-method`: Has to be set to `conda`, as only conda is
-  supported currently
+- `--directory`: Specifies the directory where the results of the workflow
+  should be stored.
+- `--software-deployment-method`: Either `conda` or `apptainer`. Container
+  images for apptainer are configured in
+  [`config/container_config.yaml`](configuration.md).
 - `--latency-wait`: Wait for e.g. 60 seconds for files to be created due to IO
   latency
 - `--configfile` (optional): Defines e.g. the reference genome version that
   should be used, see [Configuration](configuration.md)
-- `--conda-prefix` (optional): Specify a path where conda environments should be
-  stored (to reduce redundancy)
 - `--profile` (optional): Specify cluster profile to submit jobs e.g. to a HPC
 
 ## Output
@@ -61,6 +61,7 @@ workflow. The following directory structure is being created:
 ```
 </path/to/output/directory>
 ├── indices
+│   ├── bowtie2
 │   ├── bwa_mem
 │   │   ├── ref_genome.fasta -> ../../resources/ref_genome_masked_final.fasta
 │   │   ├── ref_genome.fasta.amb
@@ -77,6 +78,7 @@ workflow. The following directory structure is being created:
 │   │   ├── ref_genome.fasta.bwt.2bit.64
 │   │   ├── ref_genome.fasta.fai
 │   │   └── ref_genome.fasta.pac
+│   ├── hisat2
 │   ├── kallisto
 │   │   ├── ref_cdna.fa
 │   │   ├── ref_transcript.idx
@@ -118,11 +120,24 @@ workflow. The following directory structure is being created:
 └── resources
 ```
 
+### bowtie2
+
+Contains the index for bowtie2 (based on the masked reference genome in human
+mode, see [Gencode reference files](pull_resources.md#gencode-reference-files)).
+
+### hisat2
+
+Contains the index for hisat2 (based on the masked reference genome in human
+mode, see [Gencode reference files](pull_resources.md#gencode-reference-files)).
+The index was generated with the respective dbSNP VCF file (see
+[Germline Variants](pull_resources.md#germline-variants)).
+
 ### bwa_mem / bwa_mem2
 
 The bwa_mem and bwa_mem2 directories contain the respective indices and a
 symlink to the reference genome fasta file (if the genome is masked, in case of
-human, this symlink points to the masked reference genome fasta).
+human, this symlink points to the masked reference genome fasta, see
+[Gencode reference files](pull_resources.md#gencode-reference-files)).
 
 ### snpEff
 

@@ -23,23 +23,21 @@ To run the pull resources workflow run the following command.
 ```
 snakemake --until pull_resources \ 
     --directory </path/to/output/directory> \
-    --software-deployment-method conda \
+    --software-deployment-method [conda|apptainer] \
     --latency-wait 60 \
     [--configfile <path/to/config/file>] \
-    [--conda-prefix </path/to/shared/conda/>] \
     [--profile </path/to/cluster/profile/>]
 ```
 
 - `--directory`: Specifies the directory where the results of the workflow
   should be stored.
-- `--software-deployment-method`: Has to be set to `conda`, as only conda is
-  supported currently
+- `--software-deployment-method`: Either `conda` or `apptainer`. Container
+  images for apptainer are configured in
+  [`config/container_config.yaml`](configuration.md).
 - `--latency-wait`: Wait for e.g. 60 seconds for files to be created due to IO
   latency
 - `--configfile` (optional): Defines e.g. the reference genome version that
   should be used, see [Configuration](configuration.md)
-- `--conda-prefix` (optional): Specify a path where conda environments should be
-  stored (to reduce redundancy)
 - `--profile` (optional): Specify cluster profile to submit jobs e.g. to a HPC
 
 ## Output
@@ -55,11 +53,20 @@ The workflow generates the following directory structure (in human mode):
 ```
 </path/to/output/dir>/resources
 ├── exome_definition
+│   ├── ref_exome.bed
+│   ├── ref_exome.bed.gz
+│   ├── ref_exome.bed.gz.tbi
 │   ├── twist_comprehensive_exome.bed
 │   ├── twist_core_exome.bed
 │   ├── twist_exome2.bed
 │   └── twist_refseq.bed
 ├── gatk_bundle
+│   ├── 1000G_omni2.5.hg38.vcf.gz
+│   ├── 1000G_omni2.5.hg38.vcf.gz.tbi
+│   ├── 1000G_phase1.snps.high_confidence.hg38.vcf.gz
+│   ├── 1000G_phase1.snps.high_confidence.hg38.vcf.gz.tbi
+│   ├── hapmap_3.3.hg38.vcf.gz
+│   ├── hapmap_3.3.hg38.vcf.gz.tbi
 │   ├── Homo_sapiens_assembly38.dbsnp138.vcf.gz
 │   ├── Homo_sapiens_assembly38.dbsnp138.vcf.gz.tbi
 │   ├── Homo_sapiens_assembly38.known_indels.vcf.gz
@@ -67,10 +74,12 @@ The workflow generates the following directory structure (in human mode):
 │   ├── Mills_and_1000G_gold_standard.indels.hg38.vcf.gz
 │   └── Mills_and_1000G_gold_standard.indels.hg38.vcf.gz.tbi
 ├── germline_variants
-│   ├── af_only_gnomad_hg38.vcf.gz
-│   ├── af_only_gnomad_hg38.vcf.gz.tbi
-│   ├── common_biallelic_chr1.vcf.gz
-│   ├── common_biallelic_chr1.vcf.gz.tbi
+│   ├── gnomAD
+│   │   └── {exomes,genomes}
+│   │       ├── af_only_gnomad_hg38.vcf.gz
+│   │       ├── af_only_gnomad_hg38.vcf.gz.tbi
+│   │       ├── common_biallelic_chr1.vcf.gz
+│   │       └── common_biallelic_chr1.vcf.gz.tbi
 │   ├── dbSNP_151.vcf.gz
 │   └── dbSNP_151.vcf.gz.tbi
 ├── mappability
@@ -86,13 +95,13 @@ The workflow generates the following directory structure (in human mode):
 ├── ref_annot_metadata_SwissProt.tsv
 ├── ref_annot_metadata_TrEMBL.tsv
 ├── ref_genome_primary.fasta
-├── ref_genome_grc_masked.fasta
-├── ref_genome_masked_final.fasta
 ├── ref_genome.fasta
 ├── ref_genome.fasta.fai
 ├── ref_genome.dict
 ├── ref_transcripts.fasta
-├── ucsc_repeatmasker_dump.txt.gz
+├── ref_genome_repeatmasker.bed
+├── uniprot
+│   └── uniprot_annotations.tsv
 └── viruses
     └── tcga_virus_decoy.fasta
 ```
@@ -151,8 +160,9 @@ downloaded.
 
 > Note: We do not mask the repetitive regions in the ref_genome.fasta file
 
-- `ucsc_repeatmasker_dump.txt.gz`: Repeat masker regions from
-  [UCSC golden path](https://hgdownload.soe.ucsc.edu/downloads.html)
+- `ref_genome_repeatmasker.bed`: Repeat masker regions from
+  [UCSC golden path](https://hgdownload.soe.ucsc.edu/downloads.html) translated
+  into BED format.
 
 ### Exome definition
 
@@ -205,7 +215,9 @@ The germline variants are downloaded from
 available when `pull_resources` was run in human mode. The GNOMAD version has to
 be specified in the config file (see [Configuration](configuration.md)). Default
 is v4.1 and tests were done for v4.1. For every file an index is created with
-tabix v1.11.
+tabix v1.11. For gnomAD, the files `af_only_gnomad_hg38.vcf.gz` and
+`common_biallelic_chr1.vcf.gz` are both generated for exomes and genomes and are
+found in the respective subdirectory.
 
 - `af_only_gnomad_hg38.vcf.gz`: GNOMAD exome variants annotated only with
   population allele frequency for
@@ -226,12 +238,17 @@ tabix v1.11.
     is described)
 - `dbSNP_151.vcf.gz`: dbSNP from
   [NCBI FTP server](https://ftp.ncbi.nih.gov/snp/organisms/human_9606_b151_GRCh38p7/VCF/).
-  Currently only version 151 is supported.
+  Currently only version 151 is supported for human.
   - This file is downloaded from
     [NCBI FTP](https://ftp.ncbi.nih.gov/snp/organisms/human_9606_b151_GRCh38p7/VCF/)
     and ENSEMBl chromosome names (without chr) are translated to Gencode
     chromosome names (with chr) using
     [chromosome mappings](https://github.com/dpryan79/ChromosomeMappings).
+  - In mouse mode, the dbSNP file is named `dbSNP_mouse.vcf.gz` and is
+    downloaded from [Ensembl FTP](https://ftp.ensembl.org/pub/) for the matching
+    Ensembl version to the config specified GENCODE version. The chromosome
+    names are adjusted to GENCODE convention via
+    https://github.com/dpryan79/ChromosomeMappings.
 
 ### Mappability
 
@@ -244,6 +261,15 @@ transformed to bed format using `ucsc-bigbedtobed` v469.
 - `encode_exclusion.bed`: File `encBlacklist.bb` transformed to bed format.
 - `grcExclusions.bed`: File `grcExclusions.bb` transformed to bed format.
 - `ucsc_problematic.bed`: File `comments.bb` transformed to bed format.
+
+### UniProt
+
+The file `resources/uniprot/uniprot_annotations.tsv` contains data fetched from
+https://rest.uniprot.org/uniprotkb/stream for the fields specified in
+`workflow/scripts/programatically_get_uniprot.y`. The table contains the column
+`transcript_id` which contains the GENCODE identifiers retrieved from the TrEMBL
+and SwissProt mappings fetched from GENCODE
+(`resources/ref_annot_metadata_{TrEMBL,SwissProt}.tsv`).
 
 ### Viruses
 
