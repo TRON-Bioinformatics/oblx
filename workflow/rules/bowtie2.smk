@@ -29,7 +29,7 @@ output:
     resources:
         mem_mb=16000,
     params:
-        prefix=lambda wildcards, output: os.path.splitext(output.index_files[0])[0],
+        prefix=lambda wildcards, output: get_bowtie2_prefix(output.index_files),
     shell:
         """
         bowtie2-build \

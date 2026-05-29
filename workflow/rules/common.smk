@@ -1,3 +1,6 @@
+import os.path
+
+
 def get_genome_for_index_building(wildcards):
     """
     Get genome fasta file depending on organism
@@ -200,3 +203,19 @@ def get_organism_germline_variants(wildcards):
         return "resources/germline_variants/dbSNP_mouse.vcf.gz"
     else:
         raise ValueError(f"Unsupported organism: {organism}")
+
+
+def get_bowtie2_prefix(index_files: list[str]):
+    """
+    So specify where bowtie2's index files are generated, it is provided with a
+    `bt2_base` arg, which contains the path to the dir to which the index files
+    should be written, as well as the prefix which prefix all the index files
+    should have. See
+    https://bowtie-bio.sourceforge.net/bowtie2/manual.shtml#the-bowtie2-build-indexer
+    for more on this.
+    """
+    # We need the dirname, and do some processing on the basename.
+    dirname, basename = os.path.split(index_files[0])
+
+    # Join the dirname back in and get everything up to the first '.'.
+    return os.path.join(dirname, basename.split(".")[0])
