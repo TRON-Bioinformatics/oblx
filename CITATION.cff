@@ -27,6 +27,7 @@ authors:
   - given-names: Franziska
     family-names: Lang
     affiliation: TRON Mainz
+    orcid: 'https://orcid.org/0000-0002-0794-7446'
 repository-code: >-
   https://github.com/TRON-Bioinformatics/tronmake-genome-lib-builder
 abstract: >-
