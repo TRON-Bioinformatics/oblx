@@ -1,0 +1,40 @@
+# This CITATION.cff file was generated with cffinit.
+# Visit https://bit.ly/cffinit to generate yours today!
+
+cff-version: 1.2.0
+title: tronmake-genome-lib-builder
+message: >-
+  If you use this software, please cite it using our manuscript and the
+  metadata from this file.
+type: software
+authors:
+  - given-names: Luis
+    family-names: Kress
+    affiliation: 'TRON Mainz '
+    orcid: 'https://orcid.org/0009-0000-6440-3114'
+  - given-names: Jonas
+    family-names: Freimuth
+    affiliation: TRON Mainz
+    orcid: 'https://orcid.org/0000-0002-9259-3696'
+  - given-names: Johannes
+    family-names: Hausmann
+    affiliation: TRON Mainz
+    orcid: 'https://orcid.org/0009-0004-5021-555X'
+  - given-names: Jonas
+    family-names: Ibn-Salem
+    affiliation: TRON Mainz
+    orcid: 'https://orcid.org/0000-0001-9886-113X'
+  - given-names: Franziska
+    family-names: Lang
+    affiliation: TRON Mainz
+repository-code: >-
+  https://github.com/TRON-Bioinformatics/tronmake-genome-lib-builder
+abstract: >-
+  The TronMake Genome Lib Builder system is leveraged for
+  preparing a reference genome and annotation set for use
+  with SnakeMake and NextFlow based pipelines, including
+  cancer-specific alternative splicing and somatic mutation
+  discovery. The genome resource building process creates a
+  unified annotation set based on GENCODE reference
+  annotation and the GATK resource bundle (hg38).
+license: MIT
