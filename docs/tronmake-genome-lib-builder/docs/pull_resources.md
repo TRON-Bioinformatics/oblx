@@ -273,10 +273,14 @@ and SwissProt mappings fetched from GENCODE
 
 ### Viruses
 
-Viral sequences in fasta format that can be used for contamination detection and
-profiling. The list of viruses (`workflow/resources/tcga_viruses.tsv`) was
-downloaded from
+Genome sequences of common cancer related viruses in fasta format that can be
+used for contamination detection and profiling. The list of viruses
+(`workflow/resources/tcga_viruses.tsv`) was downloaded from
 [TCGA](https://gdc.cancer.gov/system/files/public/file/GRCh83.d1.vd1_virus_decoy.txt).
+The viral decoy sequences listed in this file can be appended to the reference
+genome (resources/ref_genome.fasta) to enable investigation of reads mapping to
+viral sequences. If this is desired, all tool-specific indices that depend on
+the reference FASTA (e.g., aligner index) must be rebuilt from the updated file.
 Viral sequences are only downloaded in human mode.
 
 ### Overview of downloaded resources in human-mode
