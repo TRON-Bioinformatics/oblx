@@ -117,7 +117,7 @@ Generate hisat2 HGFM index including SNPs and splice-sites.
         # hisat2 recommends at least 160 GB in this step for human genome
         # indexing, so we set the memory limit to 200 GB to be safe.
         # During testing, 170GB turned out to not be sufficient.
-        mem_mb=200 * 1e3,
+        mem_mb=lambda _: 250 * 1e3 if config["organism"] == "mouse" else 200 * 1e3,
     params:
         # Remove trailing .ht2 and number to get the correct prefix for hisat2-build
         prefix=lambda wildcards, output: os.path.splitext(
