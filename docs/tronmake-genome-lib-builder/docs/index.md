@@ -40,7 +40,13 @@ git clone https://gitlab.rlp.net/tron/tronmake-genome-lib-builder.git
 ```
 
 Install Snakemake (see
-https://snakemake.readthedocs.io/en/stable/getting_started/installation.html).
+[https://snakemake.readthedocs.io](https://snakemake.readthedocs.io/en/stable/getting_started/installation.html))
+and pandas (see
+[https://pandas.pydata.org](https://pandas.pydata.org/docs/getting_started/install.html)).
+
+> Note: We recommend using pixi
+> ([https://pixi.prefix.dev/](https://pixi.prefix.dev/)) to replicate the
+> environment used in the tests. Therefore, install pixi and run `pixi shell`.
 
 ## Usage
 
