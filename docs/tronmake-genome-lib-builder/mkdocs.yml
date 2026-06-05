@@ -1,7 +1,7 @@
 site_name: TronMake Genome Lib Builder
 nav:
   - Home: index.md
-  - Pull Resources: pull_resources.md
+  - Download Resources: pull_resources.md
   - Build Indices: build_indices.md
   - Configuration: configuration.md
   - Developer Guide: developer_guide.md
