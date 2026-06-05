@@ -9,33 +9,26 @@
 
 <!-- badges: end -->
 
-The **TRON Genome Library** is a unified resource collection used by next
-generation sequencing (NGS) analysis pipelines developed by the computational
-medicine group at [TRON](https://github.com/TRON-Bioinformatics). The TronMake
-Genome Lib Builder system is leveraged for preparing a reference genome and
-annotation set for use with SnakeMake and NextFlow based pipelines, including
-cancer-specific alternative splicing and somatic mutation discovery. The genome
-resource building process creates a unified annotation set based on GENCODE
-reference annotation and the GATK resource bundle (hg38). The workflow is
-implemented in SnakeMake (Mölder et al., 2021) for reproducible downloading and
-building of genome resource data.
-
 Documentation: https://urban-guacamole-qmm473j.pages.github.io/
 
-The following pipelines are compatible with the TRON Genome Library:
+<img src="resources/workflow_graph.png" width="60%">
 
-- TronFlow
-
-  - [tronflow-alignment](https://github.com/TRON-Bioinformatics/tronflow-alignment)
-  - [tronflow-strelka2](https://github.com/TRON-Bioinformatics/tronflow-strelka2)
-  - [tronflow-mutect2](https://github.com/TRON-Bioinformatics/tronflow-mutect2)
-  - [tronflow-haplotype-caller](https://github.com/TRON-Bioinformatics/tronflow-haplotype-caller)
-  - [tronflow-bam-preprocessing](https://github.com/TRON-Bioinformatics/tronflow-bam-preprocessing)
-
-- [splice2neo](https://github.com/TRON-Bioinformatics/splice2neo)
-
-Pre-built TRON Genome Libraries will be available for download for you to use
-and cite.
+The **TronMake Genome Lib Builder** is a Snakemake (Mölder et al., 2021)
+pipeline which downloads reference genomes, genome annotations as well as
+further resources and generates based on these indexes required for various
+bioinformatics tools and pipelines. The pipeline consists of two independently
+executable stages: [*Download Resources*](pull_resources.md#download-resources)
+and [*Build Indices*](build_indices.md#build-indices). *Download Resources*
+retrieves the reference genome, genome annotation and other resources and
+prepares the data for bioinformatics index generation. The reference genome and
+genome annotation is downloaded from [GENCODE](https://www.gencodegenes.org/)
+and the preferred genome assembly version, GENCODE release and organism can be
+specified. Furthermore, resources from GATK, UCSC and GnomAD are retrieved (for
+details see [*Download Resources*](pull_resources.md#download-resources)
+section). *Build Indices* generates bioinformatics tool specific indices. The
+generated genome library is consistent with respect to the chromosome,
+transcript and gene naming and supports an extensive set of bioinformatics
+tools.
 
 ## Installation
 
