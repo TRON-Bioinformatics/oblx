@@ -1,9 +1,9 @@
-# Pull Resources
+# Download Resources
 
-The pull resources workflow downloads resources required for common NGS analysis
-pipeline. The resources include data from the following sources, among others.
-The pulled resources are the basis to [build indices](build_indices.md) for
-several bioinformatics tools.
+The pull resources workflow downloads resources required for common
+bioinformatics analyses. The resources include data from the following sources,
+among others. The pulled resources are the basis to
+[build indices](build_indices.md) for several bioinformatics tools.
 
 - [Gencode](https://www.gencodegenes.org/)
 - [GATK](https://gatk.broadinstitute.org/hc/en-us)
@@ -13,7 +13,7 @@ several bioinformatics tools.
 ## Input
 
 No input is required. However, the organism and release on which the downloaded
-resources should be based on has to be specified in the
+resources should be based on can be specified in the
 [config file](configuration.md).
 
 ## Usage
@@ -45,9 +45,12 @@ snakemake --until pull_resources \
 ## Output
 
 The pull resources step gathers all files that are required for index generation
-or that are directly used by downstream tools.
+or that are directly used by downstream tools. An overview of all
+downloaded/generated resources is given for
+[human](#overview-of-downloaded-resources-in-human-mode)- and
+[mouse](#overview-of-downloaded-resources-in-mouse-mode)-mode.
 
-The workflow generates the following directory structure:
+The workflow generates the following directory structure (in human mode):
 
 ```
 </path/to/output/dir>/resources
@@ -248,3 +251,12 @@ Viral sequences in fasta format that can be used for contamination detection and
 profiling. The list of viruses (`workflow/resources/tcga_viruses.tsv`) was
 downloaded from
 [TCGA](https://gdc.cancer.gov/system/files/public/file/GRCh83.d1.vd1_virus_decoy.txt).
+Viral sequences are only downloaded in human mode.
+
+### Overview of downloaded resources in human-mode
+
+{{ read_table("resources/human_resources.tsv") }}
+
+### Overview of downloaded resources in mouse-mode
+
+{{ read_table("resources/mouse_resources.tsv") }}

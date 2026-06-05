@@ -1,0 +1,42 @@
+Path in Genome Library	Origin	Short description
+resources/chromosome_sizes.txt	GENCODE	Chromosome sizes file for the resources/ref_genome.fasta file.
+resources/exome_definition/ref_cds.bed	GENCODE	Reference CDS BED containing all CDS regions specified in the GTF.
+resources/exome_definition/ref_exome.bed	GENCODE	Reference exome BED containing all exonic regions specified in the GTF with N positions padded left and right (defined with config parameter `intron_slop`).
+resources/exome_definition/ref_exome.bed.gz	GENCODE	Bgzipped file of ref_exome.bed.
+resources/exome_definition/ref_exome.bed.gz.tbi	GENCODE	Tabix of ref_exome.bed.
+resources/exome_definition/twist_comprehensive_exome.bed	UCSC	Twist comprehensive exome definition BED.
+resources/exome_definition/twist_core_exome.bed	UCSC	Twist core exome definition BED.
+resources/exome_definition/twist_exome2.bed	UCSC	Twist Exome2 definition BED.
+resources/exome_definition/twist_refseq.bed	UCSC	Twist RefSeq exome definition BED.
+resources/gatk_bundle/1000G_omni2.5.hg38.vcf.gz	GATK	1000 Genomes Omni 2.5 SNP resource VCF.
+resources/gatk_bundle/1000G_phase1.snps.high_confidence.hg38.vcf.gz	GATK	1000 Genomes high-confidence SNP resource VCF.
+resources/gatk_bundle/hapmap_3.3.hg38.vcf.gz	GATK	HapMap 3.3 SNP resource VCF.
+resources/gatk_bundle/Homo_sapiens_assembly38.dbsnp138.vcf.gz	GATK	GATK dbSNP 138 VCF.
+resources/gatk_bundle/Homo_sapiens_assembly38.known_indels.vcf.gz	GATK	GATK known indels VCF.
+resources/gatk_bundle/Mills_and_1000G_gold_standard.indels.hg38.vcf.gz	GATK	GATK gold-standard indel resource VCF.
+resources/germline_variants/dbSNP_151.vcf.gz	dbSNP	dbSNP 151 germline variant VCF.
+resources/germline_variants/gnomAD/exomes/af_only_gnomad_hg38.vcf.gz	GnomAD	GnomAD exomes allele-frequency-only VCF.
+resources/germline_variants/gnomAD/exomes/af_only_gnomad_hg38.vcf.gz.tbi	GnomAD	Tabix index for the GnomAD exomes VCF.
+resources/germline_variants/gnomAD/exomes/common_biallelic_chr1.vcf.gz	GnomAD	Common biallelic chr1 variants from GnomAD exomes.
+resources/germline_variants/gnomAD/exomes/common_biallelic_chr1.vcf.gz.tbi	GnomAD	Tabix index for the GnomAD exomes chr1 VCF.
+resources/germline_variants/gnomAD/genomes/af_only_gnomad_hg38.vcf.gz	GnomAD	GnomAD genomes allele-frequency-only VCF.
+resources/germline_variants/gnomAD/genomes/af_only_gnomad_hg38.vcf.gz.tbi	GnomAD	Tabix index for the GnomAD genomes VCF.
+resources/germline_variants/gnomAD/genomes/common_biallelic_chr1.vcf.gz	GnomAD	Common biallelic chr1 variants from GnomAD genomes.
+resources/germline_variants/gnomAD/genomes/common_biallelic_chr1.vcf.gz.tbi	GnomAD	Tabix index for the GnomAD genomes chr1 VCF.
+resources/mappability/encode_exclusion.bed	UCSC	ENCODE exclusion regions BED (downloaded from UCSC).
+resources/mappability/grcExclusions.bed	UCSC	GRC exclusion regions BED (downloaded from UCSC) used to mask the reference genome in human mode.
+resources/mappability/ucsc_problematic.bed	UCSC	UCSC problematic regions BED (downloaded from UCSC).
+resources/ref_annot.bed	GENCODE	BED12 transcript annotation derived from the GTF.
+resources/ref_annot.gtf	GENCODE	Comprehensive gene annotation GTF based on the primary assembly.
+resources/ref_annot_gene2symbol.tsv	GENCODE	Gene-to-symbol mapping table.
+resources/ref_annot_metadata_SwissProt.tsv	GENCODE	UniProtKB/SwissProt entry associated to the transcript (from Ensembl xref pipeline)
+resources/ref_annot_metadata_TrEMBL.tsv	GENCODE	UniProtKB/TrEMBL entry associated to the transcript (from Ensembl xref pipeline)
+resources/ref_annot_splice_sites.tsv	GENCODE	Splice sites of reference transcripts generated from the GTF (see https://github.com/TRON-Bioinformatics/splice2neo)
+resources/ref_annot_transcript2gene.tsv	GENCODE	Transcript-to-gene mapping table.
+resources/ref_genome.dict	GENCODE	Sequence dictionary for the reference genome (generated with GATK CreateSequenceDictionary).
+resources/ref_genome.fasta.fai	GENCODE	Index for the reference genome FASTA.
+resources/ref_genome_primary.fasta	GENCODE	Primary assembly genome FASTA downloaded from Gencode.
+resources/ref_genome_repeatmasker.bed	UCSC	RepeatMasker-derived genome repeat regions BED downloaded from UCSC.
+resources/ref_transcripts.fasta	GENCODE	Transcript sequences FASTA derived from Gencode resources.
+resources/uniprot/uniprot_annotations.tsv	UniProt	Combined UniProt annotation table with current status (directly downloaded from UniProt's rest API) of SwissProt and TrEMBL. The `transcript_id` column maps to the transcript identifiers specified in the `ref_annot.gtf` file.
+resources/viruses/tcga_virus_decoy.fasta	TCGA/GenBank	Viral decoy FASTA used for contamination/decoy-aware analyses.
