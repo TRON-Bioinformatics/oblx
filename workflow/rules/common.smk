@@ -177,14 +177,14 @@ def get_build_indices_output(wildcards):
     # hisat2 files
     final_files.extend(
         [
-            "indices/hisat2/genome.1.ht2",
-            "indices/hisat2/genome.2.ht2",
-            "indices/hisat2/genome.3.ht2",
-            "indices/hisat2/genome.4.ht2",
-            "indices/hisat2/genome.5.ht2",
-            "indices/hisat2/genome.6.ht2",
-            "indices/hisat2/genome.7.ht2",
-            "indices/hisat2/genome.8.ht2",
+            "indices/hisat2/genome.1.ht2l",
+            "indices/hisat2/genome.2.ht2l",
+            "indices/hisat2/genome.3.ht2l",
+            "indices/hisat2/genome.4.ht2l",
+            "indices/hisat2/genome.5.ht2l",
+            "indices/hisat2/genome.6.ht2l",
+            "indices/hisat2/genome.7.ht2l",
+            "indices/hisat2/genome.8.ht2l",
         ]
     )
 

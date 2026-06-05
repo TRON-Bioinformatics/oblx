@@ -80,6 +80,7 @@ Generate hisat2 exon file for genome indexing.
         """
 
 
+# FIXME Use large index only for mouse.
 rule hisat2_index:
     """
 Generate hisat2 HGFM index including SNPs and splice-sites.
@@ -93,14 +94,14 @@ Generate hisat2 HGFM index including SNPs and splice-sites.
     output:
         multiext(
             "indices/hisat2/genome",
-            ".1.ht2",
-            ".2.ht2",
-            ".3.ht2",
-            ".4.ht2",
-            ".5.ht2",
-            ".6.ht2",
-            ".7.ht2",
-            ".8.ht2",
+            ".1.ht2l",
+            ".2.ht2l",
+            ".3.ht2l",
+            ".4.ht2l",
+            ".5.ht2l",
+            ".6.ht2l",
+            ".7.ht2l",
+            ".8.ht2l",
         ),
     log:
         "logs/hisat2/hisat2_index.log",
@@ -125,7 +126,10 @@ Generate hisat2 HGFM index including SNPs and splice-sites.
         )[0],
     shell:
         """
+        # Due to the large amount of SNPs for the mouse genome, we need to use
+        # a large hisat2 index, else it can't deal with such large numbers.
         hisat2-build \
+            --large-index \
             --threads {threads} \
             "{input.fasta}" \
             --snp "{input.snp}" \
