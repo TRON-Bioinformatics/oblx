@@ -1,0 +1,21 @@
+Path in Genome Library	Origin	Short description
+resources/chromosome_sizes.txt	GENCODE	Chromosome sizes file for the resources/ref_genome.fasta file.
+resources/exome_definition/ref_cds.bed	GENCODE	Reference CDS BED containing all CDS regions specified in the GTF.
+resources/exome_definition/ref_exome.bed	GENCODE	Reference exome BED containing all exonic regions specified in the GTF with N positions padded left and right (defined with config parameter `intron_slop`).
+resources/exome_definition/ref_exome.bed.gz	GENCODE	Bgzipped file of ref_exome.bed.
+resources/exome_definition/ref_exome.bed.gz.tbi	GENCODE	Tabix of ref_exome.bed.
+resources/germline_variants/dbSNP_mouse.vcf.gz	dbSNP	dbSNP germline variant VCF.
+resources/germline_variants/dbSNP_mouse.vcf.gz.tbi	dbSNP	Tabix index for the dbSNP VCF.
+resources/ref_annot.bed	GENCODE	BED12 transcript annotation derived from the GTF.
+resources/ref_annot.gtf	GENCODE	Comprehensive gene annotation GTF based on the primary assembly.
+resources/ref_annot_gene2symbol.tsv	GENCODE	Gene-to-symbol mapping table.
+resources/ref_annot_metadata_SwissProt.tsv	GENCODE	UniProtKB/SwissProt entry associated to the transcript (from Ensembl xref pipeline)
+resources/ref_annot_metadata_TrEMBL.tsv	GENCODE	UniProtKB/TrEMBL entry associated to the transcript (from Ensembl xref pipeline)
+resources/ref_annot_splice_sites.tsv	GENCODE	Splice sites of reference transcripts generated from the GTF (see https://github.com/TRON-Bioinformatics/splice2neo)
+resources/ref_annot_transcript2gene.tsv	GENCODE	Transcript-to-gene mapping table.
+resources/ref_genome.dict	GENCODE	Sequence dictionary for the reference genome (generated with GATK CreateSequenceDictionary).
+resources/ref_genome.fasta.fai	GENCODE	Index for the reference genome FASTA.
+resources/ref_genome_primary.fasta	GENCODE	Primary assembly genome FASTA downloaded from Gencode.
+resources/ref_genome_repeatmasker.bed	UCSC	RepeatMasker-derived genome repeat regions BED downloaded from UCSC.
+resources/ref_transcripts.fasta	GENCODE	Transcript sequences FASTA derived from Gencode resources.
+resources/uniprot/uniprot_annotations.tsv	UniProt	Combined UniProt annotation table with current status (directly downloaded from UniProt's rest API) of SwissProt and TrEMBL. The `transcript_id` column maps to the transcript identifiers specified in the `ref_annot.gtf` file.

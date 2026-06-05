@@ -4,8 +4,8 @@ nav:
   - Download Resources: pull_resources.md
   - Build Indices: build_indices.md
   - Configuration: configuration.md
+  - Supported Tools: supported_tools.md
   - Developer Guide: developer_guide.md
-  - About: about.md
 theme:
   name: material
   features:

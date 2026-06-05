@@ -28,7 +28,8 @@ details see [*Download Resources*](pull_resources.md#download-resources)
 section). *Build Indices* generates bioinformatics tool specific indices. The
 generated genome library is consistent with respect to the chromosome,
 transcript and gene naming and supports an extensive set of bioinformatics
-tools.
+tools. All supported tools are listed in
+[Supported Tools](supported_tools.md#supported-tools).
 
 ## Installation
 
@@ -36,56 +37,60 @@ Clone the repository:
 
 ```
 git clone https://gitlab.rlp.net/tron/tronmake-genome-lib-builder.git
-cd tronmake-genome-lib-builder
 ```
 
-Enter a shell environment containing snakemake:
-
-```
-pixi shell
-```
+Install Snakemake (see
+https://snakemake.readthedocs.io/en/stable/getting_started/installation.html).
 
 ## Usage
 
-The workflow consists of two stages.
-
-1. Pulling resource data from Gencode, UCSC and GATK.
-
-```
-snakemake -s workflow/pull_resources.smk \
-    --directory </path/to/output/directory> \
-    --software-deployment-method conda \
-    --latency-wait 60 \
-    [--configfile <path/to/config/file>] \
-    [--conda-prefix </path/to/shared/conda/>] \
-    [--profile </path/to/cluster/profile/>]
-```
-
-2. Building genome indices
+The stages [*Download Resources*](pull_resources.md#download-resources) and
+[*Build Indices*](build_indices.md#build-indices) are run consecutively when
+executing (to run them independently check the respective section):
 
 ```
-snakemake -s workflow/build_indices.smk \
-    --directory </path/to/output/directory> \
-    --software-deployment-method conda \
-    --latency-wait 60 \
-    [--configfile <path/to/config/file>] \
-    [--conda-prefix </path/to/shared/conda/>] \
-    [--profile </path/to/cluster/profile/>]
+snakemake -s workflow/Snakefile \
+  --directory </path/to/output/directory> \
+  --software-deployment-method [conda|apptainer] \
+  --latency-wait 60 \ # to account for writing latency of large files
+  [--configfile <path/to/config/file>] \
+  [--profile </path/to/cluster/profile/>]
 ```
 
-Both stages can be executed independently from each other. We recommend to build
-the genome library using the default resources pulled by
-`workflow/pull_resources.smk` by setting `--directory` in the build_indices step
-to the same path that was used for the `pull_resources` step. However, you can
-also download your own genome data and start with `workflow/build_indices.smk`.
+- `--directory`: Specifies the directory where the results of the workflow
+  should be stored.
+- `--software-deployment-method`: Can be either `conda` or `apptainer`.
+- `--latency-wait`: Wait for e.g. 60 seconds for files to be created due to IO
+  latency.
+- `--configfile` (optional): Defines e.g. the reference genome version that
+  should be used, see [Configuration](configuration.md)
+- `--conda-prefix` (optional): Specify a path where conda environments should be
+  stored (to reduce redundancy)
+- `--profile` (optional): Specify cluster profile to submit jobs e.g. to a HPC
 
-## Authors & Acknowledgements
+## Input
+
+The TronMake Genome Lib Builder does not require any input. You just have to
+specify the output directory and, if non default settings are desired, adapt the
+[Configuration](configuration.md#configuration).
+
+## Output
+
+The output of the pipeline is written to the directory specified with
+`--directory`. Descriptions of the resulting genome resources can be found in
+the [*Download Resources*](pull_resources.md#download-resources) documentation
+while description of generated indices is provided in the
+[*Build Indices*](build_indices.md#build-indices) documentation.
+
+## Supported bioinformatics tools
+
+See [Supported Tools](supported_tools.md#supported-tools).
+
+## About
 
 The TronMake Genome Lib Builder was originally developed by Luis Kress and
 Johannes Hausmann at
 [TRON - Translational Oncology at the Medical Center of the Johannes Gutenberg University Mainz gGmbH (non-profit)](https://tron-mainz.de/).
-
-Maintenance is now lead by Luis Kress and Johannes Hausmann.
 
 Main developers:
 
