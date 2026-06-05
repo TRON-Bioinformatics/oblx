@@ -1,3 +1,5 @@
+<img src="resources/logo.png" width="80">
+
 ## TronMake Genome Lib Builder
 
 <!-- badges: start -->
