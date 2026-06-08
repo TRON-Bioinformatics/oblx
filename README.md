@@ -44,7 +44,7 @@ listed in
 
 ## Usage
 
-To run OBLX, use the following:
+To run OBLX, adapt and execute the following command:
 
 ```
 snakemake -s workflow/Snakefile \
