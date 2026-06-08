@@ -24,7 +24,7 @@ The most relevant tasks are:
 | `pixi run lint`          | Run all linters (Snakemake, Python, R, Markdown, shell, YAML, TOML). |
 | `pixi run style`         | Auto-format all files (same scope as `lint`).                        |
 | `pixi run lint-workflow` | Snakemake `--lint` of `workflow/Snakefile`.                          |
-| `pixi run documentation` | Build the MkDocs site under `docs/tronmake-genome-lib-builder/`.     |
+| `pixi run documentation` | Build the MkDocs site under `docs/oblx/`.                            |
 | `pixi run pin-rule-envs` | Pin conda environments in `workflow/envs/*.yaml` with snakedeploy.   |
 
 ## Tests
@@ -72,8 +72,8 @@ Before creating a new release:
 
 - If new resources are pulled or new indices are created, ensure they are
   documented (including the matching row in
-  `docs/tronmake-genome-lib-builder/docs/resources/{human,mouse}_resources.tsv`
-  or `supported_tools.tsv`).
+  `docs/oblx/docs/resources/{human,mouse}_resources.tsv` or
+  `supported_tools.tsv`).
 - Update `CHANGELOG.md`.
 - Bump the version in
   [`pixi.toml`](https://github.com/TRON-Private/tronmake-genome-lib-builder/blob/dev/pixi.toml).

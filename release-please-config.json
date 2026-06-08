@@ -20,7 +20,7 @@
     ],
     "packages": {
         ".": {
-            "package-name": "TRONMake-Genome-Lib-Builder",
+            "package-name": "oblx",
             "changelog-path": "CHANGELOG.md",
              "extra-files": [
                  {

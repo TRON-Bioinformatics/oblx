@@ -1,7 +1,7 @@
 .snakemake
 logs
 
-docs/tronmake-genome-lib-builder/site
+docs/oblx/site
 
 # pixi environments
 .pixi/*

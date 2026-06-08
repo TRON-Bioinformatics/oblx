@@ -6,7 +6,7 @@ authors = [
 ]
 channels = ["conda-forge", "bioconda"]
 description = "Reproducible generation of references and resources for next generation sequencing pipelines."
-name = "tronmake-genome-lib-builder"
+name = "oblx"
 platforms = ["linux-64"]
 version = "0.0.3"  # x-release-please-version
 
@@ -22,7 +22,7 @@ mkdocs-material = { channel = "conda-forge" }
 mkdocs-table-reader-plugin = { channel = "conda-forge" }
 
 [feature.docs.tasks]
-documentation = { cmd = "mkdocs build -f docs/tronmake-genome-lib-builder/mkdocs.yml", default-environment = "docs", description = "Build the MkDocs site under `docs/tronmake-genome-lib-builder/`." }
+documentation = { cmd = "mkdocs build -f docs/oblx/mkdocs.yml", default-environment = "docs", description = "Build the MkDocs site under `docs/oblx/`." }
 
 [feature.test.dependencies]
 pytest-workflow = { channel = "conda-forge" }

@@ -1,6 +1,6 @@
 <img src="resources/logo.png" width="80">
 
-## TronMake Genome Lib Builder
+## OBLX: Omics builder for Bioinformatics resource Libraries and indeXes
 
 <!-- badges: start -->
 
@@ -13,12 +13,12 @@ Documentation: https://urban-guacamole-qmm473j.pages.github.io/
 
 <img src="resources/workflow_graph.png" width="60%">
 
-The **TronMake Genome Lib Builder** is a Snakemake (Mölder et al., 2021)
-pipeline which downloads reference genomes, genome annotations and further
-resources, and generates from these the indices required for various
-bioinformatics tools and pipelines. The pipeline consists of two independently
-executable stages: [*Download Resources*](pull_resources.md#download-resources)
-and [*Build Indices*](build_indices.md#build-indices). *Download Resources*
+**OBLX** is a Snakemake (Mölder et al., 2021) pipeline which downloads reference
+genomes, genome annotations and further resources, and generates from these the
+indices required for various bioinformatics tools and pipelines. The pipeline
+consists of two independently executable stages:
+[*Download Resources*](pull_resources.md#download-resources) and
+[*Build Indices*](build_indices.md#build-indices). *Download Resources*
 retrieves the reference genome, genome annotation and other resources and
 prepares the data for bioinformatics index generation. The reference genome and
 genome annotation are downloaded from [GENCODE](https://www.gencodegenes.org/);
@@ -36,7 +36,7 @@ supports an extensive set of bioinformatics tools, all listed in
 Clone the repository:
 
 ```
-git clone https://gitlab.rlp.net/tron/tronmake-genome-lib-builder.git
+git clone https://github.com/TRON-Private/tronmake-genome-lib-builder.git
 ```
 
 Install Snakemake (see
@@ -76,9 +76,9 @@ snakemake -s workflow/Snakefile \
 
 ## Input
 
-The TronMake Genome Lib Builder does not require any user-provided input. You
-only specify the output directory and, if non-default settings are desired,
-adapt the [configuration](configuration.md#configuration).
+OBLX does not require any user-provided input. You only specify the output
+directory and, if non-default settings are desired, adapt the
+[configuration](configuration.md#configuration).
 
 ## Output
 
@@ -94,8 +94,7 @@ See [Supported Tools](supported_tools.md#supported-bioinformatics-tools).
 
 ## About
 
-The TronMake Genome Lib Builder was originally developed by Luis Kress and
-Johannes Hausmann at
+OBLX was originally developed by Luis Kress and Johannes Hausmann at
 [TRON - Translational Oncology at the Medical Center of the Johannes Gutenberg University Mainz gGmbH (non-profit)](https://tron-mainz.de/).
 
 Main developers:
