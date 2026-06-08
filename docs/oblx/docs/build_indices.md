@@ -130,7 +130,11 @@ mode, see [Gencode reference files](pull_resources.md#gencode-reference-files)).
 Contains the index for hisat2 (based on the masked reference genome in human
 mode, see [Gencode reference files](pull_resources.md#gencode-reference-files)).
 The index was generated with the respective dbSNP VCF file (see
-[Germline Variants](pull_resources.md#germline-variants)).
+[Germline Variants](pull_resources.md#germline-variants)). Due to the large
+amount of SNPs available for mouse, we currently do not provide a hisat2 index
+for this organism (See
+[#174](https://github.com/TRON-Private/tronmake-genome-lib-builder/issues/174)
+for more on this).
 
 ### bwa_mem / bwa_mem2
 

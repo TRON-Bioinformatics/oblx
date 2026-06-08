@@ -174,19 +174,25 @@ def get_build_indices_output(wildcards):
             "indices/bowtie2/genome.rev.2.bt2",
         ]
     )
-    # hisat2 files
-    final_files.extend(
-        [
-            "indices/hisat2/genome.1.ht2",
-            "indices/hisat2/genome.2.ht2",
-            "indices/hisat2/genome.3.ht2",
-            "indices/hisat2/genome.4.ht2",
-            "indices/hisat2/genome.5.ht2",
-            "indices/hisat2/genome.6.ht2",
-            "indices/hisat2/genome.7.ht2",
-            "indices/hisat2/genome.8.ht2",
-        ]
-    )
+
+    # Currently, the mouse resources contain too many SNPs for the small index.
+    # As a workaround we do not provide a mouse hisat2 index.
+    # This is tracked in
+    # https://github.com/TRON-Private/tronmake-genome-lib-builder/issues/174.
+    if organism != "mouse":
+        # hisat2 files
+        final_files.extend(
+            [
+                "indices/hisat2/genome.1.ht2",
+                "indices/hisat2/genome.2.ht2",
+                "indices/hisat2/genome.3.ht2",
+                "indices/hisat2/genome.4.ht2",
+                "indices/hisat2/genome.5.ht2",
+                "indices/hisat2/genome.6.ht2",
+                "indices/hisat2/genome.7.ht2",
+                "indices/hisat2/genome.8.ht2",
+            ]
+        )
 
     return final_files
 
