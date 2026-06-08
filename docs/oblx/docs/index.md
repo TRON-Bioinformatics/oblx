@@ -14,7 +14,8 @@
 Documentation: https://urban-guacamole-qmm473j.pages.github.io/
 
 <p align="center">
-    <img src="resources/workflow_graph.png" width="60%">
+    <img src="resources/workflow_graph.png" width="60%"
+    alt="Brief visual description of OBLX, showing which resources are downloaded, which tool indices are created, for which purpose, and if that is for human usage only.">
 </p>
 
 **OBLX** is a Snakemake (Mölder et al., 2021) pipeline which downloads reference
