@@ -1,9 +1,6 @@
 """
 Unified Snakemake workflow to pull the required resources and build required
 indices all in one go.
-
-@author: Luis Kress (TRON), Johannes Hausmann (TRON)
-@version: 20241002
 """
 
 import os

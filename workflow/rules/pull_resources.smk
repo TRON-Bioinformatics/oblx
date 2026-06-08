@@ -1,8 +1,5 @@
 """
 Snakemake workflow to pull all reqiured reference files for GENCODE.
-
-@author: Luis Kress (TRON), Johannes Hausmann (TRON)
-@version: 20240522
 """
 
 
