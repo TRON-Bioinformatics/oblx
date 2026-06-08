@@ -1,5 +1,5 @@
 """
-Snakemake workflow to pull all reqiured reference files for GENCODE.
+Snakemake workflow to pull all required reference files for GENCODE.
 """
 
 
