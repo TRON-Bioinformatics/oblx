@@ -13,7 +13,7 @@
 
 **Documentation**: https://urban-guacamole-qmm473j.pages.github.io/
 
-<img src="docs/oblx/docs/resources/workflow_graph.png" alt="OBLX workflow graph" width="50%">
+<img src="docs/oblx/docs/resources/workflow_graph.png" alt="Brief visual description of OBLX, showing which resources are downloaded, which tool indices are created, for which purpose, and if that is for human usage only." width="50%">
 
 ______________________________________________________________________
 
