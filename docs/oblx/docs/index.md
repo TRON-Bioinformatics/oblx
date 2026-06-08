@@ -13,7 +13,9 @@
 
 Documentation: https://urban-guacamole-qmm473j.pages.github.io/
 
-<img src="resources/workflow_graph.png" width="60%">
+<p align="center">
+    <img src="resources/workflow_graph.png" width="60%">
+</p>
 
 **OBLX** is a Snakemake (Mölder et al., 2021) pipeline which downloads reference
 genomes, genome annotations and further resources, and generates from these the
