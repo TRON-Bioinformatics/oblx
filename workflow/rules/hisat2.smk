@@ -91,17 +91,7 @@ Generate hisat2 HGFM index including SNPs and splice-sites.
         ss="indices/hisat2/genome.ss",
         exon="indices/hisat2/genome.exon",
     output:
-        multiext(
-            "indices/hisat2/genome",
-            ".1.ht2",
-            ".2.ht2",
-            ".3.ht2",
-            ".4.ht2",
-            ".5.ht2",
-            ".6.ht2",
-            ".7.ht2",
-            ".8.ht2",
-        ),
+        expand("indices/hisat2/genome.{index}.ht2", index=range(1, 9)),
     log:
         "logs/hisat2/hisat2_index.log",
     benchmark:
