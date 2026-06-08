@@ -1,4 +1,4 @@
-<img src="resources/logo.png" width="80">
+<img src="resources/logo.png" alt="logo" width="25%">
 
 ## OBLX: Omics builder for Bioinformatics resource Libraries and indeXes
 
