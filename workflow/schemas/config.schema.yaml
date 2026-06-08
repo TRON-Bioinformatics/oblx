@@ -1,6 +1,6 @@
 $schema: "https://json-schema.org/draft/2020-12/schema"
 description: >-
-  Validation & defaults for the config of the TRONMake-Genome-Lib-Builder.
+  Validation & defaults for the OBLX config.
 properties:
   organism:
     description: >-

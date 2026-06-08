@@ -9,8 +9,8 @@ You can contribute in many ways:
 
 ### Implementation of further indices
 
-We welcome every contribution of additional indices as this makes the
-tronmake-genome-lib-builder even more helpful.
+We welcome every contribution of additional indices as this makes OBLX even more
+helpful.
 
 To add another index, create a rule in `build_indices.smk` that creates the
 index and add the output file path to the function get_build_indices_output in
