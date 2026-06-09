@@ -1,0 +1,42 @@
+# This CITATION.cff file was generated with cffinit.
+# Visit https://bit.ly/cffinit to generate yours today!
+
+cff-version: 1.2.0
+title: "OBLX: Omics builder for Bioinformatics resource Libraries and indeXes"
+message: >-
+  If you use this software, please cite it using our manuscript and the
+  metadata from this file.
+type: software
+authors:
+  - given-names: Luis
+    family-names: Kress
+    affiliation: TRON Mainz
+    orcid: 'https://orcid.org/0009-0000-6440-3114'
+  - given-names: Johannes
+    family-names: Hausmann
+    affiliation: TRON Mainz
+    orcid: 'https://orcid.org/0009-0004-5021-555X'
+  - given-names: Jonas
+    family-names: Freimuth
+    affiliation: TRON Mainz
+    orcid: 'https://orcid.org/0000-0002-9259-3696'
+  - given-names: Jonas
+    family-names: Ibn-Salem
+    affiliation: TRON Mainz
+    orcid: 'https://orcid.org/0000-0001-9886-113X'
+  - given-names: Franziska
+    family-names: Lang
+    affiliation: TRON Mainz
+    orcid: 'https://orcid.org/0000-0002-0794-7446'
+  - given-names: Barbara
+    family-names: Schrörs
+    affiliation: TRON Mainz
+    orcid: 'https://orcid.org/0000-0001-9758-250X'
+repository-code: >-
+  https://github.com/TRON-Bioinformatics/oblx
+abstract: >-
+  OBLX is a Snakemake pipeline which
+  downloads reference genomes, genome annotations and further resources, and
+  generates from these the indexes required for various bioinformatics tools and
+  pipelines.
+license: MIT
