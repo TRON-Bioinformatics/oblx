@@ -25,7 +25,7 @@ GATK HaplotypeCaller	https://github.com/broadinstitute/gatk	"• resources/ref_g
 • resources/exome_definition/ref_exome.bed.gz"
 GATK Mutect2	https://github.com/broadinstitute/gatk	"• resources/ref_genome.fasta
 • resources/ref_genome.fasta.fai
-• resources/germline_variants/af_only_gnomad_hg38.vcf.gz
+• resources/germline_variants/gnomAD/exomes/af_only_gnomad_hg38.vcf.gz
 • resources/exome_definition/ref_exome.bed.gz"
 hisat2	https://github.com/daehwankimlab/hisat2	"
 • indices/hisat2"
