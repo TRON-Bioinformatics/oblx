@@ -92,21 +92,27 @@ workflow. The following directory structure is being created:
 │   │   ├── genome.5.ht2
 │   │   ├── genome.6.ht2
 │   │   ├── genome.7.ht2
-│   │   └── genome.8.ht2
+│   │   ├── genome.8.ht2
+│   │   ├── genome.exon
+│   │   ├── genome.haplotype
+│   │   ├── genome.snp
+│   │   └── genome.ss
 │   ├── kallisto
 │   │   ├── ref_cdna.fa
 │   │   ├── ref_transcript.idx
 │   │   └── ref_transcript_to_gene.tsv
 │   ├── R
 │   │   ├── ref_annot_txdb.sqlite
+│   │   ├── ref_cds.Rds
 │   │   ├── ref_genome.2bit
-│   │   ├── ref_transcripts.Rds
 │   │   ├── ref_transcript_ranges.Rds
-│   │   └── ref_cds.Rds
+│   │   └── ref_transcripts.Rds
 │   ├── salmon
 │   │   ├── decoys.txt
 │   │   ├── gentrome.fasta
 │   │   ├── transcriptome_index
+│   │   │   ├── complete_ref_lens.bin
+│   │   │   └── ...
 │   │   └── requant_index
 │   │       └── transcripts.fa
 │   ├── snpeff
@@ -179,7 +185,7 @@ snpEff \
     -csvStats <path_to_stats_outcsvfile> \
     -c <path_to_generated_snpeff_config> \
     -nodownload \
-    <release> \
+    <genome_build>.<release> \
     <path_to_vcf_file>
 ```
 
