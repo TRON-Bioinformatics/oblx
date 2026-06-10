@@ -2,7 +2,7 @@
 
 The configuration file defines the parameters below. They are checked and
 defaults set via the schema file at
-[`workflow/schemas/config_validation.yaml`](/workflow/schemas/config_validation.yaml).
+[`workflow/schemas/config.schema.yaml`](/workflow/schemas/config.schema.yaml).
 
 - `organism`: Takes `human` or `mouse`
 - `release`: Gencode release version (starts with `M` for mouse)
@@ -33,7 +33,7 @@ defaults set via the schema file at
   (default: "https://hgdownload.soe.ucsc.edu/goldenPath")
 - `gatk_url` (only required in human mode): URL of GATK resource bundle
   (default:
-  "https://storage.googleapis.com/genomics-public-data/resources/broad/hg38/v0")
+  "https://storage.googleapis.com/gcp-public-data--broad-references/hg38/v0")
 - `gnomad_url` (only required in human mode): URL of GNOMAD (default:
   "https://storage.googleapis.com/gcp-public-data--gnomad/release")
 - `chrom_filter`: List of chromosome names that should be contained in the
@@ -58,7 +58,7 @@ gnomad_release: 4.1
 # adds the defined slop to the generic exome definition (+/- intron_slop bp of intronic sequence)
 intron_slop: 20
 
-# Paramter for STAR index creation. Adapt to the read size if necessary
+# Parameter for STAR index creation. Adapt to the read size if necessary
 star_sjdb_overhang: 100
 star_genome_sa_index_n_bases: 14
 
@@ -68,7 +68,7 @@ minimum_allele_frequency: 0.001
 gencode_url: "https://ftp.ebi.ac.uk/pub/databases/gencode"
 ucsc_url: "https://hgdownload.soe.ucsc.edu/gbdb/hg38"
 ucsc_golden_path_url: "https://hgdownload.soe.ucsc.edu/goldenPath"
-gatk_url: "https://storage.googleapis.com/genomics-public-data/resources/broad/hg38/v0"
+gatk_url: "https://storage.googleapis.com/gcp-public-data--broad-references/hg38/v0"
 gnomad_url: "https://storage.googleapis.com/gcp-public-data--gnomad/release"
 
 chrom_filter:
@@ -111,7 +111,7 @@ genome_build: GRCm39
 # adds the defined slop to the generic exome definition (+/- intron_slop bp of intronic sequence)
 intron_slop: 20
 
-# Paramter for STAR index creation. Adapt to the read size if necessary
+# Parameter for STAR index creation. Adapt to the read size if necessary
 star_sjdb_overhang: 100
 star_genome_sa_index_n_bases: 14
 

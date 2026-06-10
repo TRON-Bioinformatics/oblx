@@ -87,12 +87,14 @@ workflow. The following directory structure is being created:
 │   │   ├── ref_annot_txdb.sqlite
 │   │   ├── ref_genome.2bit
 │   │   ├── ref_transcripts.Rds
-│   │   ├── ref_transcript_ranges.Rds'
+│   │   ├── ref_transcript_ranges.Rds
 │   │   └── ref_cds.Rds
 │   ├── salmon
 │   │   ├── decoys.txt
 │   │   ├── gentrome.fasta
-│   │   └── transcriptome_index
+│   │   ├── transcriptome_index
+│   │   └── requant_index
+│   │       └── transcripts.fa
 │   ├── snpeff
 │   │   ├── data
 │   │   │   └── GRCh38.46
@@ -151,8 +153,8 @@ This directory contains the resources required to run snpEff predictor.
 
 The file `snpeff.config` has to be passed to snpEff with the command line option
 `-c` when running snpEff. Additionally, option `-nodownload` has to be set to
-the value of the name of the subfolder in `results/indices/snpeff/data` (e.g.
-`GRCh38.48`).
+the value of the name of the subfolder in `indices/snpeff/data` (e.g.
+`GRCh38.46`).
 
 Example usage
 
@@ -179,7 +181,11 @@ to be set as `--genomeDir` parameter, when running STAR mapping.
 ### Salmon
 
 Contains the [Salmon](https://salmon.readthedocs.io/en/latest/salmon.html)
-index.
+index. The `transcriptome_index` subdirectory holds the main gentrome-based
+index for quantification. The `requant_index/transcripts.fa` file is a
+transcript-only FASTA derived from the annotation and reference genome via
+`gffread`, intended for re-quantification workflows that require an
+annotation-consistent transcript sequence.
 
 ### Kallisto
 
