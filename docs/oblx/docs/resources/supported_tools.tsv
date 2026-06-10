@@ -5,7 +5,7 @@ Arriba	https://github.com/suhrig/arriba	"• resources/ref_genome.fasta
 bowtie2	https://github.com/benlangmead/bowtie2	• indices/bowtie2
 bwa-mem	https://github.com/lh3/bwa	• indices/bwa_mem/
 bwa-mem2	https://github.com/bwa-mem2/bwa-mem2	• indices/bwa_mem2/
-DeepVariant	https://github.com/google/deepvariant	"• resources/exome_definition/ref_cds.bed.gz
+DeepVariant	https://github.com/google/deepvariant	"• resources/exome_definition/ref_cds.bed
 • resources/exome_definition/ref_exome.bed.gz
 • resources/ref_genome.fasta
 "
