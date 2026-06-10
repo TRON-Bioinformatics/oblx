@@ -3,7 +3,7 @@
 The build indices workflow generates indices for the following bioinformatics
 tools. It builds the tool indices based on the previously
 [pulled resources](pull_resources.md). An extensive list of all supported
-bioinformatics tools can be found [here](supported_tools.md)
+bioinformatics tools can be found [here](supported_tools.md).
 
 > Note: When using the generated indices, it is essential to ensure that the
 > versions of the tools used in your analysis match the versions of the tools

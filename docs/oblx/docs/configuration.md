@@ -2,7 +2,7 @@
 
 The configuration file defines the parameters below. They are checked and
 defaults set via the schema file at
-[`workflow/schemas/config.schema.yaml`](/workflow/schemas/config.schema.yaml).
+[`workflow/schemas/config.schema.yaml`](https://github.com/TRON-Private/tronmake-genome-lib-builder/blob/dev/workflow/schemas/config.schema.yaml).
 
 - `organism`: Takes `human` or `mouse`
 - `release`: Gencode release version (starts with `M` for mouse)
@@ -40,8 +40,9 @@ defaults set via the schema file at
   `af_only_gnomad_hg38.vcf.gz` file
 
 On top of that, we use the
-[`config/container_config.yaml`](/config/container_config.yaml) file to specify
-URLs for the apptainer/docker containers to be used for `--sdm apptainer`.
+[`config/container_config.yaml`](https://github.com/TRON-Private/tronmake-genome-lib-builder/blob/dev/config/container_config.yaml)
+file to specify URLs for the apptainer/docker containers to be used for
+`--sdm apptainer`.
 
 ## Example Human
 
