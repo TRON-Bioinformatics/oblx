@@ -14,6 +14,7 @@ resources/ref_annot_metadata_TrEMBL.tsv	GENCODE	UniProtKB/TrEMBL entry associate
 resources/ref_annot_splice_sites.tsv	GENCODE	Splice sites of reference transcripts generated from the GTF (see https://github.com/TRON-Bioinformatics/splice2neo)
 resources/ref_annot_transcript2gene.tsv	GENCODE	Transcript-to-gene mapping table.
 resources/ref_genome.dict	GENCODE	Sequence dictionary for the reference genome (generated with GATK CreateSequenceDictionary).
+resources/ref_genome.fasta	GENCODE	Symlink to the primary assembly reference genome FASTA (in mouse mode).
 resources/ref_genome.fasta.fai	GENCODE	Index for the reference genome FASTA.
 resources/ref_genome_primary.fasta	GENCODE	Primary assembly genome FASTA downloaded from Gencode.
 resources/ref_genome_repeatmasker.bed	UCSC	RepeatMasker-derived genome repeat regions BED downloaded from UCSC.

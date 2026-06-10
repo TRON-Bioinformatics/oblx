@@ -9,12 +9,19 @@ resources/exome_definition/twist_core_exome.bed	UCSC	Twist core exome definition
 resources/exome_definition/twist_exome2.bed	UCSC	Twist Exome2 definition BED.
 resources/exome_definition/twist_refseq.bed	UCSC	Twist RefSeq exome definition BED.
 resources/gatk_bundle/1000G_omni2.5.hg38.vcf.gz	GATK	1000 Genomes Omni 2.5 SNP resource VCF.
+resources/gatk_bundle/1000G_omni2.5.hg38.vcf.gz.tbi	GATK	Tabix index for the 1000 Genomes Omni 2.5 VCF.
 resources/gatk_bundle/1000G_phase1.snps.high_confidence.hg38.vcf.gz	GATK	1000 Genomes high-confidence SNP resource VCF.
+resources/gatk_bundle/1000G_phase1.snps.high_confidence.hg38.vcf.gz.tbi	GATK	Tabix index for the 1000 Genomes high-confidence SNP VCF.
 resources/gatk_bundle/hapmap_3.3.hg38.vcf.gz	GATK	HapMap 3.3 SNP resource VCF.
+resources/gatk_bundle/hapmap_3.3.hg38.vcf.gz.tbi	GATK	Tabix index for the HapMap 3.3 VCF.
 resources/gatk_bundle/Homo_sapiens_assembly38.dbsnp138.vcf.gz	GATK	GATK dbSNP 138 VCF.
+resources/gatk_bundle/Homo_sapiens_assembly38.dbsnp138.vcf.gz.tbi	GATK	Tabix index for the GATK dbSNP 138 VCF.
 resources/gatk_bundle/Homo_sapiens_assembly38.known_indels.vcf.gz	GATK	GATK known indels VCF.
+resources/gatk_bundle/Homo_sapiens_assembly38.known_indels.vcf.gz.tbi	GATK	Tabix index for the GATK known indels VCF.
 resources/gatk_bundle/Mills_and_1000G_gold_standard.indels.hg38.vcf.gz	GATK	GATK gold-standard indel resource VCF.
+resources/gatk_bundle/Mills_and_1000G_gold_standard.indels.hg38.vcf.gz.tbi	GATK	Tabix index for the GATK gold-standard indel VCF.
 resources/germline_variants/dbSNP_151.vcf.gz	dbSNP	dbSNP 151 germline variant VCF.
+resources/germline_variants/dbSNP_151.vcf.gz.tbi	dbSNP	Tabix index for the dbSNP 151 VCF.
 resources/germline_variants/gnomAD/exomes/af_only_gnomad_hg38.vcf.gz	GnomAD	GnomAD exomes allele-frequency-only VCF.
 resources/germline_variants/gnomAD/exomes/af_only_gnomad_hg38.vcf.gz.tbi	GnomAD	Tabix index for the GnomAD exomes VCF.
 resources/germline_variants/gnomAD/exomes/common_biallelic_chr1.vcf.gz	GnomAD	Common biallelic chr1 variants from GnomAD exomes.
@@ -34,7 +41,10 @@ resources/ref_annot_metadata_TrEMBL.tsv	GENCODE	UniProtKB/TrEMBL entry associate
 resources/ref_annot_splice_sites.tsv	GENCODE	Splice sites of reference transcripts generated from the GTF (see https://github.com/TRON-Bioinformatics/splice2neo)
 resources/ref_annot_transcript2gene.tsv	GENCODE	Transcript-to-gene mapping table.
 resources/ref_genome.dict	GENCODE	Sequence dictionary for the reference genome (generated with GATK CreateSequenceDictionary).
+resources/ref_genome.fasta	GENCODE	Symlink to the final reference genome FASTA (masked in human mode, primary assembly in mouse mode).
 resources/ref_genome.fasta.fai	GENCODE	Index for the reference genome FASTA.
+resources/ref_genome_grc_masked.fasta	GENCODE	Primary assembly with GRC-flagged problematic regions hard-masked (human only).
+resources/ref_genome_masked_final.fasta	GENCODE	GRC-masked assembly with pseudoautosomal regions additionally hard-masked (human only).
 resources/ref_genome_primary.fasta	GENCODE	Primary assembly genome FASTA downloaded from Gencode.
 resources/ref_genome_repeatmasker.bed	UCSC	RepeatMasker-derived genome repeat regions BED downloaded from UCSC.
 resources/ref_transcripts.fasta	GENCODE	Transcript sequences FASTA derived from Gencode resources.
