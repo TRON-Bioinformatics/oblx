@@ -46,7 +46,7 @@ listed in
 
 To run OBLX, adapt and execute the following command:
 
-```
+```sh
 snakemake -s workflow/Snakefile \
   --directory </path/to/output/directory> \
   --software-deployment-method [conda|apptainer] \
