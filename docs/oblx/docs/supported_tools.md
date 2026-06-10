@@ -13,7 +13,7 @@ bash utils/write_sarek_config.sh </path/to/oblx/library> </path/to/output/nextfl
 
 And run nf-core/sarek with the previously generated nextflow.config file:
 
-```sh
+```
 nextflow run nf-core/sarek -r 3.8.1 \
 -c </path/to/output/nextflow.config> \
 -profile singularity \
