@@ -95,6 +95,8 @@ The workflow generates the following directory structure (in human mode):
 ├── ref_annot_metadata_SwissProt.tsv
 ├── ref_annot_metadata_TrEMBL.tsv
 ├── ref_genome_primary.fasta
+├── ref_genome_grc_masked.fasta
+├── ref_genome_masked_final.fasta
 ├── ref_genome.fasta
 ├── ref_genome.fasta.fai
 ├── ref_genome.dict
@@ -116,7 +118,7 @@ are hard masked in the reference fasta while repetitive regions are not masked.
 
 - `chromosome_sizes.txt`: Lengths of the chromosomes
 - `ref_annot.gtf`: Comprehensive gene annotation based on primary assembly (PRI)
-  (gencode.v<release>.primary_assembly.basic.annotation.gtf.gz)
+  (gencode.v<release>.primary_assembly.annotation.gtf.gz)
 - `ref_annot.bed`: BED12 file of the transcripts (transformed from GTF file)
 - `ref_genome.fasta`: Symlink to the primary assembly reference genome fasta.
   When pull_resources is run in human mode, the symlink points to the masked
@@ -266,7 +268,7 @@ transformed to bed format using `ucsc-bigbedtobed` v469.
 
 The file `resources/uniprot/uniprot_annotations.tsv` contains data fetched from
 https://rest.uniprot.org/uniprotkb/stream for the fields specified in
-`workflow/scripts/programatically_get_uniprot.y`. The table contains the column
+`workflow/scripts/programmatically_get_uniprot.py`. The table contains the column
 `transcript_id` which contains the GENCODE identifiers retrieved from the TrEMBL
 and SwissProt mappings fetched from GENCODE
 (`resources/ref_annot_metadata_{TrEMBL,SwissProt}.tsv`).
