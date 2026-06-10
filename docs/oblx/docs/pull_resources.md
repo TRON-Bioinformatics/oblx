@@ -33,7 +33,7 @@ snakemake --until pull_resources \
   should be stored.
 - `--software-deployment-method`: Either `conda` or `apptainer`. Container
   images for apptainer are configured in
-  [`config/container_config.yaml`](configuration.md).
+  [`config/container_config.yaml`](https://github.com/TRON-Private/tronmake-genome-lib-builder/blob/dev/config/container_config.yaml).
 - `--latency-wait`: Wait for e.g. 60 seconds for files to be created due to IO
   latency
 - `--configfile` (optional): Defines e.g. the reference genome version that
@@ -113,45 +113,48 @@ The workflow generates the following directory structure (in human mode):
 
 The following files are downloaded directly from
 [Gencode](https://www.gencodegenes.org/). In human mode, problematic regions
-defined by
-[GRC](https://ftp-trace.ncbi.nlm.nih.gov/ReferenceSamples/giab/release/references/README_GIAB_Mapping_References.md)
-are hard masked in the reference fasta while repetitive regions are not masked.
+defined by [GRC](https://www.ncbi.nlm.nih.gov/grc) are hard masked in the
+reference fasta while repetitive regions are not masked.
 
 - `chromosome_sizes.txt`: Lengths of the chromosomes
 - `ref_annot.gtf`: Comprehensive gene annotation based on primary assembly (PRI)
-  (gencode.v<release>.primary_assembly.annotation.gtf.gz)
+  (`gencode.v<release>.primary_assembly.annotation.gtf.gz`)
 - `ref_annot.bed`: BED12 file of the transcripts (transformed from GTF file)
 - `ref_genome.fasta`: Symlink to the primary assembly reference genome fasta.
   When pull_resources is run in human mode, the symlink points to the masked
-  genome (masking is based on `resources/mappability/grcExclusions.bed` which
-  contains a set of regions that have been flagged by the GRC to contain false
-  duplications or contamination sequences, downloaded from UCSC, see section
-  [Mappability](#mappability)). Additionally in human mode, pseudoautosomal
-  regions (defined in `workflow/resources/GRCh38_pseudoautosomal_regions.bed`
+  genome (masking is based on
+  [`resources/mappability/grcExclusions.bed`](https://github.com/TRON-Private/tronmake-genome-lib-builder/blob/dev/resources/mappability/grcExclusions.bed)
+  which contains a set of regions that have been flagged by the GRC to contain
+  false duplications or contamination sequences, downloaded from UCSC, see
+  section [Mappability](#mappability)). Additionally in human mode,
+  pseudoautosomal regions (defined in
+  [`workflow/resources/GRCh38_pseudoautosomal_regions.bed`](https://github.com/TRON-Private/tronmake-genome-lib-builder/blob/dev/workflow/resources/GRCh38_pseudoautosomal_regions.bed)
   from www.ensembl.org/info/genome/genebuild/human_PARS.html) are hard masked.
   If pull_resources is run in mouse mode, the symlink points to the primary
   assembly (`ref_genome_primary.fasta`).
 - `ref_genome_grc_masked.fasta` (Only given in human mode): Based on the primary
   assembly, problematic regions defined by GRC are hard masked (e.g. false
   duplications and contaminations,
-  https://ftp-trace.ncbi.nlm.nih.gov/ReferenceSamples/giab/release/references/README_GIAB_Mapping_References.md)
+  [see GIAB readme](https://ftp-trace.ncbi.nlm.nih.gov/ReferenceSamples/giab/release/references/README_GIAB_Mapping_References.md))
 - `ref_genome_masked_final.fasta` (Only given in human mode): Based on
   `ref_genome_grc_masked.fasta` file, pseudoautosomal regions (defined in
   `workflow/resources/GRCh38_pseudoautosomal_regions.bed` from
-  www.ensembl.org/info/genome/genebuild/human_PARS.html) are masked.
+  [Ensembl](https://www.ensembl.org/info/genome/genebuild/human_PARS.html)) are
+  masked.
 - `ref_annot_metadata_SwissProt.tsv`: UniProtKB/SwissProt entry associated to
   the transcript (from Ensembl xref pipeline
-  gencode.v<release>.metadata.SwissProt.gz)
+  `gencode.v<release>.metadata.SwissProt.gz`)
 - `ref_annot_metadata_TrEMBL.tsv`: UniProtKB/TrEMBL entry associated to the
-  transcript (from Ensembl xref pipeline gencode.v<release>.metadata.TrEMBL.gz)
+  transcript (from Ensembl xref pipeline
+  `gencode.v<release>.metadata.TrEMBL.gz`)
 - `ref_genome_primary.fasta`: Primary (PRI) assembly
-  (GRC<build>.primary_assembly.genome.fa.gz)
+  (`GRC<build>.primary_assembly.genome.fa.gz`)
 - `ref_transcripts.fasta`: Transcript sequences
-  (gencode.v<release>.transcripts.fa.gz)
+  (`gencode.v<release>.transcripts.fa.gz`)
 - `ref_annot_transcript2gene.tsv`: Translation of transcript ID to gene ID
   (transformed from GTF file)
 - `ref_annot_gene2symbol.tsv`: Translation of gene ID to gene symbol
-  (gencode.v<release>.metadata.HGNC.gz)
+  (`gencode.v<release>.metadata.HGNC.gz`)
 - `ref_annot_splice_sites.tsv`: Splice sites of reference transcripts generated
   from the GTF (see
   [splice2neo](https://github.com/TRON-Bioinformatics/splice2neo))
@@ -243,7 +246,7 @@ found in the respective subdirectory.
   - This file was created from exonic variants on chromosome 1 from GNOMAD.
     These variants are filtered for `AF > 0.05`, `--max-alleles 2` and `PASS`
     (these filters are described in the Mutect2 best practices workflow where
-    '[variants_for_contamination](https://github.com/broadinstitute/gatk/tree/master/scripts/mutect2_wdl)'
+    "[variants_for_contamination](https://github.com/broadinstitute/gatk/tree/master/scripts/mutect2_wdl)"
     is described)
 - `dbSNP_151.vcf.gz`: dbSNP from
   [NCBI FTP server](https://ftp.ncbi.nih.gov/snp/organisms/human_9606_b151_GRCh38p7/VCF/).
@@ -257,7 +260,7 @@ found in the respective subdirectory.
     downloaded from [Ensembl FTP](https://ftp.ensembl.org/pub/) for the matching
     Ensembl version to the config specified GENCODE version. The chromosome
     names are adjusted to GENCODE convention via
-    https://github.com/dpryan79/ChromosomeMappings.
+    [https://github.com/dpryan79/ChromosomeMappings](https://github.com/dpryan79/ChromosomeMappings).
 
 ### Mappability
 
