@@ -97,8 +97,11 @@ properties:
     default: https://storage.googleapis.com/gcp-public-data--gnomad/release
     type: string
   chrom_filter:
-    description:
-
+    description: >-
+      List of chromosome names to be included in the genomelib. Only needed when
+      organism is "human" as this currently only defines which chromosomes are
+      downloaded from gnomAD (chrM is not included at the moment as this would
+      require to download from gnomAD v3.1).
     default:
       - chr1
       - chr2
@@ -124,7 +127,6 @@ properties:
       - chr22
       - chrX
       - chrY
-      - chrM
     type: array
     items:
       type: string
