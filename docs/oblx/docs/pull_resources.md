@@ -169,9 +169,10 @@ downloaded.
 
 ### Exome definition
 
-The exome definition section covers exonic interval and CDS files for downstream
-variant calling tools. In human and mouse mode the following files can be found
-in this directory:
+The exome definition directory contains exonic and CDS (coding sequence) BED
+files. These files can be used e.g. to restrict specific variant callers (e.g.
+Mutect2) to only consider the specified regions for variant calling. In human
+and mouse mode the following files can be found in this directory:
 
 - `ref_cds.bed`: The CDS (coding sequence) intervals derived from the annotation
   GTF. CDS regions are merged. Based on the DeepVariant RNA-seq variant calling
