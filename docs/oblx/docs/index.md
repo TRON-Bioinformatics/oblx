@@ -11,7 +11,8 @@
 
 <!-- badges: end -->
 
-Documentation: https://urban-guacamole-qmm473j.pages.github.io/
+Documentation:
+[https://urban-guacamole-qmm473j.pages.github.io/](https://urban-guacamole-qmm473j.pages.github.io/)
 
 <p align="center">
     <img src="resources/workflow_graph.png" width="60%"
