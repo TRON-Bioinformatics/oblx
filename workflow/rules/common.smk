@@ -22,6 +22,7 @@ def get_pull_resources_output(wildcards):
     organism = config.get("organism", "human")
     # Files for human and mouse
     final_files = [
+        "resources/chromosome_sizes.txt",
         "resources/ref_genome_primary.fasta",
         "resources/ref_annot.gtf",
         "resources/ref_transcripts.fasta",

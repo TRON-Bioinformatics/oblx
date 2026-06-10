@@ -62,6 +62,12 @@ workflow. The following directory structure is being created:
 </path/to/output/directory>
 ├── indices
 │   ├── bowtie2
+│   │   ├── genome.1.bt2
+│   │   ├── genome.2.bt2
+│   │   ├── genome.3.bt2
+│   │   ├── genome.4.bt2
+│   │   ├── genome.rev.1.bt2
+│   │   └── genome.rev.2.bt2
 │   ├── bwa_mem
 │   │   ├── ref_genome.fasta -> ../../resources/ref_genome_masked_final.fasta
 │   │   ├── ref_genome.fasta.amb
@@ -79,11 +85,19 @@ workflow. The following directory structure is being created:
 │   │   ├── ref_genome.fasta.fai
 │   │   └── ref_genome.fasta.pac
 │   ├── hisat2
+│   │   ├── genome.1.ht2
+│   │   ├── genome.2.ht2
+│   │   ├── genome.3.ht2
+│   │   ├── genome.4.ht2
+│   │   ├── genome.5.ht2
+│   │   ├── genome.6.ht2
+│   │   ├── genome.7.ht2
+│   │   └── genome.8.ht2
 │   ├── kallisto
 │   │   ├── ref_cdna.fa
 │   │   ├── ref_transcript.idx
 │   │   └── ref_transcript_to_gene.tsv
-|   ├── R
+│   ├── R
 │   │   ├── ref_annot_txdb.sqlite
 │   │   ├── ref_genome.2bit
 │   │   ├── ref_transcripts.Rds
@@ -152,9 +166,10 @@ This directory contains the resources required to run snpEff predictor.
 **How to use the created resources to run snpEff?**
 
 The file `snpeff.config` has to be passed to snpEff with the command line option
-`-c` when running snpEff. Additionally, option `-nodownload` has to be set to
-the value of the name of the subfolder in `indices/snpeff/data` (e.g.
-`GRCh38.46`).
+`-c` when running snpEff. Additionally, the database name matching the subfolder
+under `indices/snpeff/data` (e.g. `GRCh38.46`) must be passed as a positional
+argument, and `-nodownload` must be set so snpEff does not try to fetch the
+database from the internet.
 
 Example usage
 

@@ -124,6 +124,7 @@ properties:
       - chr22
       - chrX
       - chrY
+      - chrM
     type: array
     items:
       type: string
