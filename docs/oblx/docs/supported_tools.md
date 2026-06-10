@@ -3,6 +3,32 @@
 - [nf-core/sarek](https://github.com/nf-core/sarek)
 - [tronflows](https://github.com/TRON-Bioinformatics/tronflow)
 
+## nf-core/sarek
+
+To run nf-core/sarek with an OBLX library, create a `nextflow.config` that points Sarek to the required reference and resource files in the library.
+
+```sh
+bash utils/write_sarek_config.sh </path/to/oblx/library> </path/to/output/nextflow.config>
+```
+
+And run nf-core/sarek with the previously generated nextflow.config file:
+
+```sh
+nextflow run nf-core/sarek -r 3.8.1 \
+-c </path/to/output/nextflow.config> \
+-profile singularity \
+--input <samplesheet.csv> \
+--outdir </path/to/output/directory> \
+--tools mutect2,snpeff \
+--only_paired_variant_calling \
+--wes \
+--intervals </path/to/oblx/library>/resources/exome_definition/ref_exome.bed
+```
+
+## tronflows
+
+Provide e.g. reference via the `--reference` flag.
+
 # Supported bioinformatics tools
 
 The table below lists the bioinformatics tools that consume files from the
