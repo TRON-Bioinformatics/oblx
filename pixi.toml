@@ -93,6 +93,20 @@ snakedeploy = ">=0.16.0,<0.17"
 [feature.rule-env-pinning.tasks]
 pin-rule-envs = { cmd = "snakedeploy pin-conda-envs workflow/envs/*.yaml", default-environment = "rule-env-pinning", description = "Pin conda environments in `workflow/envs/*.yaml` with snakedeploy." }
 
+[feature.rulegraph.dependencies]
+graphviz = ">=14.1.2,<15"
+
+[feature.rulegraph.tasks]
+rulegraph = { cmd = """\
+                    snakemake \
+                      --snakefile workflow/Snakefile \
+                      --rulegraph dot \
+                      | dot -Tpdf \
+                      > {{ output }} \
+                      """, default-environment = "rulegraph", description = "Build the workflow rulegraph to 'output' using the default settings.", args = [
+  { arg = "output", default = "rulegraph.pdf" }
+] }
+
 [environments]
 docs = { features = ["docs"], no-default-feature = true }
 test = { features = ["test"] }
@@ -104,6 +118,7 @@ style-snakemake = { features = ["style-snakemake"], no-default-feature = true }
 style-toml = { features = ["style-toml"], no-default-feature = true }
 style-yaml = { features = ["style-yaml"], no-default-feature = true }
 rule-env-pinning = { features = ["rule-env-pinning"], no-default-feature = true }
+rulegraph = ["rulegraph"]
 
 [tasks.lint-workflow]
 cmd = """\
