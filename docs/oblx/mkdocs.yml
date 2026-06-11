@@ -1,6 +1,6 @@
 site_name: OBLX
 nav:
-  - "OBLX: Omics builder for Bioinformatics resource Libraries and indeXes": index.md
+  - OBLX: index.md
   - Download Resources: pull_resources.md
   - Build Indices: build_indices.md
   - Configuration: configuration.md
@@ -9,27 +9,32 @@ nav:
 theme:
   name: material
   logo: resources/logo.png
+  icon:
+    repo: fontawesome/brands/github
   features:
     - navigation.sections
     - navigation.tabs
     - toc.integrate
   palette:
-    # Palette toggle for light mode
+    # Palette toggle for light mode 
     - scheme: default
-      primary: teal
-      accent: teal
+      primary: blue grey
+      accent: pink
       toggle:
         icon: material/lightbulb-on
         name: Switch to dark mode
     # Palette toggle for dark mode
     - scheme: slate
-      primary: teal
-      accent: teal
+      primary: blue grey
+      accent: pink
       toggle:
         icon: material/weather-night
-        name: Switch to light mode
+        name: Switch to light mode 
+    
 
 copyright: © TRON gGmbH, 2026. This work is licensed under MIT.
+
+repo_url: https://github.com/TRON-Private/tronmake-genome-lib-builder/
 
 plugins:
   - search
