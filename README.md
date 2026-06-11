@@ -41,7 +41,7 @@ resulting genome library is consistent with respect to chromosome, transcript
 and gene naming and supports an extensive set of bioinformatics tools, all
 listed in
 [Supported Tools](https://tron-bioinformatics.github.io/OBLX/supported_tools/).
-OBLX is implemented as Snakemake pipeline (Mölder et al., 2021).
+OBLX is implemented as a Snakemake pipeline (Mölder et al., 2021).
 
 ## Pre-built indices
 

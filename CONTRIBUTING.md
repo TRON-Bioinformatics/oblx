@@ -2,7 +2,7 @@
 
 Contributions are very welcome and acknowledged. Therefore, create a new issue
 that describes the required contribution and steps. We will check if the feature
-fits into the concept. If this is the case, create a merge request and we will
+fits into the concept. If this is the case, open a pull request and we will
 merge the code if everything works well.
 
 You can contribute in many ways:
@@ -10,9 +10,9 @@ You can contribute in many ways:
 ### Fix documentation
 
 If you find any errors or inconsistencies in the
-[documentation](https://tron-bioinformatics.github.io/OBLX/), please create a
-merge request with the necessary corrections. This helps ensure that the
-documentation remains accurate and up-to-date.
+[documentation](https://tron-bioinformatics.github.io/OBLX/), please open a pull
+request with the necessary corrections. This helps ensure that the documentation
+remains accurate and up-to-date.
 
 ### Implementation of further indices
 
