@@ -21,10 +21,10 @@
 
 ______________________________________________________________________
 
-**OBLX** (/ˌɒbl.ˈɛks/) is a pipeline which
-downloads reference genomes, genome annotations and further resources, and
-generates from these the indexes required for various bioinformatics tools and
-pipelines. The pipeline consists of two independently executable stages:
+**OBLX** (/ˌɒbl.ˈɛks/) is a pipeline which downloads reference genomes, genome
+annotations and further resources, and generates from these the indexes required
+for various bioinformatics tools and pipelines. The pipeline consists of two
+independently executable stages:
 [*Download Resources*](https://tron-bioinformatics.github.io/OBLX/pull_resources/)
 and
 [*Build Indices*](https://tron-bioinformatics.github.io/OBLX/build_indices/).
@@ -43,10 +43,11 @@ listed in
 [Supported Tools](https://tron-bioinformatics.github.io/OBLX/supported_tools/).
 OBLX is implemented as Snakemake pipeline (Mölder et al., 2021).
 
-
 ## Pre-built indices
 
-Pre-built OBLX libraries for **human GRCh38 v46** and **mouse GRCm39 vM36** are available for download via [ftp://easyfuse.tron-mainz.de/tron_genome_library](ftp://easyfuse.tron-mainz.de/tron_genome_library).
+Pre-built OBLX libraries for **human GRCh38 v46** and **mouse GRCm39 vM36** are
+available for download via
+[ftp://easyfuse.tron-mainz.de/tron_genome_library](ftp://easyfuse.tron-mainz.de/tron_genome_library).
 
 ```sh
 # human
@@ -96,7 +97,8 @@ Main developers:
 
 ## Contribution
 
-We welcome contributions! Please see [CONTRIBUTING.md](CONTRIBUTING.md) or guidelines.
+We welcome contributions! Please see [CONTRIBUTING.md](CONTRIBUTING.md) or
+guidelines.
 
 ## References
 
