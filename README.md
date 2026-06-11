@@ -11,7 +11,7 @@
 
 <!-- badges: end -->
 
-**Documentation**: https://urban-guacamole-qmm473j.pages.github.io/
+**Documentation**: https://tron-bioinformatics.github.io/OBLX
 
 <p align="center">
     <img src="docs/oblx/docs/resources/workflow_graph.png"
@@ -21,26 +21,40 @@
 
 ______________________________________________________________________
 
-**OBLX** (/ˌɒbl.ˈɛks/) is a Snakemake (Mölder et al., 2021) pipeline which
+**OBLX** (/ˌɒbl.ˈɛks/) is a pipeline which
 downloads reference genomes, genome annotations and further resources, and
 generates from these the indexes required for various bioinformatics tools and
 pipelines. The pipeline consists of two independently executable stages:
-[*Download Resources*](https://urban-guacamole-qmm473j.pages.github.io/pull_resources/)
+[*Download Resources*](https://tron-bioinformatics.github.io/OBLX/pull_resources/)
 and
-[*Build Indices*](https://urban-guacamole-qmm473j.pages.github.io/build_indices/).
+[*Build Indices*](https://tron-bioinformatics.github.io/OBLX/build_indices/).
 *Download Resources* retrieves the reference genome, genome annotation and other
 resources and prepares the data for bioinformatics index generation. The
 reference genome and genome annotation are downloaded from
 [GENCODE](https://www.gencodegenes.org/); the preferred genome assembly version,
 GENCODE release and organism can be specified via the
-[config file](https://urban-guacamole-qmm473j.pages.github.io/configuration/).
+[config file](https://tron-bioinformatics.github.io/OBLX/configuration/).
 Additional resources from GATK, UCSC and gnomAD are retrieved (see
-[*Download Resources*](https://urban-guacamole-qmm473j.pages.github.io/pull_resources/)
+[*Download Resources*](https://tron-bioinformatics.github.io/OBLX/pull_resources/)
 for details). *Build Indices* then generates tool-specific indices. The
 resulting genome library is consistent with respect to chromosome, transcript
 and gene naming and supports an extensive set of bioinformatics tools, all
 listed in
-[Supported Tools](https://urban-guacamole-qmm473j.pages.github.io/build_indices/supported_tools/).
+[Supported Tools](https://tron-bioinformatics.github.io/OBLX/supported_tools/).
+OBLX is implemented as Snakemake pipeline (Mölder et al., 2021).
+
+
+## Pre-built indices
+
+Pre-built OBLX libraries for **human GRCh38 v46** and **mouse GRCm39 vM36** are available for download via [ftp://easyfuse.tron-mainz.de/tron_genome_library](ftp://easyfuse.tron-mainz.de/tron_genome_library).
+
+```sh
+# human
+wget ftp://easyfuse.tron-mainz.de/oblx/v1.0.0/human/GRCh38_46
+
+# mouse
+wget ftp://easyfuse.tron-mainz.de/oblx/v1.0.0/mouse/GRCm39_M36
+```
 
 ## Usage
 
@@ -79,6 +93,10 @@ Main developers:
 - [Luis Kress](mailto:luis.kress@tron-mainz.de)
 - [Johannes Hausmann](mailto:johannes.hausmann@tron-mainz.de)
 - [Jonas Freimuth](mailto:jonas.freimuth@tron-mainz.de)
+
+## Contribution
+
+We welcome contributions! Please see [CONTRIBUTING.md](CONTRIBUTING.md) or guidelines.
 
 ## References
 

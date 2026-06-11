@@ -1,6 +1,3 @@
-<p align="center">
-    <img src="resources/logo.png" alt="logo" width="25%">
-</p>
 
 ## OBLX: Omics builder for Bioinformatics resource Libraries and indeXes
 
@@ -11,15 +8,13 @@
 
 <!-- badges: end -->
 
-Documentation:
-[https://urban-guacamole-qmm473j.pages.github.io/](https://urban-guacamole-qmm473j.pages.github.io/)
 
 <p align="center">
     <img src="resources/workflow_graph.png" width="60%"
     alt="Brief visual description of OBLX, showing which resources are downloaded, which tool indices are created, for which purpose, and if that is for human usage only.">
 </p>
 
-**OBLX** is a Snakemake (Mölder et al., 2021) pipeline which downloads reference
+**OBLX** (/ˌɒbl.ˈɛks/) is a Snakemake (Mölder et al., 2021) pipeline which downloads reference
 genomes, genome annotations and further resources, and generates from these the
 indices required for various bioinformatics tools and pipelines. The pipeline
 consists of two independently executable stages:
@@ -36,6 +31,19 @@ GATK, UCSC and gnomAD are retrieved (see
 library is consistent with respect to chromosome, transcript and gene naming and
 supports an extensive set of bioinformatics tools, all listed in
 [Supported Tools](supported_tools.md#supported-bioinformatics-tools).
+
+## Pre-built indices
+
+Pre-built OBLX libraries for **human GRCh38 v46** and **mouse GRCm39 vM36** are available for download via [ftp://easyfuse.tron-mainz.de/tron_genome_library](ftp://easyfuse.tron-mainz.de/tron_genome_library).
+
+```sh
+# human
+wget ftp://easyfuse.tron-mainz.de/oblx/v1.0.0/human/GRCh38_46
+
+# mouse
+wget ftp://easyfuse.tron-mainz.de/oblx/v1.0.0/mouse/GRCm39_M36
+```
+
 
 ## Installation
 
@@ -97,6 +105,10 @@ the generated indices are documented in
 ## Supported bioinformatics tools
 
 See [Supported Tools](supported_tools.md#supported-bioinformatics-tools).
+
+## Contribution
+
+We welcome contributions! Please see [CONTRIBUTING](https://github.com/TRON-Bioinformatics/OBLX/CONTRIBUTING.md) and [developer_guide](developer_guide.md) for guidelines.
 
 ## About
 
