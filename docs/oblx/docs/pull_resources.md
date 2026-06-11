@@ -1,9 +1,9 @@
 # Download Resources
 
 The pull resources workflow downloads resources required for common
-bioinformatics analyses. The resources include data from the following sources,
-among others. The pulled resources are the basis to
-[build indices](build_indices.md) for several bioinformatics tools.
+bioinformatics analyses. The resources include among others data from the
+following sources which are the basis to [build indices](build_indices.md) for
+several bioinformatics tools.
 
 - [Gencode](https://www.gencodegenes.org/)
 - [GATK](https://gatk.broadinstitute.org/hc/en-us)
@@ -12,13 +12,12 @@ among others. The pulled resources are the basis to
 
 ## Input
 
-No input is required. However, the organism and release on which the downloaded
-resources should be based on can be specified in the
-[config file](configuration.md).
+No input is required. However, the organism and releases of individual resources
+can be specified in the [config file](configuration.md).
 
 ## Usage
 
-To run the pull resources workflow run the following command.
+To run the pull resources subworkflow, run the following command.
 
 ```
 snakemake --until pull_resources \ 
@@ -29,8 +28,7 @@ snakemake --until pull_resources \
     [--profile </path/to/cluster/profile/>]
 ```
 
-- `--directory`: Specifies the directory where the results of the workflow
-  should be stored.
+- `--directory`: Directory to store the results of the workflow.
 - `--software-deployment-method`: Either `conda` or `apptainer`. Container
   images for apptainer are configured in
   [`config/container_config.yaml`](https://github.com/TRON-Private/tronmake-genome-lib-builder/blob/dev/config/container_config.yaml).
@@ -291,8 +289,8 @@ used for contamination detection and profiling. The list of viruses
 [TCGA](https://gdc.cancer.gov/system/files/public/file/GRCh83.d1.vd1_virus_decoy.txt).
 The viral decoy sequences listed in this file can be appended to the reference
 genome (resources/ref_genome.fasta) to enable investigation of reads mapping to
-viral sequences. If this is desired, all tool-specific indices that depend on
-the reference FASTA (e.g., aligner index) must be rebuilt from the updated file.
+viral sequences. If this is needed, all tool-specific indices that depend on the
+reference FASTA (e.g., aligner index) must be rebuilt from the updated file.
 Viral sequences are only downloaded in human mode.
 
 ### Overview of downloaded resources in human-mode
