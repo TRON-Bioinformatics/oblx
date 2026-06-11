@@ -1,4 +1,4 @@
-Path in Genome Library	Origin	Short description
+Path in OBLX Library	Origin	Short description
 resources/chromosome_sizes.txt	GENCODE	Chromosome sizes file for the resources/ref_genome.fasta file.
 resources/exome_definition/ref_cds.bed	GENCODE	Reference CDS BED containing all CDS regions specified in the GTF.
 resources/exome_definition/ref_exome.bed	GENCODE	Reference exome BED containing all exonic regions specified in the GTF with N positions padded left and right (defined with config parameter `intron_slop`).
