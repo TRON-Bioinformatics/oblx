@@ -1,6 +1,7 @@
-site_name: OBLX
+site_name: "OBLX: Omics builder for Bioinformatics resource Libraries and indeXes"
+
 nav:
-  - OBLX: index.md
+  - Home: index.md
   - Download Resources: pull_resources.md
   - Build Indices: build_indices.md
   - Configuration: configuration.md
@@ -16,7 +17,7 @@ theme:
     - navigation.tabs
     - toc.integrate
   palette:
-    # Palette toggle for light mode 
+    # Palette toggle for light mode
     - scheme: default
       primary: blue grey
       accent: pink
@@ -29,8 +30,8 @@ theme:
       accent: pink
       toggle:
         icon: material/weather-night
-        name: Switch to light mode 
-    
+        name: Switch to light mode
+
 
 copyright: © TRON gGmbH, 2026. This work is licensed under MIT.
 
