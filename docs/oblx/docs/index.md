@@ -5,16 +5,16 @@
 
 **OBLX** (/ˌɒbl.ˈɛks/) is a Snakemake (Mölder et al., 2021) pipeline which
 downloads reference genomes, genome annotations and further resources, and
-generates from these the indices required for various bioinformatics tools and
-pipelines. The pipeline consists of two independently executable stages:
-[*Download Resources*](pull_resources.md#download-resources) and
+generates from these resources several indices required for various
+bioinformatics tools. The pipeline consists of two independently executable
+steps: [*Download Resources*](pull_resources.md#download-resources) and
 [*Build Indices*](build_indices.md#build-indices). *Download Resources*
-retrieves the reference genome, genome annotation and other resources and
-prepares the data for bioinformatics index generation. The reference genome and
-genome annotation are downloaded from [GENCODE](https://www.gencodegenes.org/);
-the preferred genome assembly version, GENCODE release and organism can be
-specified via the [config file](configuration.md). Additional resources from
-GATK, UCSC and gnomAD are retrieved (see
+retrieves the resources and prepares the data for bioinformatics index
+generation. The reference genome and genome annotation are downloaded from
+[GENCODE](https://www.gencodegenes.org/). The preferred genome assembly version,
+GENCODE release and organism can be specified via the
+[config file](configuration.md). Additional resources are retrieved from GATK,
+UCSC and gnomAD (see
 [*Download Resources*](pull_resources.md#download-resources) for details).
 *Build Indices* then generates tool-specific indices. The resulting genome
 library is consistent with respect to chromosome, transcript and gene naming and
@@ -54,7 +54,7 @@ and pandas (see
 
 ## Usage
 
-The stages [*Download Resources*](pull_resources.md#download-resources) and
+The steps [*Download Resources*](pull_resources.md#download-resources) and
 [*Build Indices*](build_indices.md#build-indices) are run consecutively when
 executing (to run them independently, see the respective section):
 
@@ -67,14 +67,14 @@ snakemake -s workflow/Snakefile \
   [--profile </path/to/cluster/profile/>]
 ```
 
-- `--directory`: Directory where the results of the workflow should be stored.
+- `--directory`: Directory to store the results of the workflow.
 - `--software-deployment-method`: Either `conda` or `apptainer`. Container
   images for apptainer are configured in
   [`config/container_config.yaml`](configuration.md).
 - `--latency-wait`: Seconds to wait for files to appear (recommended `60` to
   account for IO latency of large files).
-- `--configfile` (optional): Override default configuration, e.g. organism or
-  reference genome version. See [Configuration](configuration.md).
+- `--configfile` (optional): Overrides default configuration if provided, e.g.
+  organism or reference genome version. See [Configuration](configuration.md).
 - `--profile` (optional): Snakemake cluster profile, e.g. to submit jobs to an
   HPC scheduler.
 

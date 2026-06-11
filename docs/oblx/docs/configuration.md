@@ -1,8 +1,9 @@
 # Configuration
 
-The configuration file defines the parameters below. They are checked and
-defaults set via the schema file at
+The configuration file defines the values for the parameters below. Default
+values are described in
 [`workflow/schemas/config.schema.yaml`](https://github.com/TRON-Private/tronmake-genome-lib-builder/blob/dev/workflow/schemas/config.schema.yaml).
+If the user provides a config file, it is validated against this schema.
 
 - `organism`: Takes `human` or `mouse`
 - `release`: Gencode release version (starts with `M` for mouse)
@@ -41,14 +42,12 @@ defaults set via the schema file at
 
 On top of that, we use the
 [`config/container_config.yaml`](https://github.com/TRON-Private/tronmake-genome-lib-builder/blob/dev/config/container_config.yaml)
-file to specify URLs for the apptainer/docker containers to be used for
-`--sdm apptainer`.
+file to specify URLs for the apptainer/docker containers `--sdm apptainer`.
 
 ## Example Human
 
-An example config file for human mode. For human data, unless you know for a
-fact that it is needed, you may leave out filling out and specifying a config
-file entirely.
+An example config file to create a human OBLX Library. Unless required, it is
+recommended to use the default configuration.
 
 ```
 organism: human

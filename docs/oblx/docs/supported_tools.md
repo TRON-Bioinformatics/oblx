@@ -1,12 +1,16 @@
 # Supported bioinformatics pipelines
 
+OBLX libraries can serve references for multiple bioinformatic workflows. Here,
+we show two examples:
+
 - [nf-core/sarek](https://github.com/nf-core/sarek)
 - [tronflows](https://github.com/TRON-Bioinformatics/tronflow)
 
 ## nf-core/sarek
 
-To run nf-core/sarek with an OBLX library, create a `nextflow.config` that
-points Sarek to the required reference and resource files in the library.
+To run nf-core/sarek with an OBLX library, create a `nextflow.config` using an
+utils script coming with OBLX that points Sarek to the required reference and
+resource files in the OBLX library:
 
 ```
 bash utils/write_sarek_config.sh </path/to/oblx/library> </path/to/output/nextflow.config>
@@ -32,8 +36,8 @@ Provide e.g. reference via the `--reference` flag.
 
 # Supported bioinformatics tools
 
-The table below lists the bioinformatics tools that consume files from the
-generated genome library and which paths each tool requires.
+The table below lists the bioinformatics tools that use files from the generated
+OBLX Library and which file each tool requires.
 
 > **Tool versions**: The pipeline does not pin downstream tool versions, but the
 > indices are produced with specific tool versions. To guarantee compatibility,
