@@ -97,7 +97,6 @@ chrom_filter:
   - chr22
   - chrX
   - chrY
-  - chrM
 ```
 
 ## Example Mouse
@@ -115,30 +114,4 @@ intron_slop: 20
 # Parameter for STAR index creation. Adapt to the read size if necessary
 star_sjdb_overhang: 100
 star_genome_sa_index_n_bases: 14
-
-gencode_url: "https://ftp.ebi.ac.uk/pub/databases/gencode"
-
-chrom_filter:
-  - chr1
-  - chr2
-  - chr3
-  - chr4
-  - chr5
-  - chr6
-  - chr7
-  - chr8
-  - chr9
-  - chr10
-  - chr11
-  - chr12
-  - chr13
-  - chr14
-  - chr15
-  - chr16
-  - chr17
-  - chr18
-  - chr19
-  - chrX
-  - chrY
-  - chrM
 ```
