@@ -6,3 +6,5 @@ docs/oblx/site
 # pixi environments
 .pixi/*
 !.pixi/config.toml
+README_files
+README.html
