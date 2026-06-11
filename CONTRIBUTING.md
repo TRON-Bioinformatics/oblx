@@ -7,10 +7,17 @@ merge the code if everything works well.
 
 You can contribute in many ways:
 
+
+### Fix documentation
+
+If you find any errors or inconsistencies in the [documentation](https://tron-bioinformatics.github.io/OBLX/), please create a
+merge request with the necessary corrections. This helps ensure that the
+documentation remains accurate and up-to-date.
+
 ### Implementation of further indices
 
 We welcome every contribution of additional indices as this makes OBLX even more
-helpful.
+helpful. Please also see the [developer guide](https://tron-bioinformatics.github.io/OBLX/developer_guide) for guidelines.
 
 To add another index, create a rule in `build_indices.smk` that creates the
 index and add the output file path to the function get_build_indices_output in
