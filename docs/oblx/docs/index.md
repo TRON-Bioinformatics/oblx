@@ -1,4 +1,3 @@
-
 ## OBLX: Omics builder for Bioinformatics resource Libraries and indeXes
 
 <!-- badges: start -->
@@ -8,16 +7,15 @@
 
 <!-- badges: end -->
 
-
 <p align="center">
     <img src="resources/workflow_graph.png" width="60%"
     alt="Brief visual description of OBLX, showing which resources are downloaded, which tool indices are created, for which purpose, and if that is for human usage only.">
 </p>
 
-**OBLX** (/ˌɒbl.ˈɛks/) is a Snakemake (Mölder et al., 2021) pipeline which downloads reference
-genomes, genome annotations and further resources, and generates from these the
-indices required for various bioinformatics tools and pipelines. The pipeline
-consists of two independently executable stages:
+**OBLX** (/ˌɒbl.ˈɛks/) is a Snakemake (Mölder et al., 2021) pipeline which
+downloads reference genomes, genome annotations and further resources, and
+generates from these the indices required for various bioinformatics tools and
+pipelines. The pipeline consists of two independently executable stages:
 [*Download Resources*](pull_resources.md#download-resources) and
 [*Build Indices*](build_indices.md#build-indices). *Download Resources*
 retrieves the reference genome, genome annotation and other resources and
@@ -34,7 +32,9 @@ supports an extensive set of bioinformatics tools, all listed in
 
 ## Pre-built indices
 
-Pre-built OBLX libraries for **human GRCh38 v46** and **mouse GRCm39 vM36** are available for download via [ftp://easyfuse.tron-mainz.de/tron_genome_library](ftp://easyfuse.tron-mainz.de/tron_genome_library).
+Pre-built OBLX libraries for **human GRCh38 v46** and **mouse GRCm39 vM36** are
+available for download via
+[ftp://easyfuse.tron-mainz.de/tron_genome_library](ftp://easyfuse.tron-mainz.de/tron_genome_library).
 
 ```sh
 # human
@@ -43,7 +43,6 @@ wget ftp://easyfuse.tron-mainz.de/oblx/v1.0.0/human/GRCh38_46
 # mouse
 wget ftp://easyfuse.tron-mainz.de/oblx/v1.0.0/mouse/GRCm39_M36
 ```
-
 
 ## Installation
 
@@ -108,7 +107,9 @@ See [Supported Tools](supported_tools.md#supported-bioinformatics-tools).
 
 ## Contribution
 
-We welcome contributions! Please see [CONTRIBUTING](https://github.com/TRON-Bioinformatics/OBLX/CONTRIBUTING.md) and [developer_guide](developer_guide.md) for guidelines.
+We welcome contributions! Please see
+[CONTRIBUTING](https://github.com/TRON-Bioinformatics/OBLX/CONTRIBUTING.md) and
+[developer_guide](developer_guide.md) for guidelines.
 
 ## About
 
