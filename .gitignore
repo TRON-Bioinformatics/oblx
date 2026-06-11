@@ -3,6 +3,8 @@ logs
 
 docs/oblx/site
 
+rulegraph.pdf
+
 # pixi environments
 .pixi/*
 !.pixi/config.toml
