@@ -1,6 +1,6 @@
 site_name: OBLX
 nav:
-  - Home: index.md
+  - "OBLX: Omics builder for Bioinformatics resource Libraries and indeXes": index.md
   - Download Resources: pull_resources.md
   - Build Indices: build_indices.md
   - Configuration: configuration.md

@@ -1,12 +1,3 @@
-## OBLX: Omics builder for Bioinformatics resource Libraries and indeXes
-
-<!-- badges: start -->
-
-[![Snakemake](https://img.shields.io/badge/snakemake-9.20.0-brightgreen.svg?style=plastic)](https://snakemake.readthedocs.io)
-[![pipeline status](https://github.com/TRON-Private/tronmake-genome-lib-builder/actions/workflows/ci.yaml/badge.svg)](https://github.com/TRON-Private/tronmake-genome-lib-builder/actions/workflows/ci.yaml)
-
-<!-- badges: end -->
-
 <p align="center">
     <img src="resources/workflow_graph.png" width="60%"
     alt="Brief visual description of OBLX, showing which resources are downloaded, which tool indices are created, for which purpose, and if that is for human usage only.">
