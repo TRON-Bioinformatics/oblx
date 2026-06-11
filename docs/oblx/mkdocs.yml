@@ -8,6 +8,7 @@ nav:
   - Developer Guide: developer_guide.md
 theme:
   name: material
+  logo: resources/logo.png
   features:
     - navigation.sections
     - navigation.tabs
