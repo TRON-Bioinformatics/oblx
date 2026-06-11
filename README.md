@@ -84,6 +84,12 @@ The output of the pipeline is written to the directory specified with
 descriptions of the generated indices are documented in
 [*Build Indices*](https://urban-guacamole-qmm473j.pages.github.io/build_indices/).
 
+## Contribution
+
+We welcome contributions! Please see
+[CONTRIBUTING](https://github.com/TRON-Bioinformatics/OBLX/CONTRIBUTING.md) and
+[developer_guide](developer_guide.md) for guidelines.
+
 ## About
 
 OBLX was originally developed by Luis Kress and Johannes Hausmann at
@@ -94,11 +100,6 @@ Main developers:
 - [Luis Kress](mailto:luis.kress@tron-mainz.de)
 - [Johannes Hausmann](mailto:johannes.hausmann@tron-mainz.de)
 - [Jonas Freimuth](mailto:jonas.freimuth@tron-mainz.de)
-
-## Contribution
-
-We welcome contributions! Please see [CONTRIBUTING.md](CONTRIBUTING.md) or
-guidelines.
 
 ## References
 
