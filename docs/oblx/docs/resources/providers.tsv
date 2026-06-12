@@ -1,0 +1,9 @@
+Provider	Download URL	Citation
+GENCODE (https://www.gencodegenes.org/)	https://ftp.ebi.ac.uk/pub/databases/gencode	Mudge et al. (2025)
+UCSC (https://genome.ucsc.edu/)	https://hgdownload.soe.ucsc.edu	Casper et al. (2025)
+GATK / Broad resource bundle (https://gatk.broadinstitute.org/)	https://storage.googleapis.com/gcp-public-data--broad-references/hg38/v0	Van der Auwera et al. (2020)
+gnomAD (https://gnomad.broadinstitute.org/)	https://storage.googleapis.com/gcp-public-data--gnomad/release	Chen et al. (2024), Karczewski et al. (2020)
+UniProt (https://www.uniprot.org/)	https://rest.uniprot.org/uniprotkb/stream	The UniProt Consortium (2025)
+dbSNP (https://www.ncbi.nlm.nih.gov/snp/)	"• https://ftp.ncbi.nih.gov/ (human)
+• https://ftp.ensembl.org/pub/ (mouse)
+"	Phan et al. (2025)
