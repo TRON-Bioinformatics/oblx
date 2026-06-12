@@ -201,7 +201,7 @@ et al., 2024).
 
 ### Star
 
-The STAR (Dobin et al., 201) directory contains the STAR index. The path to the
+The STAR (Dobin et al., 2013) directory contains the STAR index. The path to the
 STAR directory has to be set as `--genomeDir` parameter, when running STAR
 mapping.
 
