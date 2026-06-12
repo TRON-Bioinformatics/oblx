@@ -47,7 +47,7 @@ OBLX is implemented as a Snakemake pipeline (Mölder et al., 2021).
 
 Pre-built OBLX libraries for **human GRCh38 v49** and **mouse GRCm39 vM36** are
 soon available for download via
-[ftp://easyfuse.tron-mainz.de/tron_genome_library](ftp://easyfuse.tron-mainz.de/tron_genome_library).
+[ftp://easyfuse.tron-mainz.de/oblx](ftp://easyfuse.tron-mainz.de/oblx).
 
 ```sh
 # human
