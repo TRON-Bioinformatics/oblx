@@ -255,4 +255,4 @@ Contains the [Kallisto](https://pachterlab.github.io/kallisto/) (Bray et al.,
 - Vasimuddin, Md., Misra, S., Li, H., & Aluru, S. (2019). Efficient
   Architecture-Aware Acceleration of BWA-MEM for Multicore Systems. 2019 IEEE
   International Parallel and Distributed Processing Symposium (IPDPS), 314–324.
-  [https://doi.org/10.1093/bioinformatics/btp324](https://doi.org/10.1093/bioinformatics/btp324)
+  [https://doi.org/10.1109/IPDPS.2019.00041](https://doi.org/10.1109/IPDPS.2019.00041)
