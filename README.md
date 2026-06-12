@@ -7,11 +7,11 @@
 <!-- badges: start -->
 
 [![Snakemake](https://img.shields.io/badge/snakemake-9.20.0-brightgreen.svg?style=plastic)](https://snakemake.readthedocs.io)
-[![pipeline status](https://github.com/TRON-Private/tronmake-genome-lib-builder/actions/workflows/ci.yaml/badge.svg)](https://github.com/TRON-Private/tronmake-genome-lib-builder/actions/workflows/ci.yaml)
+[![pipeline status](https://github.com/TRON-Bioinformatics/oblx/actions/workflows/ci.yaml/badge.svg)](https://github.com/TRON-Bioinformatics/oblx/actions/workflows/ci.yaml)
 
 <!-- badges: end -->
 
-**Documentation**: https://tron-bioinformatics.github.io/OBLX
+**Documentation**: https://tron-bioinformatics.github.io/oblx
 
 <p align="center">
     <img src="docs/oblx/docs/resources/workflow_graph.png"
@@ -25,22 +25,22 @@ ______________________________________________________________________
 annotations and further resources, and generates from these the indexes required
 for various bioinformatics tools and pipelines. The pipeline consists of two
 independently executable stages:
-[*Download Resources*](https://tron-bioinformatics.github.io/OBLX/pull_resources/)
+[*Download Resources*](https://tron-bioinformatics.github.io/oblx/pull_resources/)
 and
-[*Build Indices*](https://tron-bioinformatics.github.io/OBLX/build_indices/).
+[*Build Indices*](https://tron-bioinformatics.github.io/oblx/build_indices/).
 *Download Resources* retrieves the reference genome, genome annotation and other
 resources and prepares the data for bioinformatics index generation. The
 reference genome and genome annotation are downloaded from
 [GENCODE](https://www.gencodegenes.org/); the preferred genome assembly version,
 GENCODE release and organism can be specified via the
-[config file](https://tron-bioinformatics.github.io/OBLX/configuration/).
+[config file](https://tron-bioinformatics.github.io/oblx/configuration/).
 Additional resources from GATK, UCSC and gnomAD are retrieved (see
-[*Download Resources*](https://tron-bioinformatics.github.io/OBLX/pull_resources/)
+[*Download Resources*](https://tron-bioinformatics.github.io/oblx/pull_resources/)
 for details). *Build Indices* then generates tool-specific indices. The
 resulting genome library is consistent with respect to chromosome, transcript
 and gene naming and supports an extensive set of bioinformatics tools, all
 listed in
-[Supported Tools](https://tron-bioinformatics.github.io/OBLX/supported_tools/).
+[Supported Tools](https://tron-bioinformatics.github.io/oblx/supported_tools/).
 OBLX is implemented as a Snakemake pipeline (Mölder et al., 2021).
 
 ## Pre-built indices
@@ -93,7 +93,7 @@ descriptions of the generated indices are documented in
 ## Contribution
 
 We welcome contributions! Please see
-[CONTRIBUTING](https://github.com/TRON-Bioinformatics/OBLX/CONTRIBUTING.md) and
+[CONTRIBUTING](https://github.com/TRON-Bioinformatics/oblx/CONTRIBUTING.md) and
 [developer_guide](developer_guide.md) for guidelines.
 
 ## About

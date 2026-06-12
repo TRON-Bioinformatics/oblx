@@ -179,7 +179,7 @@ def get_build_indices_output(wildcards):
     # Currently, the mouse resources contain too many SNPs for the small index.
     # As a workaround we do not provide a mouse hisat2 index.
     # This is tracked in
-    # https://github.com/TRON-Private/tronmake-genome-lib-builder/issues/174.
+    # https://github.com/TRON-Bioinformatics/oblx/issues/174.
     if organism != "mouse":
         # hisat2 files
         final_files.extend(

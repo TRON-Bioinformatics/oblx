@@ -15,7 +15,7 @@ deployments to systems without internet access or without Pixi, see
 [Pixi pack](https://pixi.prefix.dev/latest/deployment/pixi_pack/).
 
 The available Pixi environments and tasks are defined in
-[`pixi.toml`](https://github.com/TRON-Private/tronmake-genome-lib-builder/blob/dev/pixi.toml).
+[`pixi.toml`](https://github.com/TRON-Bioinformatics/oblx/blob/dev/pixi.toml).
 The most relevant tasks are:
 
 | Task                     | Description                                                          |
@@ -42,7 +42,7 @@ pixi run unittest
 ## Adding a new index or resource
 
 The workflow's final output is collected by two helpers in
-[`workflow/rules/common.smk`](https://github.com/TRON-Private/tronmake-genome-lib-builder/blob/dev/workflow/rules/common.smk):
+[`workflow/rules/common.smk`](https://github.com/TRON-Bioinformatics/oblx/blob/dev/workflow/rules/common.smk):
 `get_pull_resources_output` and `get_build_indices_output`. To extend the
 pipeline:
 
@@ -54,7 +54,7 @@ pipeline:
 1. Define the required conda environment (if not already present), add it under
    `workflow/envs/` and run `pixi run pin-rule-envs` to pin its dependencies.
 1. Define the required container (if not already present) and add it to
-   [`config/container_config.yaml`](https://github.com/TRON-Private/tronmake-genome-lib-builder/blob/dev/config/container_config.yaml).
+   [`config/container_config.yaml`](https://github.com/TRON-Bioinformatics/oblx/blob/dev/config/container_config.yaml).
 1. Document the new output in `pull_resources.md` / `build_indices.md` and add a
    row to the matching `docs/.../resources/*.tsv` table.
 
@@ -64,7 +64,7 @@ Run `pixi run style` to auto-format code and docs. `pixi run lint` performs the
 same checks without modifying files and exits non-zero on failure; it is used in
 CI. Sub-tasks (`style-python`, `lint-snakemake`, ...) are available for
 individual file types — see
-[`pixi.toml`](https://github.com/TRON-Private/tronmake-genome-lib-builder/blob/dev/pixi.toml).
+[`pixi.toml`](https://github.com/TRON-Bioinformatics/oblx/blob/dev/pixi.toml).
 
 ## Release
 
@@ -76,8 +76,8 @@ Before creating a new release:
   `supported_tools.tsv`).
 - Update `CHANGELOG.md`.
 - Bump the version in
-  [`pixi.toml`](https://github.com/TRON-Private/tronmake-genome-lib-builder/blob/dev/pixi.toml).
+  [`pixi.toml`](https://github.com/TRON-Bioinformatics/oblx/blob/dev/pixi.toml).
 
 ## Contribute
 
-[CONTRIBUTING.md](https://github.com/TRON-Private/tronmake-genome-lib-builder/blob/main/CONTRIBUTING.md).
+[CONTRIBUTING.md](https://github.com/TRON-Bioinformatics/oblx/blob/main/CONTRIBUTING.md).

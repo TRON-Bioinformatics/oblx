@@ -46,7 +46,7 @@ sha256sum -c checksum.txt
 Clone the repository:
 
 ```
-git clone https://github.com/TRON-Private/tronmake-genome-lib-builder.git
+git clone https://github.com/TRON-Bioinformatics/oblx.git
 ```
 
 Install Snakemake (see
@@ -105,7 +105,7 @@ See [Supported Tools](supported_tools.md#supported-bioinformatics-tools).
 ## Contribution
 
 We welcome contributions! Please see
-[CONTRIBUTING](https://github.com/TRON-Bioinformatics/OBLX/CONTRIBUTING.md) and
+[CONTRIBUTING](https://github.com/TRON-Bioinformatics/oblx/CONTRIBUTING.md) and
 [developer_guide](developer_guide.md) for guidelines.
 
 ## About

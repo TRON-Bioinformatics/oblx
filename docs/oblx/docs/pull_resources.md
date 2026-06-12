@@ -32,7 +32,7 @@ snakemake --until pull_resources \
 - `--directory`: Directory to store the results of the workflow.
 - `--software-deployment-method`: Either `conda` or `apptainer`. Container
   images for apptainer are configured in
-  [`config/container_config.yaml`](https://github.com/TRON-Private/tronmake-genome-lib-builder/blob/dev/config/container_config.yaml).
+  [`config/container_config.yaml`](https://github.com/TRON-Bioinformatics/oblx/blob/dev/config/container_config.yaml).
 - `--latency-wait`: Wait for e.g. 60 seconds for files to be created due to IO
   latency
 - `--configfile` (optional): Defines e.g. the reference genome version that
@@ -122,13 +122,13 @@ masked in the reference fasta while repetitive regions are not masked.
 - `ref_genome.fasta`: Symlink to the primary assembly reference genome fasta.
   When pull_resources is run in human mode, the symlink points to the masked
   genome (masking is based on
-  [`resources/mappability/grcExclusions.bed`](https://github.com/TRON-Private/tronmake-genome-lib-builder/blob/dev/resources/mappability/grcExclusions.bed)
+  [`resources/mappability/grcExclusions.bed`](https://github.com/TRON-Bioinformatics/oblx/blob/dev/resources/mappability/grcExclusions.bed)
   which contains a set of regions that have been flagged by the
   [GRC](https://www.ncbi.nlm.nih.gov/grc) to contain false duplications or
   contamination sequences (Behera et al., 2022), downloaded from UCSC, see
   section [Mappability](#mappability)). Additionally in human mode,
   pseudoautosomal regions (defined in
-  [`workflow/resources/GRCh38_pseudoautosomal_regions.bed`](https://github.com/TRON-Private/tronmake-genome-lib-builder/blob/dev/workflow/resources/GRCh38_pseudoautosomal_regions.bed)
+  [`workflow/resources/GRCh38_pseudoautosomal_regions.bed`](https://github.com/TRON-Bioinformatics/oblx/blob/dev/workflow/resources/GRCh38_pseudoautosomal_regions.bed)
   from [Ensembl](https://www.ensembl.org/info/genome/genebuild/human_PARS.html))
   are hard masked. If pull_resources is run in mouse mode, the symlink points to
   the primary assembly (`ref_genome_primary.fasta`).

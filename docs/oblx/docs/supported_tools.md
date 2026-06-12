@@ -91,8 +91,8 @@ OBLX Library and which file each tool requires.
 > indices are produced with specific tool versions. To guarantee compatibility,
 > use the same tool versions for downstream analysis. The exact versions used to
 > build each index are defined in the per-rule conda environments under
-> [`workflow/envs/`](https://github.com/TRON-Private/tronmake-genome-lib-builder/tree/dev/workflow/envs)
+> [`workflow/envs/`](https://github.com/TRON-Bioinformatics/oblx/tree/dev/workflow/envs)
 > and the corresponding apptainer/docker images in
-> [`config/container_config.yaml`](https://github.com/TRON-Private/tronmake-genome-lib-builder/blob/dev/config/container_config.yaml).
+> [`config/container_config.yaml`](https://github.com/TRON-Bioinformatics/oblx/blob/dev/config/container_config.yaml).
 
 {{ read_table("resources/supported_tools.tsv") }}

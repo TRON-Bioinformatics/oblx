@@ -10,7 +10,7 @@ You can contribute in many ways:
 ### Fix documentation
 
 If you find any errors or inconsistencies in the
-[documentation](https://tron-bioinformatics.github.io/OBLX/), please open a pull
+[documentation](https://tron-bioinformatics.github.io/oblx/), please open a pull
 request with the necessary corrections. This helps ensure that the documentation
 remains accurate and up-to-date.
 
@@ -18,7 +18,7 @@ remains accurate and up-to-date.
 
 We welcome every contribution of additional indices as this makes OBLX even more
 helpful. Please also see the
-[developer guide](https://tron-bioinformatics.github.io/OBLX/developer_guide)
+[developer guide](https://tron-bioinformatics.github.io/oblx/developer_guide)
 for guidelines.
 
 To add another index, create a rule in `build_indices.smk` that creates the

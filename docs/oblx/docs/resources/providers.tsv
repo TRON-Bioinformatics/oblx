@@ -7,4 +7,4 @@ UniProt (https://www.uniprot.org/)	https://rest.uniprot.org/uniprotkb/stream	The
 NCBI (https://www.ncbi.nlm.nih.gov/snp/)	"https://ftp.ncbi.nih.gov/
 "	Phan et al. (2025)
 Ensembl (https://www.ensembl.org)	https://ftp.ensembl.org/pub/	Keane et al. (2011)
-Genbank (https://www.ncbi.nlm.nih.gov/genbank/)	"download via efetch with Genbank accessions specified in https://github.com/TRON-Private/tronmake-genome-lib-builder/blob/dev/workflow/resources/tcga_viruses.tsv"	Clark et al. (2015)
+Genbank (https://www.ncbi.nlm.nih.gov/genbank/)	"download via efetch with Genbank accessions specified in https://github.com/TRON-Bioinformatics/oblx/blob/dev/workflow/resources/tcga_viruses.tsv"	Clark et al. (2015)

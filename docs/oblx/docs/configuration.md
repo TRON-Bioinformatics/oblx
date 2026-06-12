@@ -2,7 +2,7 @@
 
 The configuration file defines the values for the parameters below. Default
 values are described in
-[`workflow/schemas/config.schema.yaml`](https://github.com/TRON-Private/tronmake-genome-lib-builder/blob/dev/workflow/schemas/config.schema.yaml).
+[`workflow/schemas/config.schema.yaml`](https://github.com/TRON-Bioinformatics/oblx/blob/dev/workflow/schemas/config.schema.yaml).
 If the user provides a config file, it is validated against this schema.
 
 - `organism`: Takes `human` or `mouse`
@@ -41,14 +41,14 @@ If the user provides a config file, it is validated against this schema.
   `af_only_gnomad_hg38.vcf.gz` file
 
 On top of that, we use the
-[`config/container_config.yaml`](https://github.com/TRON-Private/tronmake-genome-lib-builder/blob/dev/config/container_config.yaml)
+[`config/container_config.yaml`](https://github.com/TRON-Bioinformatics/oblx/blob/dev/config/container_config.yaml)
 file to specify URLs for the apptainer/docker containers `--sdm apptainer`.
 
 ## Example Human
 
 An example config file to create a human OBLX Library. Unless required, it is
 recommended to use the default configuration (see
-[`workflow/schemas/config.schema.yaml`](https://github.com/TRON-Private/tronmake-genome-lib-builder/blob/dev/workflow/schemas/config.schema.yaml)).
+[`workflow/schemas/config.schema.yaml`](https://github.com/TRON-Bioinformatics/oblx/blob/dev/workflow/schemas/config.schema.yaml)).
 
 ```
 organism: human
