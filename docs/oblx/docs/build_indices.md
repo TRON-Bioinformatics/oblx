@@ -195,7 +195,7 @@ snpEff \
 
 ### R
 
-This directory contains GenomicFeatures respresentations of annotation data for
+This directory contains GenomicFeatures representations of annotation data for
 use with [splice2neo](https://github.com/TRON-Bioinformatics/splice2neo) (Lang
 et al., 2024).
 
