@@ -47,11 +47,12 @@ file to specify URLs for the apptainer/docker containers `--sdm apptainer`.
 ## Example Human
 
 An example config file to create a human OBLX Library. Unless required, it is
-recommended to use the default configuration.
+recommended to use the default configuration (see
+[`workflow/schemas/config.schema.yaml`](https://github.com/TRON-Private/tronmake-genome-lib-builder/blob/dev/workflow/schemas/config.schema.yaml)).
 
 ```
 organism: human
-release: "46"
+release: "49"
 genome_build: GRCh38
 gnomad_release: 4.1
 

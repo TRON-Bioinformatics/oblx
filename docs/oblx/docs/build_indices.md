@@ -117,7 +117,7 @@ workflow. The following directory structure is being created:
 │   │       └── transcripts.fa
 │   ├── snpeff
 │   │   ├── data
-│   │   │   └── GRCh38.46
+│   │   │   └── GRCh38.<release>
 │   │   │       ├── genes.gtf -> ../../../../resources/ref_annot.gtf
 │   │   │       ├── sequences.fa -> ../../../../resources/ref_genome_masked_final.fasta
 │   │   │       └── snpEffectPredictor.bin
@@ -173,7 +173,7 @@ This directory contains the resources required to run snpEff predictor.
 
 The file `snpeff.config` has to be passed to snpEff with the command line option
 `-c` when running snpEff. Additionally, the database name matching the subfolder
-under `indices/snpeff/data` (e.g. `GRCh38.46`) must be passed as a positional
+under `indices/snpeff/data` (e.g. `GRCh38.49`) must be passed as a positional
 argument, and `-nodownload` must be set so snpEff does not try to fetch the
 database from the internet.
 
