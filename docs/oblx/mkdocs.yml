@@ -35,7 +35,7 @@ theme:
 
 copyright: © TRON gGmbH, 2026. This work is licensed under MIT.
 
-repo_url: https://github.com/TRON-Private/tronmake-genome-lib-builder/
+repo_url: https://github.com/TRON-Bioinformatics/oblx/
 
 plugins:
   - search
