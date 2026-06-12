@@ -2,7 +2,7 @@ name: Build and Deploy MkDocs to GitHub Pages
 
 on:
   push:
-    branches: ["main"]
+    branches: ["dev", "main"]
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
