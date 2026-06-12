@@ -1,14 +1,15 @@
 # Download Resources
 
-The pull resources workflow downloads resources required for common
-bioinformatics analyses. The resources include among others data from the
-following sources which are the basis to [build indices](build_indices.md) for
-several bioinformatics tools.
+The "Download Resources" subworkflow downloads resources required for common
+bioinformatics analyses. The resources are downloaded from the providers listed
+below. Each provider has its own license and citation requirements - please
+review and acknowledge the original sources when using an OBLX generated
+library.
 
-- [Gencode](https://www.gencodegenes.org/)
-- [GATK](https://gatk.broadinstitute.org/hc/en-us)
-- [dbSNP](https://www.ncbi.nlm.nih.gov/snp/)
-- [GnomAD](https://gnomad.broadinstitute.org)
+> Note: OBLX downloads Twist Exome BED files from UCSC, these do not fall under
+> an open source license, please check for your use case.
+
+{{ read_table("resources/providers.tsv") }}
 
 ## Input
 
@@ -300,3 +301,48 @@ Viral sequences are only downloaded in human mode.
 ### Overview of downloaded resources in mouse-mode
 
 {{ read_table("resources/mouse_resources.tsv") }}
+
+## References
+
+- Casper, J., Speir, M. L., Raney, B. J., Perez, G., Nassar, L. R., Lee, C. M.,
+  Hinrichs, A. S., Gonzalez, J. N., Fischer, C., Diekhans, M., Clawson, H.,
+  Benet-Pages, A., Barber, G. P., Vaske, C. J., van Baren, M. J., Wang, K.,
+  Rodriguez, Y. J. P., Jenkins-Kiefer, J. A., Chalamala, M., … Haeussler, M.
+  (2026). The UCSC Genome Browser database: 2026 update. Nucleic Acids Research,
+  54(D1), D1331–D1335.
+  [https://doi.org/10.1093/nar/gkaf1250](https://doi.org/10.1093/nar/gkaf1250)
+- Chen, S., Francioli, L. C., Goodrich, J. K., Collins, R. L., Kanai, M., Wang,
+  Q., Alföldi, J., Watts, N. A., Vittal, C., Gauthier, L. D., Poterba, T.,
+  Wilson, M. W., Tarasova, Y., Phu, W., Grant, R., Yohannes, M. T., Koenig, Z.,
+  Farjoun, Y., Banks, E., … Karczewski, K. J. (2024). A genomic mutational
+  constraint map using variation in 76,156 human genomes. Nature, 625(7993),
+  92–100.
+  [https://doi.org/10.1038/s41586-023-06045-0](https://doi.org/10.1038/s41586-023-06045-0)
+- Karczewski, K. J., Francioli, L. C., Tiao, G., Cummings, B. B., Alföldi, J.,
+  Wang, Q., Collins, R. L., Laricchia, K. M., Ganna, A., Birnbaum, D. P.,
+  Gauthier, L. D., Brand, H., Solomonson, M., Watts, N. A., Rhodes, D.,
+  Singer-Berk, M., England, E. M., Seaby, E. G., Kosmicki, J. A., … MacArthur,
+  D. G. (2020). The mutational constraint spectrum quantified from variation in
+  141,456 humans. Nature, 581(7809), 434–443.
+  [https://doi.org/10.1038/s41586-020-2308-7](https://doi.org/10.1038/s41586-020-2308-7)
+- Mudge, J. M., Carbonell-Sala, S., Diekhans, M., Martinez, J. G., Hunt, T.,
+  Jungreis, I., Loveland, J. E., Arnan, C., Barnes, I., Bennett, R., Berry, A.,
+  Bignell, A., Cerdán-Vélez, D., Cochran, K., Cortés, L. T., Davidson, C.,
+  Donaldson, S., Dursun, C., Fatima, R., … Frankish, A. (2025). GENCODE 2025:
+  Reference gene annotation for human and mouse. Nucleic Acids Research, 53(D1),
+  D966–D975.
+  [https://doi.org/10.1093/nar/gkae1078](https://doi.org/10.1093/nar/gkae1078)
+- Phan, L., Zhang, H., Wang, Q., Villamarin, R., Hefferon, T., Ramanathan, A., &
+  Kattman, B. (2025). The evolution of dbSNP: 25 years of impact in genomic
+  research. Nucleic Acids Research, 53(D1), D925–D931.
+  [https://doi.org/10.1093/nar/gkae977](https://doi.org/10.1093/nar/gkae977)
+- The UniProt Consortium, Bateman, A., Martin, M.-J., Orchard, S., Magrane, M.,
+  Adesina, A., Ahmad, S., Bowler-Barnett, E. H., Bye-A-Jee, H., Carpentier, D.,
+  Denny, P., Fan, J., Garmiri, P., Gonzales, L. J. D. C., Hussein, A.,
+  Ignatchenko, A., Insana, G., Ishtiaq, R., Joshi, V., … Zhang, J. (2025).
+  UniProt: The Universal Protein Knowledgebase in 2025. Nucleic Acids Research,
+  53(D1), D609–D617.
+  [https://doi.org/10.1093/nar/gkae1010](https://doi.org/10.1093/nar/gkae1010)
+- van der Auwera, G., & O’Connor, B. D. (2020). Genomics in the Cloud: Using
+  Docker, GATK, and WDL in Terra. O’Reilly Media, Incorporated.
+  [https://books.google.de/books?id=wwiCswEACAAJ](https://books.google.de/books?id=wwiCswEACAAJ)
