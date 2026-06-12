@@ -20,7 +20,7 @@ properties:
     description: >-
       Release number of the GENCODE annotation for the corresponding reference
       genome_build.
-    default: "46"
+    default: "49"
     type: string
   gnomad_release:
     description: >-

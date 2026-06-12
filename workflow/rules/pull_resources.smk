@@ -187,7 +187,7 @@ by default and a BED12 file of the reference transcripts.
         ucsc_problematic_remote=storage(
             "{}/problematic/comments.bb".format(config["ucsc_url"])
         ),
-        # https://hgdownload.soe.ucsc.edu/gbdb/hg38/gencode/gencodeV46.bb
+        # https://hgdownload.soe.ucsc.edu/gbdb/hg38/gencode/gencodeV<release>.bb
         gencode_bed12_remote=storage(
             "{}/gencode/gencodeV{}.bb".format(config["ucsc_url"], config["release"])
         ),
