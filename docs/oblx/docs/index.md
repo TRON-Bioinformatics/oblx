@@ -24,7 +24,7 @@ supports an extensive set of bioinformatics tools, all listed in
 ## Pre-built indices
 
 Pre-built OBLX libraries for **human GRCh38 v49** and **mouse GRCm39 vM36** are
-available for download via
+soon available for download via
 [ftp://easyfuse.tron-mainz.de/tron_genome_library](ftp://easyfuse.tron-mainz.de/tron_genome_library).
 
 ```sh
@@ -33,6 +33,12 @@ wget ftp://easyfuse.tron-mainz.de/oblx/v1.0.0/human/GRCh38_49
 
 # mouse
 wget ftp://easyfuse.tron-mainz.de/oblx/v1.0.0/mouse/GRCm39_M36
+```
+
+To verify the files run
+
+```sh
+sha256sum -c checksum.txt
 ```
 
 ## Installation
