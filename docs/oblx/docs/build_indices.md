@@ -229,7 +229,7 @@ Contains the [Kallisto](https://pachterlab.github.io/kallisto/) (Bray et al.,
 - Dobin, A., Davis, C. A., Schlesinger, F., Drenkow, J., Zaleski, C., Jha, S.,
   Batut, P., Chaisson, M., & Gingeras, T. R. (2013). STAR: Ultrafast universal
   RNA-seq aligner. Bioinformatics, 29(1), 15–21.
-  [https://doi.org/10.1093/bioinformatics/bts635](10.1093/bioinformatics/bts635)
+  [https://doi.org/10.1093/bioinformatics/bts635](https://doi.org/10.1093/bioinformatics/bts635)
 - Kim, D., Paggi, J. M., Park, C., Bennett, C., & Salzberg, S. L. (2019).
   Graph-based genome alignment and genotyping with HISAT2 and HISAT-genotype.
   Nature Biotechnology, 37(8), 907–915.
