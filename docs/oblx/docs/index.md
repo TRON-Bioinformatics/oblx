@@ -121,7 +121,10 @@ Main developers:
 
 ## References
 
-- Mölder F, Jablonski KP, Letcher B et al. Sustainable data analysis with
-  Snakemake [version 1; peer review: 1 approved, 1 approved with reservations].
-  F1000Research 2021, 10:33 (https://doi.org/10.12688/f1000research.29032.1)
+- Mölder, F., Jablonski, K. P., Letcher, B., Hall, M. B., Van Dyken, P. C.,
+  Tomkins-Tinch, C. H., Sochat, V., Forster, J., Vieira, F. G., Meesters, C.,
+  Lee, S., Twardziok, S. O., Kanitz, A., VanCampen, J., Malladi, V., Wilm, A.,
+  Holtgrewe, M., Rahmann, S., Nahnsen, S., & Köster, J. (2025). Sustainable data
+  analysis with Snakemake. F1000Research, 10, 33.
+  [https://doi.org/10.12688/f1000research.29032.3](https://doi.org/10.12688/f1000research.29032.3)
 - Figure generated with [BioRender](https://app.biorender.com/) icons.
