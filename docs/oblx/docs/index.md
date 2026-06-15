@@ -66,11 +66,11 @@ executing (to run them independently, see the respective section):
 
 ```
 snakemake -s workflow/Snakefile \
-  --directory </path/to/output/directory> \
-  --software-deployment-method [conda|apptainer] \
-  --latency-wait 60 \
-  [--configfile <path/to/config/file>] \
-  [--profile </path/to/cluster/profile/>]
+	  --directory </path/to/output/directory> \
+    --latency-wait 60 \
+    --software-deployment-method [conda|apptainer] \
+	  [--configfile <path/to/config/file>] \
+	  [--profile </path/to/cluster/profile/>]
 ```
 
 - `--directory`: Directory to store the results of the workflow.

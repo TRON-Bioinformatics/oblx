@@ -69,9 +69,9 @@ To run OBLX, adapt and execute the following command:
 
 ```
 snakemake -s workflow/Snakefile \
-	--directory \
-	[conda </path/to/output/directory> --software-deployment-method | apptainer] \
-	--latency-wait 60 \
+	--directory </path/to/output/directory> \
+    --latency-wait 60 \
+    --software-deployment-method [conda|apptainer] \
 	[--configfile <path/to/config/file>] \
 	[--profile </path/to/cluster/profile/>]
 ```
