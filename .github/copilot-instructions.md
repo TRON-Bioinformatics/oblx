@@ -51,7 +51,7 @@ All shell scripts must start with `#!/usr/bin/env bash` and use
   `container:` (from `config/container_config.yaml`) directives for software
   deployment. Access container URIs via `config["container"].get("<tool>")`
 - Use `config["key"]` to access configuration. Defaults are set in
-  `workflow/schemas/config_validation.yaml`.
+  `workflow/schemas/config.schema.yaml`.
 - Log files go under `logs/`. Prefer the pattern `logs/<tool>/<rule-name>.log`
   for new rules, but existing top-level `logs/<rule-name>.log` paths are also
   accepted where appropriate
@@ -91,8 +91,8 @@ docs/                # MkDocs documentation source
 
 ## Configuration
 
-- `workflow/schemas/config_validation.yaml`: Default workflow parameters
-  (organism, release, genome build, URLs, chromosome filters) and validation.
+- `workflow/schemas/config.schema.yaml`: Default workflow parameters (organism,
+  release, genome build, URLs, chromosome filters) and validation.
 - `config/container_config.yaml`: Docker/Apptainer container URIs per tool,
   accessed in rules as `config["container"].get("<tool>")`
 - Supports human (GRCh38) and mouse (GRCm38, GRCm39) organisms
