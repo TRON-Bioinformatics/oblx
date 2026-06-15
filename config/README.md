@@ -1,4 +1,4 @@
 # Configuration
 
-See the [config](https://urban-guacamole-qmm473j.pages.github.io/configuration/)
+See the [config](https://tron-bioinformatics.github.io/oblx/configuration/)
 section in our online docs.
