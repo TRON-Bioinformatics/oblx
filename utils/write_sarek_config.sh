@@ -40,8 +40,8 @@ params {
     intervals = '${OBLX_LIBRARY_DIR}/resources/exome_definition/ref_exome.bed'
 
     // Germline variant resources
-    germline_resource     = '${OBLX_LIBRARY_DIR}/resources/germline_variants/af_only_gnomad_hg38.vcf.gz'
-    germline_resource_tbi = '${OBLX_LIBRARY_DIR}/resources/germline_variants/af_only_gnomad_hg38.vcf.gz.tbi'
+    germline_resource     = '${OBLX_LIBRARY_DIR}/resources/germline_variants/gnomAD/exomes/af_only_gnomad_hg38.vcf.gz'
+    germline_resource_tbi = '${OBLX_LIBRARY_DIR}/resources/germline_variants/gnomAD/exomes/af_only_gnomad_hg38.vcf.gz.tbi'
     dbsnp                 = '${OBLX_LIBRARY_DIR}/resources/germline_variants/dbSNP_151.vcf.gz'
     dbsnp_tbi             = '${OBLX_LIBRARY_DIR}/resources/germline_variants/dbSNP_151.vcf.gz.tbi'
     known_snps            = '${OBLX_LIBRARY_DIR}/resources/gatk_bundle/1000G_omni2.5.hg38.vcf.gz'
