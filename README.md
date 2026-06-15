@@ -60,7 +60,7 @@ wget ftp://easyfuse.tron-mainz.de/oblx/v1.0.0/mouse/GRCm39_M36
 To verify the files run
 
 ```sh
-sha256sum -c checksum.txt
+sha256sum -c CHECKSUM_FILE
 ```
 
 ## Usage
@@ -80,32 +80,39 @@ snakemake -s workflow/Snakefile \
 
 OBLX does not require any user-provided input. You only specify the output
 directory and, if non-default settings are desired, adapt the
-[configuration](https://urban-guacamole-qmm473j.pages.github.io/configuration/).
+[configuration](https://tron-bioinformatics.github.io/oblx/configuration/).
 
 ## Output
 
 The output of the pipeline is written to the directory specified with
 `--directory`. Descriptions of the downloaded genome resources are documented in
-[*Download Resources*](https://urban-guacamole-qmm473j.pages.github.io/pull_resources/);
+[*Download Resources*](https://tron-bioinformatics.github.io/oblx/pull_resources/);
 descriptions of the generated indices are documented in
-[*Build Indices*](https://urban-guacamole-qmm473j.pages.github.io/build_indices/).
+[*Build Indices*](https://tron-bioinformatics.github.io/oblx/build_indices/).
 
 ## Contribution
 
 We welcome contributions! Please see
-[CONTRIBUTING](https://github.com/TRON-Bioinformatics/oblx/CONTRIBUTING.md) and
-[developer_guide](developer_guide.md) for guidelines.
+[CONTRIBUTING](https://github.com/TRON-Bioinformatics/oblx/blob/main/CONTRIBUTING.md)
+and
+[developer_guide](https://tron-bioinformatics.github.io/oblx/developer_guide/)
+for guidelines.
 
 ## About
 
 OBLX was originally developed by Luis Kress and Johannes Hausmann at
 [TRON - Translational Oncology at the Medical Center of the Johannes Gutenberg University Mainz gGmbH (non-profit)](https://tron-mainz.de/).
 
-Main developers:
+🛠️ Main developers:
 
-- [Luis Kress](mailto:luis.kress@tron-mainz.de)
-- [Johannes Hausmann](mailto:johannes.hausmann@tron-mainz.de)
-- [Jonas Freimuth](mailto:jonas.freimuth@tron-mainz.de)
+- [Luis Kress](https://github.com/LKress)
+- [Johannes Hausmann](https://github.com/johausmann)
+- [Jonas Freimuth](https://github.com/jonasfreimuth)
+
+✨ Contributors and code reviewers:
+
+- [Jonas Ibn-Salem](https://github.com/ibn-salem)
+- [Franziska Lang](https://github.com/franla23)
 
 ## References
 
