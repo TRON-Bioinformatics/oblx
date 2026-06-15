@@ -93,7 +93,7 @@ descriptions of the generated indices are documented in
 ## Contribution
 
 We welcome contributions! Please see
-[CONTRIBUTING](https://github.com/TRON-Bioinformatics/oblx/blob/main/CONTRIBUTING.md)
+[CONTRIBUTING.md](CONTRIBUTING.md)
 and
 [developer_guide](https://tron-bioinformatics.github.io/oblx/developer_guide/)
 for guidelines.
