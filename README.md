@@ -121,3 +121,11 @@ OBLX was originally developed by Luis Kress and Johannes Hausmann at
   analysis with Snakemake. F1000Research, 10, 33.
   [https://doi.org/10.12688/f1000research.29032.3](https://doi.org/10.12688/f1000research.29032.3)
 - Figure generated with [BioRender](https://app.biorender.com/) icons.
+
+## License
+
+The source code is licensed under the [MIT License](LICENSE).
+
+The artwork and figures (`docs/oblx/docs/resources/logo.png`,
+`docs/oblx/docs/resources/workflow_graph.png`) were submitted to Frontiers Bioinformatics
+and are licensed under [CC BY 4.0](LICENSE-ARTWORK.md).
