@@ -29,7 +29,8 @@ index and add the output file path to the function get_build_indices_output in
 
 If more resource files are required to either generate a new index or for a
 specific tool, just create a new rule in `pull_resources.smk` and add the output
-file(s) in get_pull_resources_output in `common.smk`.
+file(s) in get_pull_resources_output in `common.smk`. Finally, add license and
+terms of use information to `workflow/resources/license_information.md`.
 
 ### Adapt tool versions
 
