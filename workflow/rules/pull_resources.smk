@@ -910,3 +910,27 @@ Extract canoncial splice junctions from GENCODE reference transcripts.
         Rscript "{input.script}" \
             "{input.gtf}" "{output.canonical_juncs}" &> "{log}"
         """
+
+
+rule write_license_information:
+    """
+Write the license information file for the pulled resources.
+"""
+    input:
+        license_info=workflow.source_path("../resources/license_information.md"),
+    output:
+        license_info="license_information.md",
+    log:
+        "logs/pull_resources/write_license_information.log",
+    benchmark:
+        "benchmarks/pull_resources/write_license_information.txt"
+    localrule: True
+    conda:
+        "../envs/shellutils.yaml"
+    container:
+        config["container"].get("shell_utils")
+    shell:
+        """
+        exec &> "{log}"
+        cp "{input.license_info}" "{output.license_info}"
+        """
