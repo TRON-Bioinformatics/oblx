@@ -66,7 +66,7 @@ properties:
       URL from which GENCODE resources can be downloaded. Expected to point to
       the root of a FTP directory (accessed via HTTPS) under which the general
       GENCODE dir structure can be found, i.e.,
-      <URL>/Gencode_<organism>/release_<release>/<annotation files>.
+      [URL]/Gencode_[organism]/release_[release]/<annotation files>.
     default: https://ftp.ebi.ac.uk/pub/databases/gencode
     type: string
   ucsc_url:
