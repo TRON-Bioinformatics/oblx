@@ -1,0 +1,3 @@
+This dir is kept as it is needed for the Snakemake workflow catalog tubemap.
+Due to how our workflow is set up, i.e., not requiring non-default config or
+input files, it can stay empty.
