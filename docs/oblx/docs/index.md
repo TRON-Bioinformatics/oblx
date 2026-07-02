@@ -25,21 +25,48 @@ supports an extensive set of bioinformatics tools, all listed in
 ## Pre-built indices
 
 Pre-built OBLX libraries for **human GRCh38 v49** and **mouse GRCm39 vM36** are
-soon available for download via
+available for download via
 [ftp://easyfuse.tron-mainz.de/oblx](ftp://easyfuse.tron-mainz.de/oblx).
 
-```sh
-# human
-wget ftp://easyfuse.tron-mainz.de/oblx/v1.0.0/human/GRCh38_49
+For each OBLX version that leads to changes in the human or mouse library, an
+OBLX library is generated. Currently, these versions are available:
 
-# mouse
-wget ftp://easyfuse.tron-mainz.de/oblx/v1.0.0/mouse/GRCm39_M36
+- v1.0.0
+- v2.0.0
+
+Specify version and organism (`human` and `mouse` are available). The variable
+`BUILD_RELEASE` is defined by the respective default for `genome_build` and
+`release` of the given version (see config.schema.yaml at
+`https://github.com/TRON-Bioinformatics/oblx/blob/v1.0.0/workflow/schemas/config.schema.yaml`).
+
+```sh
+OBLX_VERSION="v1.0.0"
+OBLX_ORGANISM="human"
+BUILD_RELEASE="GRCh38_49"
 ```
 
-To verify the files run
+Download the respective OBLX library (this downloads the respective files
+contained in the library, no tar.gz):
 
 ```sh
-sha256sum -c checksum.txt
+wget --recursive --no-host-directories "ftp://easyfuse.tron-mainz.de/oblx/${OBLX_VERSION}/${OBLX_ORGANISM}/${BUILD_RELEASEy}$"
+```
+
+To verify the files run the following commands (to setup gpg key see
+[https://github.com/TRON-Bioinformatics/security](https://github.com/TRON-Bioinformatics/security)).
+If any of the checks fail, please refer to this repository. If the error is not
+documented, feel free to open an issue.
+
+```sh
+cd "oblx/${OBLX_VERSION}/${OBLX_ORGANISM}"
+# download the respective checksum
+wget "ftp://easyfuse.tron-mainz.de/oblx/${OBLX_VERSION}/${OBLX_ORGANISM}/${BUILD_RELEASE}.checksum.txt.sig"
+
+# extract the checksum file
+gpg --output ${BUILD_RELEASE}.checksum.txt --decrypt ${BUILD_RELEASE}.checksum.txt.sig
+
+# check the downloaded assets
+sha256sum -c ${BUILD_RELEASE}.checksum.txt
 ```
 
 ## Installation
