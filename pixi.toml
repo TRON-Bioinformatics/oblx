@@ -13,7 +13,10 @@ version = "1.0.0"  # x-release-please-version
 [dependencies]
 snakemake-minimal = { version = ">=9.20,<10", channel = "bioconda" }
 snakemake-storage-plugin-http = { channel = "bioconda" }
+# Included for ensuring wide compatibility with most executors.
 snakemake-executor-plugin-cluster-generic = { channel = "bioconda" }
+# Included for maximizing compatibility with SLURM.
+snakemake-executor-plugin-slurm = { version = ">=1.4.0,<2", channel = "bioconda" }
 pandas = ">=3.0.3,<4"
 
 [feature.docs.dependencies]
