@@ -473,34 +473,6 @@ Download resources from GATK bundle.
         """
 
 
-rule download_uniprot:
-    """
-Download UniProt data.
-"""
-    input:
-        script=workflow.source_path("../scripts/programmatically_get_uniprot.py"),
-    output:
-        uniprot_annotations=temp("resources/uniprot/uniprot_stream.tsv"),
-    log:
-        "logs/pull_resources/download_uniprot.log",
-    benchmark:
-        "benchmarks/pull_resources/download_uniprot.txt"
-    conda:
-        "../envs/pull_uniprot.yaml"
-    container:
-        config["container"].get("scipy-notebook")
-    params:
-        outdir=lambda wildcards, output: os.path.dirname(output.uniprot_annotations),
-        organism=lambda wildcards: config["organism"],
-    shell:
-        """
-        exec &> "{log}"
-        python "{input.script}" \
-            --outdir "{params.outdir}" \
-            --organism "{params.organism}"
-        """
-
-
 rule download_dbsnp_human:
     """
 Download current dbSNP release from NCBI server.
