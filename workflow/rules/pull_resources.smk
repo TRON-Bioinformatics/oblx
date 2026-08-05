@@ -934,3 +934,101 @@ Write the license information file for the pulled resources.
         exec &> "{log}"
         cp "{input.license_info}" "{output.license_info}"
         """
+
+
+rule download_ensembl_external_data:
+    """
+Download external_data table from ENSEMBL MySQL dump to extract uniprot release used in ENSEMBL pipeline.
+"""
+    input:
+        ensembl_remote=storage(
+            f"https://ftp.ensembl.org/pub/release-{ENSEMBL_VERSION}/mysql/{ENSEMBL_ORGANISM}_core_{ENSEMBL_VERSION}_{ENSEMBL_ASSEMBLY_BUILD}/external_db.txt.gz"
+        ),
+    output:
+        external_data=temp("resources/uniprot/external_data.txt.gz"),
+    log:
+        "logs/pull_resources/ensembl_external_data.log",
+    benchmark:
+        "benchmarks/pull_resources/ensembl_external_data.txt"
+    conda:
+        "../envs/shellutils.yaml"
+    container:
+        config["container"].get("shell_utils")
+    shell:
+        """
+        exec &> "{log}"
+        cp "{input.ensembl_remote}" "{output.external_data}"
+        """
+
+
+checkpoint extract_uniprot_release_from_ensembl_external_data:
+    """
+Extract the UniProt release version from the ENSEMBL external_data MySQL table.
+"""
+    input:
+        external_data="resources/uniprot/external_data.txt.gz",
+        script=workflow.source_path("../scripts/extract_uniprot_release.py"),
+    output:
+        uniprot_release="resources/uniprot/uniprot_release.txt",
+    log:
+        "logs/pull_resources/extract_uniprot_release_from_ensembl_external_data.log",
+    benchmark:
+        "benchmarks/pull_resources/extract_uniprot_release_from_ensembl_external_data.txt"
+    conda:
+        "../envs/pull_uniprot.yaml"
+    container:
+        config["container"].get("scipy-notebook")
+    shell:
+        """
+        exec &> "{log}"
+        python {input.script} \
+            --external_data "{input.external_data}" \
+            --outfile "{output.uniprot_release}"
+        """
+
+
+rule download_uniprot_snapshot:
+    """
+Download the UniProt snapshot release from the UniProt FTP server.
+"""
+    input:
+        uniprot_release=uniprot_snapshot_url,
+    output:
+        uniprot_snapshot=temp("resources/uniprot/uniprot_snapshot.tar.gz"),
+    log:
+        "logs/pull_resources/download_uniprot_snapshot.log",
+    benchmark:
+        "benchmarks/pull_resources/download_uniprot_snapshot.txt"
+    conda:
+        "../envs/shellutils.yaml"
+    container:
+        config["container"].get("shell_utils")
+    shell:
+        """
+        exec &> "{log}"
+        cp "{input.uniprot_release}" "{output.uniprot_snapshot}"
+        """
+
+
+rule extract_uniprot_snapshot:
+    """
+Extract the UniProt snapshot release to obtain SwissProt and TrEMBL data.
+"""
+    input:
+        uniprot_snapshot="resources/uniprot/uniprot_snapshot.tar.gz",
+    output:
+        swissprot="resources/uniprot/uniprot_sprot.dat.gz",
+        trembl="resources/uniprot/uniprot_trembl.dat.gz",
+    log:
+        "logs/pull_resources/extract_uniprot_snapshot.log",
+    benchmark:
+        "benchmarks/pull_resources/extract_uniprot_snapshot.txt"
+    conda:
+        "../envs/shellutils.yaml"
+    container:
+        config["container"].get("shell_utils")
+    shell:
+        """
+        exec &> "{log}"
+        tar xzf "{input.uniprot_snapshot}" -C resources/uniprot uniprot_trembl.dat.gz uniprot_sprot.dat.gz
+        """
