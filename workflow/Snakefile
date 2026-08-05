@@ -21,6 +21,7 @@ configfile: workflow.source_path("../config/container_config.yaml")
 gencode_or_ucsc = None
 gencode2ensembl_file = "resources/gencode2ensembl_human.tsv"
 ucsc_genome_build = "hg38"
+ENSEMBL_ORGANISM = "homo_sapiens"
 
 
 validate(config, workflow.source_path("schemas/config.schema.yaml"))
@@ -34,6 +35,8 @@ if config["organism"] == "mouse":
     gencode_or_ucsc = "gencode" if config["genome_build"] < "GRCm39" else "UCSC"
     ucsc_genome_build = "mm39" if config["genome_build"] == "GRCm39" else "mm10"
     gencode2ensembl_file = "resources/gencode2ensembl_mouse.tsv"
+    ENSEMBL_ORGANISM = "mus_musculus"
+
 
 # translate the gencode version to ensembl version for ensembl specific resources
 gencode2ensembl = pd.read_csv(
@@ -43,6 +46,13 @@ gencode2ensembl = pd.read_csv(
 ENSEMBL_VERSION = gencode2ensembl[
     gencode2ensembl.GENCODE_release == config["release"]
 ].Ensembl_release.values[0]
+
+ENSEMBL_ASSEMBLY_BUILD = (
+    gencode2ensembl[gencode2ensembl.GENCODE_release == config["release"]]
+    .Genome_assembly_version.values[0]
+    .removeprefix("GRCh")
+    .removeprefix("GRCm")
+)
 
 GENCODE2ENSEMBL_CHROM_MAPPING = workflow.source_path(
     "resources/GRCh38_ensembl2gencode.txt"
