@@ -226,3 +226,21 @@ def get_bowtie2_prefix(index_files: list[str]):
 
     # Join the dirname back in and get everything up to the first '.'.
     return os.path.join(dirname, basename.split(".")[0])
+
+
+def uniprot_snapshot_url(wildcards):
+    """
+    Function to build the URL for the uniprot snapshot tar.gz file based on checkpoint output.
+    """
+    release_file = checkpoints.extract_uniprot_release_from_ensembl_external_data.get(
+        **wildcards
+    ).output.uniprot_release
+    with open(release_file, "r") as f:
+        release = f.read().strip().split("\t")[1]
+    return storage(
+        (
+            config["uniprot_url"]
+            + f"/previous_releases/release-{release}/"
+            + f"knowledgebase/knowledgebase{release}.tar.gz"
+        )
+    )
