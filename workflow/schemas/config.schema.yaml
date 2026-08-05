@@ -96,6 +96,11 @@ properties:
       needed when organism is "human".
     default: https://storage.googleapis.com/gcp-public-data--gnomad/release
     type: string
+  uniprot_url:
+    description: >-
+      URL from which the UniProt resources may be downloaded.
+    default: https://ftp.uniprot.org/pub/databases/uniprot
+    type: string
   chrom_filter:
     description: >-
       List of chromosome names to be included in the genomelib. Only needed when
