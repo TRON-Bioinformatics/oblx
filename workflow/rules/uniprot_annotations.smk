@@ -34,7 +34,7 @@ Extract UniProt annotations from a concatenated UniProtKB .dat.gz file.
             "../scripts/programmatically_get_uniprot_from_dat.py"
         ),
     output:
-        uniprot_annot="resources/uniprot/uniprot_annotations.tsv",
+        uniprot_annot="resources/uniprot/uniprot_annotations_raw.tsv",
     log:
         "logs/uniprot/extract_uniprot_annot_from_dat.log",
     benchmark:
