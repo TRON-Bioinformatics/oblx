@@ -8,7 +8,7 @@ channels = ["conda-forge", "bioconda"]
 description = "Reproducible generation of references and resources for next generation sequencing pipelines."
 name = "oblx"
 platforms = ["linux-64"]
-version = "1.0.0"  # x-release-please-version
+version = "2.0.0"  # x-release-please-version
 
 [dependencies]
 snakemake-minimal = { version = ">=9.20,<10", channel = "bioconda" }
