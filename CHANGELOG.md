@@ -1,5 +1,33 @@
 # Changelog
 
+## [1.1.0](https://github.com/TRON-Bioinformatics/oblx/compare/v1.0.0...v1.1.0) (2026-08-14)
+
+
+### Features
+
+* add global variables ENSEMBL_ASSEMBLY_BUILD and ENSEMBL_ORGANISM to construct URL for ENSEMBL MySQL dump ([939fb7b](https://github.com/TRON-Bioinformatics/oblx/commit/939fb7b85c6c5baa45806e2b49ef92dec6af17bd))
+* add rule to download table from ENSEMBL database tables ([4892ce6](https://github.com/TRON-Bioinformatics/oblx/commit/4892ce67b5fdd33931f17747b350feeaa2048eae))
+* add rule to download UniProt release tarball ([4892ce6](https://github.com/TRON-Bioinformatics/oblx/commit/4892ce67b5fdd33931f17747b350feeaa2048eae))
+* add rule to extract required annotations from UniProt tarball ([4892ce6](https://github.com/TRON-Bioinformatics/oblx/commit/4892ce67b5fdd33931f17747b350feeaa2048eae))
+* add rule to extract UniProt release from external_data table ([4892ce6](https://github.com/TRON-Bioinformatics/oblx/commit/4892ce67b5fdd33931f17747b350feeaa2048eae))
+* add uniprot base URL to schema file ([1e84bc9](https://github.com/TRON-Bioinformatics/oblx/commit/1e84bc978faf0838ae50f1e50a4706ba3845cd93))
+
+
+### Bug Fixes
+
+* Add conda dependencies ([696a6a3](https://github.com/TRON-Bioinformatics/oblx/commit/696a6a32b13a62dbb514455606af06f2dd43e423))
+* Rename extract_uniprot_annot_from_dat colname ([580855a](https://github.com/TRON-Bioinformatics/oblx/commit/580855a4edadc3e7d9e182411e40b7afb0c7bfec))
+
+
+### Dependencies
+
+* **workflow:** Add SLURM executor plugin ([d26a64d](https://github.com/TRON-Bioinformatics/oblx/commit/d26a64d1e9a8839960212132dab11f8b62713ee8))
+
+
+### Documentation
+
+* Add license information in generated OBLX library ([7f7ce85](https://github.com/TRON-Bioinformatics/oblx/commit/7f7ce85e33b4081a12c0ba9472c68720052071ff))
+
 ## [1.0.0](https://github.com/TRON-Bioinformatics/oblx/compare/v0.0.3...v1.0.0) (2026-06-15)
 
 ### ⚠ BREAKING CHANGES
