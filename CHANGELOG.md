@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.0.1](https://github.com/TRON-Bioinformatics/oblx/compare/v2.0.0...v2.0.1) (2026-08-18)
+
+### Bug Fixes
+
+- Decode ensembl to uniprot mapping with error handling
+  ([0729d1c](https://github.com/TRON-Bioinformatics/oblx/commit/0729d1c35b69e6fa39d3bf5ed3b6e97105fd3743))
+
 ## [2.0.0](https://github.com/TRON-Bioinformatics/oblx/compare/v1.0.0...v2.0.0) (2026-08-14)
 
 ### ⚠ BREAKING CHANGES
