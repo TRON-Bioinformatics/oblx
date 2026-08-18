@@ -14,9 +14,10 @@ def parse_uniprot_release(external_data_file: pathlib.Path) -> str | None:
     Args:
         external_data_file: Path to the external_data.txt.gz file.
     """
-    with gzip.open(external_data_file, "rt", encoding="utf-8") as file:
+    with gzip.open(external_data_file, "rb") as file:
         for line in file:
-            match = RELEASE_PATTERN.search(line)
+            decoded_line = line.decode(errors="replace")
+            match = RELEASE_PATTERN.search(decoded_line)
             if match:
                 release = match.group(1)
                 return release
