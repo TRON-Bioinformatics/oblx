@@ -29,16 +29,22 @@ soon available for download via
 
 ```sh
 # human
-wget ftp://easyfuse.tron-mainz.de/oblx/v1.0.0/human/GRCh38_49
+wget -recursive --no-host-directories ftp://easyfuse.tron-mainz.de/oblx/v1.0.0/human/GRCh38_49
 
 # mouse
-wget ftp://easyfuse.tron-mainz.de/oblx/v1.0.0/mouse/GRCm39_M36
+wget --recursive --no-host-directories ftp://easyfuse.tron-mainz.de/oblx/v1.0.0/mouse/GRCm39_M36
 ```
 
-To verify the files run
+To verify the files run (to setup gpg key see \[TODO\](TODO: add link))
 
 ```sh
-sha256sum -c checksum.txt
+# go to respective directory (mouse in case of mouse)
+cd oblx/v1.0.0/human
+# download the respective checksum
+wget ftp://easyfuse.tron-mainz.de/oblx/v1.0.0/human/GRCh38_49.checksum.txt
+wget ftp://easyfuse.tron-mainz.de/oblx/v1.0.0/human/GRCh38_49.checksum.txt.sig
+
+sha256sum -c GRCh38_49.checksum.txt
 ```
 
 ## Installation
