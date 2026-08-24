@@ -989,8 +989,8 @@ Extract the UniProt snapshot release to obtain SwissProt and TrEMBL data.
     input:
         uniprot_snapshot="resources/uniprot/uniprot_snapshot.tar.gz",
     output:
-        swissprot="resources/uniprot/uniprot_sprot.dat.gz",
-        trembl="resources/uniprot/uniprot_trembl.dat.gz",
+        swissprot=temp("resources/uniprot/uniprot_sprot.dat.gz"),
+        trembl=temp("resources/uniprot/uniprot_trembl.dat.gz"),
     log:
         "logs/pull_resources/extract_uniprot_snapshot.log",
     benchmark:
