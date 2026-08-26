@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.0.2](https://github.com/TRON-Bioinformatics/oblx/compare/v2.0.1...v2.0.2) (2026-08-26)
+
+### Bug Fixes
+
+- **pull_resources:** Make UP dat.gz files temp
+  ([c91b1ad](https://github.com/TRON-Bioinformatics/oblx/commit/c91b1ad1fbae750b9ec2f818879aaba4a80c30c7)),
+  closes [#248](https://github.com/TRON-Bioinformatics/oblx/issues/248)
+
 ## [2.0.1](https://github.com/TRON-Bioinformatics/oblx/compare/v2.0.0...v2.0.1) (2026-08-18)
 
 ### Bug Fixes
