@@ -83,7 +83,7 @@ params:
         mem_mb=32000,
     params:
         # optional parameters
-        extra="--gencode",
+        extra="--gencode" if is_gencode_organism else "",
         outdir=lambda _, output: os.path.dirname(output.index_files[0]),
     shell:
         """

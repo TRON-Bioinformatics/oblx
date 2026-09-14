@@ -11,10 +11,11 @@ steps: [*Download Resources*](pull_resources.md#download-resources) and
 [*Build Indices*](build_indices.md#build-indices). *Download Resources*
 retrieves the resources and prepares the data for bioinformatics index
 generation. The reference genome and genome annotation are downloaded from
-[GENCODE](https://www.gencodegenes.org/). The preferred genome assembly version,
-GENCODE release and organism can be specified via the
-[config file](configuration.md). Additional resources are retrieved from GATK,
-UCSC and gnomAD (see
+[GENCODE](https://www.gencodegenes.org/) (for human and mouse) or from
+[Ensembl](https://www.ensembl.org/) (for any other organism available in
+Ensembl). The preferred genome assembly version, GENCODE release and organism
+can be specified via the [config file](configuration.md). Additional resources
+are retrieved from GATK, UCSC and gnomAD (see
 [*Download Resources*](pull_resources.md#download-resources) for details).
 *Build Indices* then generates tool-specific indices. The resulting genome
 library is consistent with respect to chromosome, transcript and gene naming and

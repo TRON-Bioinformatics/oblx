@@ -14,6 +14,15 @@ def get_genome_for_index_building(wildcards):
     return "resources/ref_genome_primary.fasta"
 
 
+def ensembl_to_gencode_chr_name(chr):
+    """
+    Get chromosome mapping from Ensembl to Gencode naming convention.
+    """
+    if chr == "MT":
+        return "chrM"
+    return f"chr{chr}"
+
+
 def get_pull_resources_output(wildcards):
     """
     Collect final output of resource download workflow
@@ -21,28 +30,53 @@ def get_pull_resources_output(wildcards):
     final_files = ["license_information.md"]
 
     organism = config.get("organism", "human")
-    # Files for human and mouse
+
+    # Files always present regardless of organism
     final_files.extend(
         [
             "resources/chromosome_sizes.txt",
             "resources/ref_genome_primary.fasta",
             "resources/ref_annot.gtf",
             "resources/ref_transcripts.fasta",
-            "resources/ref_annot_metadata_SwissProt.tsv",
-            "resources/ref_annot_metadata_TrEMBL.tsv",
-            "resources/ref_genome_repeatmasker.bed",
             "resources/ref_genome.dict",
             "resources/ref_genome.fasta.fai",
             "resources/exome_definition/ref_exome.bed",
             "resources/exome_definition/ref_exome.bed.gz",
             "resources/exome_definition/ref_exome.bed.gz.tbi",
             "resources/exome_definition/ref_cds.bed",
+            "resources/exome_definition/ref_cds.bed.gz",
+            "resources/exome_definition/ref_cds.bed.gz.tbi",
             "resources/ref_annot_splice_sites.tsv",
             "resources/ref_annot_transcript2gene.tsv",
             "resources/ref_annot_gene2symbol.tsv",
-            "resources/uniprot/uniprot_annotations.tsv",
         ]
     )
+
+    if organism in ["human", "mouse"]:
+        # these files are exclusive to GENCODE-supported organisms
+        # (human and mouse)
+        final_files.extend(
+            [
+                "resources/uniprot/uniprot_annotations.tsv",
+                "resources/ref_annot_metadata_SwissProt.tsv",
+                "resources/ref_annot_metadata_TrEMBL.tsv",
+                "resources/ref_genome_repeatmasker.bed",
+            ]
+        )
+    else:
+        # Files exclusive to non-human and non-mouse organisms
+        final_files.extend(
+            [
+                "resources/germline_variants/{}.vcf.gz".format(organism.lower()),
+                "resources/germline_variants/{}.vcf.gz.tbi".format(organism.lower()),
+                "resources/germline_variants/chromosome_mapping.txt",
+            ]
+        )
+        # the mapping to GENCODE gene identifiers is not possible
+        # therefore return only the uniprot annotations without
+        # mapping to the GENCODE identifiers
+        final_files.append("resources/uniprot/uniprot_annotations_raw.tsv")
+
     # Files specific to human
     if organism == "human":
         final_files.extend(
@@ -183,7 +217,7 @@ def get_build_indices_output(wildcards):
     # As a workaround we do not provide a mouse hisat2 index.
     # This is tracked in
     # https://github.com/TRON-Bioinformatics/oblx/issues/174.
-    if organism != "mouse":
+    if organism == "human":
         # hisat2 files
         final_files.extend(
             [

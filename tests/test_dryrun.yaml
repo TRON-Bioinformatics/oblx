@@ -6,3 +6,13 @@
       -s workflow/Snakefile
       --software-deployment-method conda
       -n
+
+- name: all_in_one_ensembl_dryrun
+  tags:
+    - unittest
+  command: >-
+    snakemake
+      -s workflow/Snakefile
+      --software-deployment-method conda
+      --configfile tests/config/rat_conf.yaml
+      -n
