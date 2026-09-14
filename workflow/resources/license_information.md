@@ -23,6 +23,11 @@ dbSNP (Phan et al., 2025) is licensed under ODbL v1.0
 The data access statement for GENCODE (Mudge et al., 2025) can be found here:
 [https://www.gencodegenes.org/pages/data_access.html](https://www.gencodegenes.org/pages/data_access.html)
 
+## Ensembl
+
+The Ensembl (Dyer et al., 2025) data access statement can be found here:
+[https://ensembl.org/info/about/legal/disclaimer.html](https://ensembl.org/info/about/legal/disclaimer.html)
+
 ## gnomAD
 
 Usage policies for gnomAD (Karczewski et al., 2020) can be found here:
@@ -107,6 +112,13 @@ Rodriguez, Y. J. P., Jenkins-Kiefer, J. A., Chalamala, M., … Haeussler, M.
 Clark, K., Karsch-Mizrachi, I., Lipman, D. J., Ostell, J., & Sayers, E. W.
 (2016). GenBank. Nucleic Acids Research, 44(D1), D67-72.
 https://doi.org/10.1093/nar/gkv1276
+
+Dyer, S. C., Austine-Orimoloye, O., Azov, A. G., Barba, M., Barnes, I.,
+Barrera-Enriquez, V. P., Becker, A., Bennett, R., Beracochea, M., Berry, A.,
+Bhai, J., Bhurji, S. K., Boddu, S., Branco Lins, P. R., Brooks, L., Ramaraju, S.
+B., Campbell, L. I., Martinez, M. C., Charkhchi, M., … Yates, A. D. (2025).
+Ensembl 2025. Nucleic Acids Research, 53(D1), D948–D957.
+https://doi.org/10.1093/nar/gkae1071
 
 Karczewski, K. J., Francioli, L. C., Tiao, G., Cummings, B. B., Alföldi, J.,
 Wang, Q., Collins, R. L., Laricchia, K. M., Ganna, A., Birnbaum, D. P.,

@@ -107,7 +107,10 @@ def stream_uniprot(organism_name, database_path, output_file):
         writer.writeheader()
 
         for record in SwissProt.parse(handle):
-            if record.organism != organism_name:
+            # Skip records that do not match the specified organism.
+            # E.g. "Homo sapiens" will match "Homo sapiens (Human)."
+            #      "Rattus norvegicus" will match "Rattus norvegicus (Rat)."
+            if not record.organism.startswith(organism_name):
                 continue
             base = _record_to_row(record)
             # one row per accession (mirrors df.explode("Entry"))
@@ -147,13 +150,11 @@ def main():
 
     # Get human and mouse data
     if args.organism == "human":
-        organism_name = "Homo sapiens (Human)."
+        organism_name = "Homo sapiens"
     elif args.organism == "mouse":
-        organism_name = "Mus musculus (Mouse)."
+        organism_name = "Mus musculus"
     else:
-        raise ValueError(
-            f"Organism '{args.organism}' is not valid. Please use 'human' or 'mouse'."
-        )
+        organism_name = args.organism.replace("_", " ")
 
     stream_uniprot(organism_name, args.database, args.outfile)
 

@@ -16,6 +16,10 @@ library.
 No input is required. However, the organism and releases of individual resources
 can be specified in the [config file](configuration.md).
 
+> Note: OBLX uses GENCODE resources when the specified organism is `human` or
+> `mouse`. For any other value, resources are gathered from Ensembl (see
+> [Support for non-GENCODE organisms](configuration.md#support-for-non-gencode-organisms)).
+
 ## Usage
 
 To run the pull resources subworkflow, run the following command.

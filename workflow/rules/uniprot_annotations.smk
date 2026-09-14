@@ -173,8 +173,8 @@ create a comprehensive mapping of GENCODE transcripts to UniProt annotations.
 """
     input:
         uniprot_annotations=rules.extract_uniprot_annot_from_dat.output.uniprot_annot,
-        sp_mapping=rules.download_gencode_data.output.swissprot,
-        tr_mapping=rules.download_gencode_data.output.trembl,
+        sp_mapping="resources/ref_annot_metadata_SwissProt.tsv",
+        tr_mapping="resources/ref_annot_metadata_TrEMBL.tsv",
         script=workflow.source_path("../scripts/merge_gencode_to_uniprot.py"),
     output:
         uniprot_annotations_merged="resources/uniprot/uniprot_annotations.tsv",

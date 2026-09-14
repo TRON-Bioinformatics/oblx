@@ -1,0 +1,6 @@
+# This file may be used to create an environment using:
+# $ conda create --name <env> --file <this file>
+# platform: linux-64
+# created-by: conda 26.7.2
+@EXPLICIT
+https://conda.anaconda.org/bioconda/linux-64/seqkit-2.13.0-he881be0_0.conda#d4e8a7c9d4b694e70552a84f662ea354

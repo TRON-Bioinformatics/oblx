@@ -26,7 +26,7 @@ output:
         """
 
 
-rule gencode_exome_bed:
+rule exome_bed:
     """
 Generate generic exome definition based on GENCODE basic transcript
 definition.
@@ -67,7 +67,7 @@ output:
         """
 
 
-rule gencode_cds_bed:
+rule cds_bed:
     """
 Generate generic CDS definition based on GENCODE transcripts.
 CDS regions are merged. Based on DeepVariant RNA-seq variant calling
