@@ -4,7 +4,8 @@ Download external_data table from ENSEMBL MySQL dump to extract uniprot release 
 """
     input:
         ensembl_remote=storage(
-            "https://ftp.ensembl.org/pub/release-{}/mysql/{}_core_{}_{}/external_db.txt.gz".format(
+            "{}/release-{}/mysql/{}_core_{}_{}/external_db.txt.gz".format(
+                config.get("ensembl_url").rstrip("/"),
                 ENSEMBL_VERSION,
                 ENSEMBL_ORGANISM,
                 ENSEMBL_VERSION,
