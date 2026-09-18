@@ -18,29 +18,31 @@ def get_pull_resources_output(wildcards):
     """
     Collect final output of resource download workflow
     """
+    final_files = ["license_information.md"]
 
     organism = config.get("organism", "human")
     # Files for human and mouse
-    final_files = [
-        "license_information.md",
-        "resources/chromosome_sizes.txt",
-        "resources/ref_genome_primary.fasta",
-        "resources/ref_annot.gtf",
-        "resources/ref_transcripts.fasta",
-        "resources/ref_annot_metadata_SwissProt.tsv",
-        "resources/ref_annot_metadata_TrEMBL.tsv",
-        "resources/ref_genome_repeatmasker.bed",
-        "resources/ref_genome.dict",
-        "resources/ref_genome.fasta.fai",
-        "resources/exome_definition/ref_exome.bed",
-        "resources/exome_definition/ref_exome.bed.gz",
-        "resources/exome_definition/ref_exome.bed.gz.tbi",
-        "resources/exome_definition/ref_cds.bed",
-        "resources/ref_annot_splice_sites.tsv",
-        "resources/ref_annot_transcript2gene.tsv",
-        "resources/ref_annot_gene2symbol.tsv",
-        "resources/uniprot/uniprot_annotations.tsv",
-    ]
+    final_files.extend(
+        [
+            "resources/chromosome_sizes.txt",
+            "resources/ref_genome_primary.fasta",
+            "resources/ref_annot.gtf",
+            "resources/ref_transcripts.fasta",
+            "resources/ref_annot_metadata_SwissProt.tsv",
+            "resources/ref_annot_metadata_TrEMBL.tsv",
+            "resources/ref_genome_repeatmasker.bed",
+            "resources/ref_genome.dict",
+            "resources/ref_genome.fasta.fai",
+            "resources/exome_definition/ref_exome.bed",
+            "resources/exome_definition/ref_exome.bed.gz",
+            "resources/exome_definition/ref_exome.bed.gz.tbi",
+            "resources/exome_definition/ref_cds.bed",
+            "resources/ref_annot_splice_sites.tsv",
+            "resources/ref_annot_transcript2gene.tsv",
+            "resources/ref_annot_gene2symbol.tsv",
+            "resources/uniprot/uniprot_annotations.tsv",
+        ]
+    )
     # Files specific to human
     if organism == "human":
         final_files.extend(
