@@ -7,9 +7,6 @@ properties:
       Trivial name of the organism for which the genomelib should be
       built.
     default: human
-    enum:
-      - human
-      - mouse
     type: string
   genome_build:
     description: >-
@@ -101,6 +98,14 @@ properties:
       URL from which the UniProt resources may be downloaded.
     default: https://ftp.uniprot.org/pub/databases/uniprot
     type: string
+  ensembl_url:
+    description: >-
+      URL from which the Ensembl resources can be downloaded. Expected to point to
+      the root of a FTP directory (accessed via HTTPS) under which the general
+      Ensembl dir structure can be found, i.e.,
+      <URL>/release-<release>/<annotation files>.
+    default: https://ftp.ensembl.org/pub/
+    type: string
   chrom_filter:
     description: >-
       List of chromosome names to be included in the genomelib. Only needed when
@@ -135,3 +140,23 @@ properties:
     type: array
     items:
       type: string
+  chromosome_mapping_file:
+    description: >-
+      Path to a file containing the mapping of chromosome names. Only needed when
+      organism is not "human" or "mouse". Examples can be found here:
+      https://github.com/dpryan79/ChromosomeMappings/tree/master.
+    default: ""
+    type: string
+  ensembl_genome_type:
+    description: >-
+      Type of the Ensembl genome assembly. Typically "dna.primary_assembly".
+      Check for your organism:
+      https://ftp.ensembl.org/pub//release-116/fasta/<organism>/dna/.
+    default: "dna.primary_assembly"
+    type: string
+  ensembl_mysql_build:
+    description: >-
+      The build version of the Ensembl MySQL database. Only needed when organism
+      is not "human" or "mouse". See https://ftp.ensembl.org/pub/release-116/mysql/.
+    default: ""
+    type: string
