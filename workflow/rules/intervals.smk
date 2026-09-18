@@ -92,3 +92,29 @@ tutorial.
             "{input.gtf}" \
             "{output.cds_interval}" &> "{log}"
         """
+
+
+rule zip_and_index_exome_and_cds_bed:
+    """Compress and index bed files with bgzip and tabix.
+
+This is required e.g. for Strelka2.
+"""
+    input:
+        gencode_bed="resources/exome_definition/ref_{feature}.bed",
+    output:
+        gencode_bed_gz="resources/exome_definition/ref_{feature}.bed.gz",
+        gencode_bed_gz_tbi="resources/exome_definition/ref_{feature}.bed.gz.tbi",
+    log:
+        "logs/pull_resources/zip_and_index_exome_bed_{feature}.log",
+    benchmark:
+        "benchmarks/pull_resources/zip_and_index_exome_bed_{feature}.txt"
+    conda:
+        "../envs/bcftools.yaml"
+    container:
+        config["container"].get("bcftools")
+    shell:
+        """
+        exec &> "{log}"
+        bgzip -c "{input.gencode_bed}" > "{output.gencode_bed_gz}"
+        tabix -p bed "{output.gencode_bed_gz}"
+        """
