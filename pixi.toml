@@ -17,7 +17,7 @@ snakemake-storage-plugin-http = { channel = "bioconda" }
 snakemake-executor-plugin-cluster-generic = { channel = "bioconda" }
 # Included for maximizing compatibility with SLURM.
 snakemake-executor-plugin-slurm = { version = ">=1.4.0,<2", channel = "bioconda" }
-pandas = ">=3.0.3,<4"
+pandas = "<3"
 conda = ">=26.7.0,<27"
 
 [feature.docs.dependencies]
@@ -121,7 +121,7 @@ style-sh = { features = ["style-sh"], no-default-feature = true }
 style-snakemake = { features = ["style-snakemake"], no-default-feature = true }
 style-toml = { features = ["style-toml"], no-default-feature = true }
 style-yaml = { features = ["style-yaml"], no-default-feature = true }
-rule-env-pinning = { features = ["rule-env-pinning"], no-default-feature = true }
+rule-env-pinning = { features = ["rule-env-pinning"] }
 rulegraph = ["rulegraph"]
 
 [tasks.lint-workflow]
