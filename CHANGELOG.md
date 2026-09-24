@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.1.0](https://github.com/TRON-Bioinformatics/oblx/compare/v2.0.2...v2.1.0) (2026-09-24)
+
+
+### Features
+
+* Support other organisms ([8626b5c](https://github.com/TRON-Bioinformatics/oblx/commit/8626b5c9ddd1ad9da485397c1bc29d03a019fb39))
+
 ## [2.0.2](https://github.com/TRON-Bioinformatics/oblx/compare/v2.0.1...v2.0.2) (2026-08-26)
 
 ### Bug Fixes
