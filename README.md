@@ -46,21 +46,37 @@ OBLX is implemented as a Snakemake pipeline (Mölder et al., 2021).
 ## Pre-built indices
 
 Pre-built OBLX libraries for **human GRCh38 v49** and **mouse GRCm39 vM36** are
-soon available for download via
+available for download via
 [ftp://easyfuse.tron-mainz.de/oblx](ftp://easyfuse.tron-mainz.de/oblx).
 
+For each OBLX version that leads to changes in the human or mouse library a OBLX
+library is generated. Currently these versions are available:
+
+- v1.0.0
+- v2.0.0
+
 ```sh
+OBLX_VERSION="v1.0.0"
+
 # human
-wget ftp://easyfuse.tron-mainz.de/oblx/v1.0.0/human/GRCh38_49
+wget --recursive --no-host-directories "ftp://easyfuse.tron-mainz.de/oblx/${OBLX_VERSION}/human/GRCh38_49"
 
 # mouse
-wget ftp://easyfuse.tron-mainz.de/oblx/v1.0.0/mouse/GRCm39_M36
+wget --recursive --no-host-directories "ftp://easyfuse.tron-mainz.de/oblx/${OBLX_VERSION}/mouse/GRCm39_M36"
 ```
 
-To verify the files run
+To verify the files run (to setup gpg key see \[TODO\](TODO: add link))
 
 ```sh
-sha256sum -c CHECKSUM_FILE
+OBLX_VERSION="v1.0.0"
+
+# go to respective directory (mouse in case of mouse)
+cd "oblx/${OBLX_VERSION}/human"
+# download the respective checksum
+wget "ftp://easyfuse.tron-mainz.de/oblx/${OBLX_VERSION}/human/GRCh38_49.checksum.txt"
+wget "ftp://easyfuse.tron-mainz.de/oblx/${OBLX_VERSION}/human/GRCh38_49.checksum.txt.sig"
+
+sha256sum -c GRCh38_49.checksum.txt
 ```
 
 ## Usage
