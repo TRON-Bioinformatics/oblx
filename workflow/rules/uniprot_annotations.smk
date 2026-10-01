@@ -146,6 +146,8 @@ Extract UniProt annotations from a concatenated UniProtKB .dat.gz file.
         ),
     output:
         uniprot_annot="resources/uniprot/uniprot_annotations_raw.tsv",
+        uniprot_fasta_sp="resources/uniprot/uniprot_reviewed_canonical.fasta",
+        uniprot_fasta_tr="resources/uniprot/uniprot_unreviewed_canonical.fasta",
     log:
         "logs/uniprot/extract_uniprot_annot_from_dat.log",
     benchmark:
@@ -163,7 +165,34 @@ Extract UniProt annotations from a concatenated UniProtKB .dat.gz file.
         python "{input.script}" \
             --database "{input.uniprot_dat}" \
             --outfile "{output.uniprot_annot}" \
+            --outfasta-sp "{output.uniprot_fasta_sp}" \
+            --outfasta-tr "{output.uniprot_fasta_tr}" \
             --organism "{params.organism}"
+        """
+
+
+rule concat_uniprot_sp_tr_fasta:
+    """
+Concatenate the reviewed and unreviewed UniProt FASTA files into a single FASTA file.
+"""
+    input:
+        uniprot_fasta_sp=rules.extract_uniprot_annot_from_dat.output.uniprot_fasta_sp,
+        uniprot_fasta_tr=rules.extract_uniprot_annot_from_dat.output.uniprot_fasta_tr,
+    output:
+        uniprot_fasta="resources/uniprot/uniprot_reviewed_unreviewed_canonical.fasta",
+    log:
+        "logs/uniprot/concat_uniprot_sp_tr_fasta.log",
+    benchmark:
+        "benchmarks/uniprot/concat_uniprot_sp_tr_fasta.txt"
+    conda:
+        "../envs/shellutils.yaml"
+    container:
+        config["container"].get("shell_utils")
+    threads: 1
+    shell:
+        """
+        exec &> "{log}"
+        cat "{input.uniprot_fasta_sp}" "{input.uniprot_fasta_tr}" > "{output.uniprot_fasta}"
         """
 
 
