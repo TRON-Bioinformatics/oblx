@@ -49,6 +49,9 @@ def get_pull_resources_output(wildcards):
             "resources/ref_annot_splice_sites.tsv",
             "resources/ref_annot_transcript2gene.tsv",
             "resources/ref_annot_gene2symbol.tsv",
+            "resources/uniprot/uniprot_all.fasta",
+            "resources/uniprot/uniprot_reviewed.fasta",
+            "resources/uniprot/uniprot_unreviewed.fasta",
         ]
     )
 

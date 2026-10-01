@@ -5,6 +5,9 @@ import gzip
 import logging
 
 from Bio import SwissProt
+from Bio import SeqIO
+from Bio.Seq import Seq
+from Bio.SeqRecord import SeqRecord
 
 FIELDNAMES = [
     "Entry",
@@ -27,6 +30,29 @@ FIELDNAMES = [
 ]
 
 LIST_SEP = ";"
+
+
+def _get_full_protein_name(description):
+    """Parse the description line of a UniProt record to extract the protein name.
+
+    Args:
+        description (str): The description line from a UniProt record.
+
+    Returns:
+        str: The extracted protein name.
+    """
+    # example description string:
+    # 'RecName: Full=14-3-3 protein epsilon; Short=14-3-3E;'
+    protein_name = ""
+    for part in description.split(";"):
+        part = part.strip()
+        if part.startswith(("RecName: Full=", "SubName: Full=")):
+            protein_name = part.partition("Full=")[2]
+            # Remove evidence annotation, e.g. {ECO:0000305}
+            return protein_name.partition(" {")[0].strip()
+
+    logging.warning("No full protein name found in description: %s", description)
+    return protein_name
 
 
 def _record_to_row(record):
@@ -85,7 +111,52 @@ def _record_to_row(record):
     }
 
 
-def stream_uniprot(organism_name, database_path, output_file):
+def _get_fasta_id_and_description(record):
+    """Construct the FASTA header for a UniProt record.
+
+    The format of the FASTA header follows the UniProt convention:
+        ><sp_or_tr>|<primary_accession>|<entry_name> <full_protein_name> OS=<organism_name> OX=<taxonomy_id> GN=<gene_name> PE=<protein_existence> SV=<sequence_version>
+    If any of OS, OX, GN, PE, or SV are missing, they will be omitted from the header.
+
+    Args:
+        record (Bio.SwissProt.Record): A SwissProt record object.
+
+    Returns:
+        tuple: A tuple containing the FASTA ID string and the description string.
+    """
+    data_class = "sp" if record.data_class == "Reviewed" else "tr"
+    accession = record.accessions[0] if record.accessions else record.entry_name
+
+    fasta_id = f"{data_class}|{accession}|{record.entry_name}"
+
+    protein_name = _get_full_protein_name(record.description)
+
+    organism = record.organism.partition(" (")[0] if record.organism else None
+
+    taxonomy_id = record.taxonomy_id[0] if record.taxonomy_id else None
+    gene_name = record.gene_name[0].get("Name") if record.gene_name else None
+    gene_name = gene_name.partition(" {")[0].strip() if gene_name else None
+    sequence_version = (
+        record.sequence_update[1] if len(record.sequence_update) == 2 else None
+    )
+
+    fields = [
+        protein_name,
+        f"OS={organism}" if organism else None,
+        f"OX={taxonomy_id}" if taxonomy_id else None,
+        f"GN={gene_name}" if gene_name else None,
+        f"PE={record.protein_existence}" if record.protein_existence else None,
+        f"SV={sequence_version}" if sequence_version else None,
+    ]
+
+    description = " ".join(field for field in fields if field)
+
+    return fasta_id, description
+
+
+def stream_uniprot(
+    organism_name, database_path, output_file, outfasta, outfasta_sp, outfasta_tr
+):
     """Stream UniProt records for a specific organism and write to a TSV file.
 
     Args:
@@ -95,9 +166,18 @@ def stream_uniprot(organism_name, database_path, output_file):
     """
     logging.info("Parsing UniProt database: %s", database_path)
     n_records = 0
-    with gzip.open(database_path, "rb") as handle, open(
-        output_file, "w", newline="", encoding="utf-8"
-    ) as out:
+    with (
+        # UniProt database reader from gzipped .dat file
+        gzip.open(database_path, "rb") as handle,
+        # TSV writer for UniProt data
+        open(output_file, "w", newline="", encoding="utf-8") as out,
+        # FASTA writer for all UniProt sequences
+        open(outfasta, "w", newline="", encoding="utf-8") as fasta_out_handle,
+        # FASTA writer for reviewed UniProt sequences
+        open(outfasta_sp, "w", newline="", encoding="utf-8") as fasta_out_handle_sp,
+        # FASTA writer for unreviewed UniProt sequences
+        open(outfasta_tr, "w", newline="", encoding="utf-8") as fasta_out_handle_tr,
+    ):
         writer = csv.DictWriter(
             out,
             fieldnames=FIELDNAMES,
@@ -116,9 +196,46 @@ def stream_uniprot(organism_name, database_path, output_file):
             # one row per accession (mirrors df.explode("Entry"))
             for acc in record.accessions:
                 writer.writerow({"Entry": acc, **base})
+
+            # Write the sequence to the FASTA file
+            fastq_id, fasta_description = _get_fasta_id_and_description(record)
+
+            if record.data_class == "Reviewed":
+                SeqIO.write(
+                    sequences=SeqRecord(
+                        seq=Seq(record.sequence),
+                        id=fastq_id,
+                        description=fasta_description,
+                    ),
+                    handle=fasta_out_handle_sp,
+                    format="fasta",
+                )
+            else:
+                SeqIO.write(
+                    sequences=SeqRecord(
+                        seq=Seq(record.sequence),
+                        id=fastq_id,
+                        description=fasta_description,
+                    ),
+                    handle=fasta_out_handle_tr,
+                    format="fasta",
+                )
+            # Write the sequence to the general FASTA file (with all sequences)
+            SeqIO.write(
+                sequences=SeqRecord(
+                    seq=Seq(record.sequence),
+                    id=fastq_id,
+                    description=fasta_description,
+                ),
+                handle=fasta_out_handle,
+                format="fasta",
+            )
+
             n_records += 1
 
-    logging.info("Wrote %d records for %s to %s", n_records, organism_name, output_file)
+    logging.info(
+        "Wrote %d unique records for %s to %s", n_records, organism_name, output_file
+    )
 
 
 def main():
@@ -128,6 +245,21 @@ def main():
 
     parser.add_argument(
         "--outfile", type=str, help="Output file path for the UniProt data TSV"
+    )
+    parser.add_argument(
+        "--outfasta", type=str, help="Output file path for the UniProt data FASTA"
+    )
+    parser.add_argument(
+        "--outfasta-sp",
+        type=str,
+        help="Output file path for the UniProt data FASTA for reviewed entries",
+        required=True,
+    )
+    parser.add_argument(
+        "--outfasta-tr",
+        type=str,
+        help="Output file path for the UniProt data FASTA for unreviewed entries",
+        required=True,
     )
     parser.add_argument(
         "--database",
@@ -156,7 +288,14 @@ def main():
     else:
         organism_name = args.organism.replace("_", " ")
 
-    stream_uniprot(organism_name, args.database, args.outfile)
+    stream_uniprot(
+        organism_name,
+        args.database,
+        args.outfile,
+        args.outfasta,
+        args.outfasta_sp,
+        args.outfasta_tr,
+    )
 
 
 if __name__ == "__main__":

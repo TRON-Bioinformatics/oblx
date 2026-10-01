@@ -146,6 +146,9 @@ Extract UniProt annotations from a concatenated UniProtKB .dat.gz file.
         ),
     output:
         uniprot_annot="resources/uniprot/uniprot_annotations_raw.tsv",
+        uniprot_fasta="resources/uniprot/uniprot_all.fasta",
+        uniprot_fasta_sp="resources/uniprot/uniprot_reviewed.fasta",
+        uniprot_fasta_tr="resources/uniprot/uniprot_unreviewed.fasta",
     log:
         "logs/uniprot/extract_uniprot_annot_from_dat.log",
     benchmark:
@@ -163,6 +166,9 @@ Extract UniProt annotations from a concatenated UniProtKB .dat.gz file.
         python "{input.script}" \
             --database "{input.uniprot_dat}" \
             --outfile "{output.uniprot_annot}" \
+            --outfasta "{output.uniprot_fasta}" \
+            --outfasta-sp "{output.uniprot_fasta_sp}" \
+            --outfasta-tr "{output.uniprot_fasta_tr}" \
             --organism "{params.organism}"
         """
 
