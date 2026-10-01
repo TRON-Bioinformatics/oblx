@@ -12,10 +12,14 @@ from Bio.SeqRecord import SeqRecord
 FIELDNAMES = [
     "Entry",
     "organism_name",
+    "taxonomy_id",
     "entry_name",
+    "full_protein_name",
+    "data_class",
     "protein_existence",
     "sequence",
     "sequence_length",
+    "sequence_version",
     "organelle",
     "mass",
     "xref_ensembl",
@@ -23,10 +27,18 @@ FIELDNAMES = [
     "go_f",
     "go_p",
     "kegg",
+    "developmental_stage",
+    "tissue_specificity",
+    "ptm",
+    "disease",
     "transmem_features",
     "intramem_features",
     "topo_dom_features",
     "mod_features",
+    "binding_features",
+    "dna_bind_features",
+    "act_site_features",
+    "mutagen_features",
 ]
 
 LIST_SEP = ";"
@@ -55,6 +67,47 @@ def _get_full_protein_name(description):
     return protein_name
 
 
+def _get_sequence_version(record):
+    """Extract the sequence version from a SwissProt record.
+
+    Args:
+        record (Bio.SwissProt.Record): A SwissProt record object.
+
+    Returns:
+        str: The sequence version, or None if not found.
+    """
+    return record.sequence_update[1] if len(record.sequence_update) == 2 else None
+
+
+def _get_taxonomy_id(record):
+    """Extract the taxonomy ID from a SwissProt record.
+
+    Args:
+        record (Bio.SwissProt.Record): A SwissProt record object.
+
+    Returns:
+        str: The taxonomy ID, or None if not found.
+    """
+    return record.taxonomy_id[0] if record.taxonomy_id else None
+
+
+def _get_comment_value(record, prefix):
+    """Extract the value of a comment with a specific prefix from a SwissProt record.
+
+    Args:
+        record (Bio.SwissProt.Record): A SwissProt record object.
+        prefix (str): The prefix to look for in the comment lines.
+
+    Returns:
+        list: A list of comment values with the specified prefix, or an empty list if not found.
+    """
+    lst = []
+    for comment in record.comments:
+        if comment.startswith(prefix):
+            lst.append(comment.removeprefix(prefix).strip())
+    return lst
+
+
 def _record_to_row(record):
     """Build the shared (non-Entry/accession) fields for a SwissProt record.
 
@@ -65,6 +118,8 @@ def _record_to_row(record):
         dict: A dictionary containing the extracted fields.
     """
     length, mass, _ = record.seqinfo
+
+    full_protein_name = _get_full_protein_name(record.description)
 
     transcripts, go_c, go_f, go_p, kegg_ids = [], [], [], [], []
     for xref in record.cross_references:
@@ -80,7 +135,14 @@ def _record_to_row(record):
         elif xref[0] == "KEGG":
             kegg_ids.append(xref[1])
 
+    devel_stage = _get_comment_value(record, "DEVELOPMENTAL STAGE:")
+    tissue_specificity = _get_comment_value(record, "TISSUE SPECIFICITY:")
+    ptm = _get_comment_value(record, "PTM:")
+    disease = _get_comment_value(record, "DISEASE:")
+
     transmem, intramem, topo_dom, mod_res = [], [], [], []
+    binding, dna_bind, act_site, mutagen = [], [], [], []
+
     for feat in record.features:
         if feat.type == "TRANSMEM":
             transmem.append(str(feat.location))
@@ -90,13 +152,26 @@ def _record_to_row(record):
             topo_dom.append(f"{feat.qualifiers.get('note')}:{feat.location}")
         elif feat.type == "MOD_RES":
             mod_res.append(f"{feat.qualifiers.get('note')}:{feat.location}")
+        elif feat.type == "BINDING":
+            ligand = feat.qualifiers.get("ligand")
+            binding.append(f"{ligand}:{feat.location}")
+        elif feat.type == "DNA_BIND":
+            dna_bind.append(str(feat.location))
+        elif feat.type == "ACT_SITE":
+            act_site.append(f"{feat.qualifiers.get('note')}:{feat.location}")
+        elif feat.type == "MUTAGEN":
+            mutagen.append(f"{feat.qualifiers.get('note')}:{feat.location}")
 
     return {
         "organism_name": record.organism,
+        "taxonomy_id": _get_taxonomy_id(record),
         "entry_name": record.entry_name,
+        "full_protein_name": full_protein_name,
+        "data_class": record.data_class,
         "protein_existence": record.protein_existence,
         "sequence": record.sequence,
         "sequence_length": length,
+        "sequence_version": _get_sequence_version(record),
         "organelle": record.organelle,
         "mass": mass,
         "xref_ensembl": LIST_SEP.join(transcripts),
@@ -104,10 +179,18 @@ def _record_to_row(record):
         "go_f": LIST_SEP.join(go_f),
         "go_p": LIST_SEP.join(go_p),
         "kegg": LIST_SEP.join(kegg_ids),
+        "developmental_stage": LIST_SEP.join(devel_stage),
+        "tissue_specificity": LIST_SEP.join(tissue_specificity),
+        "ptm": LIST_SEP.join(ptm),
+        "disease": LIST_SEP.join(disease),
         "transmem_features": LIST_SEP.join(transmem),
         "intramem_features": LIST_SEP.join(intramem),
         "topo_dom_features": LIST_SEP.join(topo_dom),
         "mod_features": LIST_SEP.join(mod_res),
+        "binding_features": LIST_SEP.join(binding),
+        "dna_bind_features": LIST_SEP.join(dna_bind),
+        "act_site_features": LIST_SEP.join(act_site),
+        "mutagen_features": LIST_SEP.join(mutagen),
     }
 
 
@@ -133,12 +216,10 @@ def _get_fasta_id_and_description(record):
 
     organism = record.organism.partition(" (")[0] if record.organism else None
 
-    taxonomy_id = record.taxonomy_id[0] if record.taxonomy_id else None
+    taxonomy_id = _get_taxonomy_id(record)
     gene_name = record.gene_name[0].get("Name") if record.gene_name else None
     gene_name = gene_name.partition(" {")[0].strip() if gene_name else None
-    sequence_version = (
-        record.sequence_update[1] if len(record.sequence_update) == 2 else None
-    )
+    sequence_version = _get_sequence_version(record)
 
     fields = [
         protein_name,
