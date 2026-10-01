@@ -310,7 +310,10 @@ def main():
     )
 
     parser.add_argument(
-        "--outfile", type=str, help="Output file path for the UniProt data TSV"
+        "--outfile",
+        type=str,
+        help="Output file path for the UniProt data TSV",
+        required=True,
     )
     parser.add_argument(
         "--outfasta-sp",
@@ -328,6 +331,7 @@ def main():
         "--database",
         type=str,
         help="Path to the UniProt database file (gzipped .dat.gz)",
+        required=True,
     )
     parser.add_argument(
         "--organism",
