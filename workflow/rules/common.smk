@@ -52,6 +52,9 @@ def get_pull_resources_output(wildcards):
             "resources/uniprot/uniprot_all.fasta",
             "resources/uniprot/uniprot_reviewed.fasta",
             "resources/uniprot/uniprot_unreviewed.fasta",
+            "resources/uniprot/uniprot_reviewed_isoforms.fasta",
+            "resources/uniprot/uniprot_reviewed_isoforms.fasta.stats",
+            "resources/uniprot/uniprot_reviewed_isoforms.fasta.err",
         ]
     )
 

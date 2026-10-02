@@ -160,3 +160,8 @@ properties:
       is not "human" or "mouse". See https://ftp.ensembl.org/pub/release-116/mysql/.
     default: ""
     type: string
+  swissknife_version:
+    description: >-
+      Version of the Swissknife tool to be downloaded.
+    default: "1.81"
+    type: string
