@@ -160,3 +160,11 @@ properties:
       is not "human" or "mouse". See https://ftp.ensembl.org/pub/release-116/mysql/.
     default: ""
     type: string
+  swissknife_version:
+    description: >-
+      Version of the Swissknife tool to be downloaded.
+      Usually the latest version is recommended. Only if older genome reference
+      versions are used, an older Swissknife version from that time may be needed.
+      For more information, see https://www.uniprot.org/help/software.
+    default: "1.81"
+    type: string
