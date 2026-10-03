@@ -19,3 +19,4 @@ container:
   hisat2: docker://quay.io/biocontainers/hisat2:2.2.2--h503566f_0
   biopython: docker://quay.io/biocontainers/biopython:1.84
   seqkit: docker://quay.io/biocontainers/seqkit:2.13.0--he881be0_0
+  perl: docker://quay.io/biocontainers/perl:5.26--2

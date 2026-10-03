@@ -135,6 +135,66 @@ Concatenate Swiss-Prot and TrEMBL snapshot .dat.gz files into a single gzipped U
         """
 
 
+rule download_uniprot_scripts:
+    """
+Download the UniProt scripts required for processing the .dat files.
+"""
+    input:
+        varsplic_remote=storage(
+            "https://ftp.ebi.ac.uk/pub/software/uniprot/varsplic/varsplic.pl"
+        ),
+        swissknife_remote=storage(
+            (
+                "https://sourceforge.net/projects/swissknife/files/swissknife/"
+                f"{config['swissknife_version']}/"
+                f"swissknife_{config['swissknife_version']}.tar.gz"
+            )
+        ),
+    output:
+        varsplic_script=temp("resources/uniprot/varsplic.pl"),
+        swissknife_script=temp("resources/uniprot/swissknife_1.81.tar.gz"),
+    log:
+        "logs/pull_resources/download_uniprot_scripts.log",
+    benchmark:
+        "benchmarks/pull_resources/download_uniprot_scripts.txt"
+    conda:
+        "../envs/shellutils.yaml"
+    container:
+        config["container"].get("shell_utils")
+    shell:
+        """
+        exec &> "{log}"
+        cp "{input.varsplic_remote}" "resources/uniprot/varsplic.pl"
+        cp "{input.swissknife_remote}" "resources/uniprot/swissknife_1.81.tar.gz"
+        """
+
+
+rule gunzip_swissknife:
+    """
+Decompress the Swissknife tar.gz archive.
+"""
+    input:
+        swissknife_script="resources/uniprot/swissknife_1.81.tar.gz",
+    output:
+        swissknife_dir=directory(temp("resources/uniprot/swissknife_1.81")),
+    log:
+        "logs/pull_resources/gunzip_swissknife.log",
+    benchmark:
+        "benchmarks/pull_resources/gunzip_swissknife.txt"
+    conda:
+        "../envs/shellutils.yaml"
+    container:
+        config["container"].get("shell_utils")
+    shell:
+        """
+        exec &> "{log}"
+        mkdir -p "{output.swissknife_dir}"
+        tar xzf "{input.swissknife_script}" \
+            --strip-components=1 \
+            -C "{output.swissknife_dir}"
+        """
+
+
 rule extract_uniprot_annot_from_dat:
     """
 Extract UniProt annotations from a concatenated UniProtKB .dat.gz file.
@@ -146,6 +206,9 @@ Extract UniProt annotations from a concatenated UniProtKB .dat.gz file.
         ),
     output:
         uniprot_annot="resources/uniprot/uniprot_annotations_raw.tsv",
+        uniprot_fasta="resources/uniprot/uniprot_all.fasta",
+        uniprot_fasta_sp="resources/uniprot/uniprot_reviewed.fasta",
+        uniprot_fasta_tr="resources/uniprot/uniprot_unreviewed.fasta",
     log:
         "logs/uniprot/extract_uniprot_annot_from_dat.log",
     benchmark:
@@ -163,7 +226,69 @@ Extract UniProt annotations from a concatenated UniProtKB .dat.gz file.
         python "{input.script}" \
             --database "{input.uniprot_dat}" \
             --outfile "{output.uniprot_annot}" \
+            --outfasta "{output.uniprot_fasta}" \
+            --outfasta-sp "{output.uniprot_fasta_sp}" \
+            --outfasta-tr "{output.uniprot_fasta_tr}" \
             --organism "{params.organism}"
+        """
+
+
+rule gunzip_uniprot_dat:
+    """
+Decompress the concatenated UniProtKB .dat.gz file.
+"""
+    input:
+        swissprot_dat_gz=rules.extract_uniprot_snapshot.output.swissprot,
+    output:
+        swissprot_dat=temp("resources/uniprot/uniprot_sprot.dat"),
+    log:
+        "logs/uniprot/gunzip_uniprot_dat.log",
+    benchmark:
+        "benchmarks/uniprot/gunzip_uniprot_dat.txt"
+    conda:
+        "../envs/shellutils.yaml"
+    container:
+        config["container"].get("shell_utils")
+    threads: 1
+    shell:
+        """
+        exec &> "{log}"
+        gunzip -c "{input.swissprot_dat_gz}" > "{output.swissprot_dat}"
+        """
+
+
+rule generate_isoform_fasta:
+    """
+Generate a FASTA file containing all isoforms from the UniProt swissprot annotations.
+The isoforms are only generated for Swiss-Prot entries as this is also the default
+for the UniProt current release.
+"""
+    input:
+        swissprot_dat=rules.gunzip_uniprot_dat.output.swissprot_dat,
+        varsplic_script=rules.download_uniprot_scripts.output.varsplic_script,
+        swissknife_dir=rules.gunzip_swissknife.output.swissknife_dir,
+    output:
+        isoform_fasta="resources/uniprot/uniprot_reviewed_isoforms.fasta",
+        isoform_fasta_stats="resources/uniprot/uniprot_reviewed_isoforms.fasta.stats",
+        isoform_fasta_err="resources/uniprot/uniprot_reviewed_isoforms.fasta.err",
+    log:
+        "logs/uniprot/generate_isoform_fasta.log",
+    benchmark:
+        "benchmarks/uniprot/generate_isoform_fasta.txt"
+    conda:
+        "../envs/perl.yaml"
+    container:
+        config["container"].get("perl")
+    threads: 1
+    shell:
+        """
+        exec &> "{log}"
+        export PERL5LIB="{input.swissknife_dir}/lib:${{PERL5LIB:-}}"
+        perl "{input.varsplic_script}" \
+            -input "{input.swissprot_dat}" \
+            -fasta "{output.isoform_fasta}" \
+            -stats "{output.isoform_fasta_stats}" \
+            -error "{output.isoform_fasta_err}"
         """
 
 

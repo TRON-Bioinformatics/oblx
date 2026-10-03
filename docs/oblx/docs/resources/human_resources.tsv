@@ -49,4 +49,8 @@ resources/ref_genome_primary.fasta	GENCODE	Primary assembly genome FASTA downloa
 resources/ref_genome_repeatmasker.bed	UCSC	RepeatMasker-derived genome repeat regions BED downloaded from UCSC.
 resources/ref_transcripts.fasta	GENCODE	Transcript sequences FASTA derived from Gencode resources.
 resources/uniprot/uniprot_annotations.tsv	UniProt	Combined UniProt annotation table with current status (directly downloaded from UniProt's rest API) of SwissProt and TrEMBL. The `transcript_id` column maps to the transcript identifiers specified in the `ref_annot.gtf` file.
+resources/uniprot/uniprot_all.fasta	UniProt	Fasta file containing the human protein sequences from UniProt. Fasta headers are formatted in UniProt style.
+resources/uniprot/uniprot_reviewed.fasta	UniProt	Fasta file containing the reviewed human protein sequences from UniProt. Fasta headers are formatted in UniProt style.
+resources/uniprot/uniprot_reviewed_isoforms.fasta	UniProt	Fasta file containing the reviewed human protein isoform sequences from UniProt. Fasta headers are formatted in UniProt style.
+resources/uniprot/uniprot_unreviewed.fasta	UniProt	Fasta file containing the unreviewed human protein sequences from UniProt. Fasta headers are formatted in UniProt style.
 resources/viruses/tcga_virus_decoy.fasta	TCGA/GenBank	Viral decoy FASTA used for contamination/decoy-aware analyses.
