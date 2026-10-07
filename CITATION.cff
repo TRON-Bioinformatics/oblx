@@ -20,23 +20,73 @@ authors:
     family-names: Freimuth
     affiliation: TRON Mainz
     orcid: 'https://orcid.org/0000-0002-9259-3696'
-  - given-names: Jonas
-    family-names: Ibn-Salem
-    affiliation: TRON Mainz
-    orcid: 'https://orcid.org/0000-0001-9886-113X'
-  - given-names: Franziska
-    family-names: Lang
-    affiliation: TRON Mainz
-    orcid: 'https://orcid.org/0000-0002-0794-7446'
   - given-names: Barbara
     family-names: Schrörs
     affiliation: TRON Mainz
     orcid: 'https://orcid.org/0000-0001-9758-250X'
+  - given-names: Franziska
+    family-names: Lang
+    affiliation: TRON Mainz
+    orcid: 'https://orcid.org/0000-0002-0794-7446'
+  - given-names: Jonas
+    family-names: Ibn-Salem
+    affiliation: TRON Mainz
+    orcid: 'https://orcid.org/0000-0001-9886-113X'
 repository-code: >-
   https://github.com/TRON-Bioinformatics/oblx
-abstract: >-
-  OBLX is a Snakemake pipeline which
-  downloads reference genomes, genome annotations and further resources, and
-  generates from these the indexes required for various bioinformatics tools and
-  pipelines.
+url: https://github.com/TRON-Bioinformatics/oblx
+version: "2.0.2" # x-release-please-version
 license: MIT
+preferred-citation:
+  type: article
+  authors:
+    - given-names: Luis
+      family-names: Kress
+      affiliation: TRON Mainz
+      orcid: 'https://orcid.org/0009-0000-6440-3114'
+    - given-names: Johannes
+      family-names: Hausmann
+      affiliation: TRON Mainz
+      orcid: 'https://orcid.org/0009-0004-5021-555X'
+    - given-names: Jonas
+      family-names: Freimuth
+      affiliation: TRON Mainz
+      orcid: 'https://orcid.org/0000-0002-9259-3696'
+    - given-names: Barbara
+      family-names: Schrörs
+      affiliation: TRON Mainz
+      orcid: 'https://orcid.org/0000-0001-9758-250X'
+    - given-names: Franziska
+      family-names: Lang
+      affiliation: TRON Mainz
+      orcid: 'https://orcid.org/0000-0002-0794-7446'
+    - given-names: Jonas
+      family-names: Ibn-Salem
+      affiliation: TRON Mainz
+      orcid: 'https://orcid.org/0000-0001-9886-113X'
+  doi: 10.3389/fbinf.2026.1910035
+  journal: "Frontiers in Bioinformatics"
+  month: 10
+  title: "OBLX: building standardized reference resources for reproducible bioinformatics data analysis"
+  volume: 6
+  year: 2026
+  abstract: >-
+    Reproducible next-generation sequencing (NGS) analyses in cancer research
+    require standardized reference genome resources, yet these resources are
+    often assembled inconsistently, limiting the comparability of results across
+    pipelines and studies. While existing solutions support a range of workflows,
+    they provide only limited documentation of the included data and processing
+    steps. Furthermore, some of these resources are not version-matched or
+    outdated, making them less suitable for integrated and reproducible cancer
+    genomics analyses. To address this gap, we developed the Omics builder for
+    Bioinformatics resource Libraries and indeXes (OBLX,
+    https://github.com/TRON-Bioinformatics/oblx/), a fully documented,
+    configurable and reproducible pipeline for building standardized NGS
+    reference libraries. First, the pipeline retrieves genome and transcriptome
+    reference sequences, their corresponding annotations, and population variant
+    resources from public sources. Subsequently, OBLX processes these resources
+    to ensure compatibility with commonly used NGS tools, which includes building
+    several bioinformatic indices. The resulting OBLX library may then be directly
+    used by downstream tools and pipelines. By documenting all resources,
+    operations, and intended use-cases, OBLX improves transparency,
+    reproducibility, and interoperability for NGS data analyses.

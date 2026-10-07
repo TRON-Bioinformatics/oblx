@@ -24,6 +24,10 @@
                  {
                      "type": "generic",
                      "path": "pixi.toml"
+                 },
+                 {
+                     "type": "generic",
+                     "path": "CITATION.cff"
                  }
              ]
         }
