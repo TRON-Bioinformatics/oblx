@@ -120,6 +120,15 @@ Main developers:
 - [Johannes Hausmann](mailto:johannes.hausmann@tron-mainz.de)
 - [Jonas Freimuth](mailto:jonas.freimuth@tron-mainz.de)
 
+## Cite OBLX
+
+If you use OBLX, please cite the following publication:
+
+Kress, L., Hausmann, J., Freimuth, J., Schrörs, B., Lang, F., & Ibn-Salem, J.
+(2026). OBLX: Building standardized reference resources for reproducible
+bioinformatics data analysis. Frontiers in Bioinformatics, 6, 1910035.
+https://doi.org/10.3389/fbinf.2026.1910035
+
 ## References
 
 - Mölder, F., Jablonski, K. P., Letcher, B., Hall, M. B., Van Dyken, P. C.,

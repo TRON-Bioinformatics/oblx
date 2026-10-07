@@ -13,6 +13,13 @@
 
 **Documentation**: https://tron-bioinformatics.github.io/oblx
 
+If you use OBLX, please cite the following publication:
+
+Kress, L., Hausmann, J., Freimuth, J., Schrörs, B., Lang, F., & Ibn-Salem, J.
+(2026). OBLX: Building standardized reference resources for reproducible
+bioinformatics data analysis. Frontiers in Bioinformatics, 6, 1910035.
+https://doi.org/10.3389/fbinf.2026.1910035
+
 <p align="center">
     <img src="docs/oblx/docs/resources/workflow_graph.png"
          alt="Brief visual description of OBLX, showing which resources are downloaded, which tool indices are created, for which purpose, and if that is for human usage only."
