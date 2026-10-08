@@ -2,19 +2,23 @@
 
 ## [2.1.0](https://github.com/TRON-Bioinformatics/oblx/compare/v2.0.2...v2.1.0) (2026-10-08)
 
-
 ### Features
 
-* Add additional information to UniProt dataset ([23e4f57](https://github.com/TRON-Bioinformatics/oblx/commit/23e4f57fa4e309eb0fd8d4c0923eabf570034d79))
-* Add UniProt isoform fasta via varsplic.pl ([bf4176b](https://github.com/TRON-Bioinformatics/oblx/commit/bf4176b123d869517c8daaf7d13b95a2ad4a19ee))
-* Generate UniProt fasta ([596dbb2](https://github.com/TRON-Bioinformatics/oblx/commit/596dbb2489b025b46f54f422aede73d9c31a6800))
-* Support other organisms ([8626b5c](https://github.com/TRON-Bioinformatics/oblx/commit/8626b5c9ddd1ad9da485397c1bc29d03a019fb39))
-
+- Add additional information to UniProt dataset
+  ([23e4f57](https://github.com/TRON-Bioinformatics/oblx/commit/23e4f57fa4e309eb0fd8d4c0923eabf570034d79))
+- Add UniProt isoform fasta via varsplic.pl
+  ([bf4176b](https://github.com/TRON-Bioinformatics/oblx/commit/bf4176b123d869517c8daaf7d13b95a2ad4a19ee))
+- Generate UniProt fasta
+  ([596dbb2](https://github.com/TRON-Bioinformatics/oblx/commit/596dbb2489b025b46f54f422aede73d9c31a6800))
+- Support other organisms
+  ([8626b5c](https://github.com/TRON-Bioinformatics/oblx/commit/8626b5c9ddd1ad9da485397c1bc29d03a019fb39))
 
 ### Documentation
 
-* Add note on publication to README, index.md and CITATION.cff ([3b8ed07](https://github.com/TRON-Bioinformatics/oblx/commit/3b8ed070b55f7c6514ad5f13880f438cb1b62bf8))
-* Update section on download of pre-built indices ([1a1f9bf](https://github.com/TRON-Bioinformatics/oblx/commit/1a1f9bf85d8e8a8b9e6103f5910d828bb3d39516))
+- Add note on publication to README, index.md and CITATION.cff
+  ([3b8ed07](https://github.com/TRON-Bioinformatics/oblx/commit/3b8ed070b55f7c6514ad5f13880f438cb1b62bf8))
+- Update section on download of pre-built indices
+  ([1a1f9bf](https://github.com/TRON-Bioinformatics/oblx/commit/1a1f9bf85d8e8a8b9e6103f5910d828bb3d39516))
 
 ## [2.0.2](https://github.com/TRON-Bioinformatics/oblx/compare/v2.0.1...v2.0.2) (2026-08-26)
 
