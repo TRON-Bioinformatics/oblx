@@ -52,20 +52,19 @@ OBLX is implemented as a Snakemake pipeline (Mölder et al., 2021).
 
 ## Pre-built indices
 
-Pre-built OBLX libraries for **human GRCh38 v49** and **mouse GRCm39 vM36** are
-available for download via
+Pre-built OBLX libraries for human and mouse are available for download via
 [ftp://easyfuse.tron-mainz.de/oblx](ftp://easyfuse.tron-mainz.de/oblx).
 
 For each OBLX version that leads to changes in the human or mouse library, an
 OBLX library is generated. Currently, these versions are available:
 
-- v1.0.0
-- v2.0.0
+| OBLX_VERSION | BUILD_RELEASE human | BUILD_RELEASE mouse |
+| ------------ | ------------------- | ------------------- |
+| v2.1.0       | GRCh38_50           | GRCm39_M38          |
+| v2.0.0       | GRCh38_49           | GRCm39_M38          |
+| v1.0.0       | GRCh38_49           | GRCm39_M38          |
 
-Specify version and organism (`human` and `mouse` are available). The variable
-`BUILD_RELEASE` is defined by the respective default for `genome_build` and
-`release` of the given version (see config.schema.yaml at
-`https://github.com/TRON-Bioinformatics/oblx/blob/v1.0.0/workflow/schemas/config.schema.yaml`).
+Specify your preferred OBLX library e.g.:
 
 ```sh
 OBLX_VERSION="v1.0.0"
