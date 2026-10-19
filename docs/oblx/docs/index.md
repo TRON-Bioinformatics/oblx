@@ -49,7 +49,7 @@ Download the respective OBLX library (this downloads the respective files
 contained in the library, no tar.gz):
 
 ```sh
-wget --recursive --no-host-directories "ftp://easyfuse.tron-mainz.de/oblx/${OBLX_VERSION}/${OBLX_ORGANISM}/${BUILD_RELEASEy}$"
+wget --recursive --no-host-directories "ftp://easyfuse.tron-mainz.de/oblx/${OBLX_VERSION}/${OBLX_ORGANISM}/${BUILD_RELEASE}"
 ```
 
 To verify the files run the following commands (to setup gpg key see
