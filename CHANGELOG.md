@@ -1,5 +1,36 @@
 # Changelog
 
+## [2.1.0](https://github.com/TRON-Bioinformatics/oblx/compare/v2.0.2...v2.1.0) (2026-10-22)
+
+### Features
+
+- Add additional information to UniProt dataset
+  ([23e4f57](https://github.com/TRON-Bioinformatics/oblx/commit/23e4f57fa4e309eb0fd8d4c0923eabf570034d79))
+- Add UniProt isoform fasta via varsplic.pl
+  ([bf4176b](https://github.com/TRON-Bioinformatics/oblx/commit/bf4176b123d869517c8daaf7d13b95a2ad4a19ee))
+- Generate UniProt fasta
+  ([596dbb2](https://github.com/TRON-Bioinformatics/oblx/commit/596dbb2489b025b46f54f422aede73d9c31a6800))
+- Support other organisms
+  ([8626b5c](https://github.com/TRON-Bioinformatics/oblx/commit/8626b5c9ddd1ad9da485397c1bc29d03a019fb39))
+
+### Bug Fixes
+
+- Correct copied config file name
+  ([08776ff](https://github.com/TRON-Bioinformatics/oblx/commit/08776ff1d6b13925f5ececa83361403a19074480))
+- Update default GENCODE release to 50
+  ([7b89b5c](https://github.com/TRON-Bioinformatics/oblx/commit/7b89b5c81c8f3976b4925e3c55d4e5d1fc421b5a))
+
+### Documentation
+
+- Add note on publication to README, index.md and CITATION.cff
+  ([3b8ed07](https://github.com/TRON-Bioinformatics/oblx/commit/3b8ed070b55f7c6514ad5f13880f438cb1b62bf8))
+- Add table with downloadable OBLX libraries
+  ([766c18a](https://github.com/TRON-Bioinformatics/oblx/commit/766c18adc54f116797871f5dcd0f61160669c1b5))
+- Fix download path
+  ([a3db491](https://github.com/TRON-Bioinformatics/oblx/commit/a3db49154a2e0eb378c1bad35f57642beb321a14))
+- Update section on download of pre-built indices
+  ([1a1f9bf](https://github.com/TRON-Bioinformatics/oblx/commit/1a1f9bf85d8e8a8b9e6103f5910d828bb3d39516))
+
 ## [2.0.2](https://github.com/TRON-Bioinformatics/oblx/compare/v2.0.1...v2.0.2) (2026-08-26)
 
 ### Bug Fixes
